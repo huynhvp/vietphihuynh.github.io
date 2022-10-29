@@ -18,7 +18,7 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-I am currently working at [Orange Labs](https://hellofuture.orange.com/fr/) as a R&D AI Engineer. 
+I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.orange.com/fr/). 
 
 - My research interests lie at the intersection of <b>Natural Language Processing (NLP)</b> and <b>Semantic Web (Knowledge Graph)</b>. I am particularly interested in studying transformer-based language models, prompt engineering and their applications in semantic search, automated knowledge base construction, structured / unstructured data annotation.
 
