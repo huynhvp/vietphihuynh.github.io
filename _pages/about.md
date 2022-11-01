@@ -7,7 +7,7 @@ subtitle: <a href='#'>Research & Development Engineer in Machine Learning/Deep L
 profile:
   align: right
   image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image_circular: true # crops the image to make it circular
   address: >
     <p>Techn Hom 3, Orange Labs</p>
     <p>1 rue Maurice et Louis de Broglie</p>
@@ -22,9 +22,9 @@ I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.or
 
 - My research interests lie at the intersection of <b>Natural Language Processing (NLP)</b> and <b>Semantic Web (Knowledge Graph)</b>. I am particularly interested in studying transformer-based language models, prompt engineering and their applications in semantic search, automated knowledge base construction, structured / unstructured data annotation.
 
-- Also being a backend engineer, I develop API to make my works accessible. I am a learner of microservices architecture.
+- Also being a backend engineer, I develop APIs to make my works accessible. I am a learner of microservices architecture.
 
-Enjoy your visit !
+Enjoy your visit ! 
 
 <!-- Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
 

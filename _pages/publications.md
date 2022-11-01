@@ -7,6 +7,8 @@ nav: true
 
 ## Journals
 
+* <b id="jws_2022">[JWS 2022]</b> Jixiong Liu, Yoan Chabot, Raphaël Troncy, **Viet-Phi Huynh**, Thomas Labbé and Pierre Monnin. [From Tabular Data to Knowledge Graphs: A Survey of Semantic Table Interpretation Tasks and Methods](). In [Journal of Web Semantics](), 2022.
+
 * <b id="jdiq_2020">[JDIQ 2020]</b> Naser Ahmadi, **Viet-Phi Huynh**, Vamsi Meduri, Stefano Ortona, Paolo Papotti. [Mining expressive rules in knowledge graphs](https://dl.acm.org/doi/abs/10.1145/3371315). In [Journal of Data and Information Quality](), 2020.
 
 * <b id="tci_2017">[TCI 2017]</b> Ronan Fablet, **Viet-Phi Huynh**, Redouane Lguensat. [Data-driven Models for the Spatio-Temporal Interpolation of satellite-derived SST Fields](https://ieeexplore.ieee.org/abstract/document/8025578). In [IEEE Transactions on Computational Imaging](), 2017.
@@ -20,7 +22,7 @@ nav: true
 
 * <b id="iswc_2022_a">[ISWC 2022]</b> Jixiong Liu, **Viet-Phi Huynh**, Yoan Chabot and Raphaël Troncy. [Radar Station: Using KG Embeddings for Semantic Table Interpretation and Entity Disambiguation](https://github.com/yoanchabot/papers/raw/main/liu2022a.pdf). In Research Track, [21st International Semantic Web Conference (ISWC'22)](https://iswc2022.semanticweb.org/), remote, China, October 23-27, 2022.
 
-* <b id="ic_2022">[IC 2022]</b> **Viet-Phi Huynh**, Jixiong Liu, Yoan Chabot, Frédéric Deuzé, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Annotation sémantique de données tabulaires par comparaison du contexte des tables et d'un graphe de connaissances](https://github.com/yoanchabot/papers/raw/main/huynh2022.pdf). In [IC2022](https://ci.mines-stetienne.fr/pfia2022/conferences/ic/), St-Etienne, France, June 29-July 1st, 2022. **Best Paper Award**.
+* <b id="ic_2022">[IC 2022]</b> **Viet-Phi Huynh**, Jixiong Liu, Yoan Chabot, Frédéric Deuzé, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Annotation sémantique de données tabulaires par comparaison du contexte des tables et d'un graphe de connaissances](https://github.com/yoanchabot/papers/raw/main/huynh2022.pdf). In [IC2022](https://ci.mines-stetienne.fr/pfia2022/conferences/ic/), St-Etienne, France, June 29-July 1st, 2022. **Best Paper Award** :medal_sports:.
 
 * <b id="iswc_2021_b">[ISWC 2021]</b> **Viet-Phi Huynh**, Jixiong Liu, Yoan Chabot, Frédéric Deuzé, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Table and Graph Contexts For Efficient Semantic Annotation of Tabular Data](https://github.com/yoanchabot/papers/raw/main/huynh2021.pdf). In [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2021](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html), [20th International Semantic Web Conference (ISWC'21)](https://iswc2021.semanticweb.org/), remote, USA, October 24-28, 2021.
 
@@ -28,9 +30,7 @@ nav: true
 
 * <b id="iswc_2020">[ISWC 2020]</b> **Viet-Phi Huynh**, Jixiong Liu, Yoan Chabot, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Enhanced Scoring Algorithms for Scalable Annotations of Tabular Data](https://github.com/yoanchabot/papers/raw/main/huynh2020a.pdf). In [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2020](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/index.html/), [19th International Semantic Web Conference (ISWC'20)](https://iswc2020.semanticweb.org/), Athens (remote), Greece, November 1-6, 2020.
 
-* <b id="cikm_2019">[CIKM 2019]</b> **Viet-Phi Huynh**, Paolo Papotti. [A benchmark for fact checking algorithms built on knowledge bases](https://www.eurecom.fr/en/publication/5996/download/data-publi-5996.pdf). In [28th ACM International Conference on Information and Knowledge Management (CIKM'19)](), Athens (remote), Beijing, China, November, 2019. **Travel Grant**.
-
-* <b id="cikm_2019">[CIKM 2019]</b> **Viet-Phi Huynh**, Paolo Papotti. [A benchmark for fact checking algorithms built on knowledge bases](https://www.eurecom.fr/en/publication/5996/download/data-publi-5996.pdf). In [28th ACM International Conference on Information and Knowledge Management (CIKM'19)](), Athens (remote), Beijing, China, November, 2019. **Travel Grant**.
+* <b id="cikm_2019">[CIKM 2019]</b> **Viet-Phi Huynh**, Paolo Papotti. [A benchmark for fact checking algorithms built on knowledge bases](https://www.eurecom.fr/en/publication/5996/download/data-publi-5996.pdf). In [28th ACM International Conference on Information and Knowledge Management (CIKM'19)](), Athens (remote), Beijing, China, November, 2019. **Travel Grant** 	:airplane:.
 
 * <b id="www_2018">[WWW 2018]</b> **Viet-Phi Huynh**, Paolo Papotti. [Towards a benchmark for fact checking with knowledge bases](https://dl.acm.org/doi/pdf/10.1145/3184558.3191616). In [Reasoning on Data Workshop](), [The Web Conference (WWW'18)](), Lyon, France, 2018. 
 
@@ -38,11 +38,11 @@ nav: true
 
 ## Challenges 
 
-* <b id="iswc_2022_b">[ISWC 2021]</b> 1st prize (Accuracy Track) in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2022](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html), [21th International Semantic Web Conference (ISWC'22)](https://iswc2022.semanticweb.org/), remote, China, October 23-27, 2022.
+* <b id="iswc_2022_b">[ISWC 2022]</b> 1st Prize :1st_place_medal: (Accuracy Track) in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2022](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html), [21th International Semantic Web Conference (ISWC'22)](https://iswc2022.semanticweb.org/), remote, China, October 23-27, 2022.
 
-* <b id="iswc_2021_b">[ISWC 2021]</b> 1st prize (Accuracy Track) in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2021](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html), [20th International Semantic Web Conference (ISWC'21)](https://iswc2021.semanticweb.org/), remote, USA, October 24-28, 2021.
+* <b id="iswc_2021_b">[ISWC 2021]</b> 1st Prize :1st_place_medal: (Accuracy Track) in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2021](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html), [20th International Semantic Web Conference (ISWC'21)](https://iswc2021.semanticweb.org/), remote, USA, October 24-28, 2021.
 
-* <b id="iswc_2020">[ISWC 2020]</b> 3rd Prize in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2020](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/index.html/), [19th International Semantic Web Conference (ISWC'20)](https://iswc2020.semanticweb.org/), Athens (remote), Greece, November 1-6, 2020.
+* <b id="iswc_2020">[ISWC 2020]</b> 3rd Prize :3rd_place_medal: in [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2020](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/index.html/), [19th International Semantic Web Conference (ISWC'20)](https://iswc2020.semanticweb.org/), Athens (remote), Greece, November 1-6, 2020.
 
 ## Demos/Posters in Conferences
 
