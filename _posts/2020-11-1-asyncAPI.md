@@ -9,7 +9,7 @@ categories: API, python, flask, gunicorn, celery
 
 ## **What is REST API ?**
 
-**API** (Application Programming Interface) is a software interface that allows one application to communicate with another application.  **REST API** (Representational State Transfer) can be understood as a web service API where two applications talk to each other over a network (e.g. internet). Imagine that you are developing and deploying a system with a lot of interesting functionalites, you want to share it with your clients so that they can integrate your tools into their appplication workflow. To some extent, the client would appreciate a friendly and easy access to your application server. Instead of reading every line of your code to see what is going on inside algorithms, they prefer an abstract understanding of the behavior of the application like: what does this application do, what are the required formats/types of input/output. To this end, **REST API** delivers a set of friendly functions like **POST, GET, DELETE** to your application server in order for clients to easily communicate.
+**API** (Application Programming Interface) is a software interface that allows one application to communicate with another application.  **REST API** (Representational State Transfer) can be understood as a web service API where two applications talk to each other over a network (e.g. internet). Imagine that you are developing and deploying a system with a lot of interesting functionalities, you want to share it with your clients so that they can integrate your tools into their application workflow. To some extent, the client would appreciate a friendly and easy access to your application server. Instead of reading every line of your code to see what is going on inside algorithms, they prefer an abstract understanding of the behavior of the application like: what does this application do, what are the required formats/types of input/output. To this end, **REST API** delivers a set of friendly functions like **POST, GET, DELETE** to your application server in order for clients to easily communicate.
 
 **Example**: Wikipedia provides a REST API for retrieving the information of a Wikipedia entity. For instance, to get a description of France country:
 
@@ -78,7 +78,7 @@ If a client application sends a request to the server for executing the `long-ru
 
 ## **Asynchronous API**
 
-Asynchronous API comes up with the idea that in the web server, a heavy process shoud stay outside the main workflow of the server as well as outside the request/response cycle between client and server. Instead, it shoud be handled in background. By this way, when a client sends a request, the server can put the request into a task queue and let a task orchestrator (e.g. Celery) pick up a worker to deal with it, the client is immediately acknowledged with a `task_id`, the client can continue to do other things without wating for the termination of the request, they can get back later to the server with the `task_id` when the result is ready. Also, the server is free to accept other requests from other users.
+Asynchronous API comes up with the idea that in the web server, a heavy process should stay outside the main workflow of the server as well as outside the request/response cycle between client and server. Instead, it should be handled in background. By this way, when a client sends a request, the server can put the request into a task queue and let a task orchestrator (e.g. Celery) pick up a worker to deal with it, the client is immediately acknowledged with a `task_id`, the client can continue to do other things without waiting for the termination of the request, they can get back later to the server with the `task_id` when the result is ready. Also, the server is free to accept other requests from other users.
 
 **Celery** is a distributed task queue that allows to schedule and process vast amount of tasks on different machines. It has 3 main components: 
 - A message broker (e.g. RabbitMQ, Redis) is a messaging bridge between the web server application (Flask) and (remote) workers. It manages the task queue by receiving task requests from the application, distributing tasks across different workers and delivering task' s status back to client.
@@ -86,7 +86,7 @@ Asynchronous API comes up with the idea that in the web server, a heavy process 
 - A pool of (distributed) workers in which each worker looks at the task queue and pick up a task to handle independently of other workers and outside the context of main system.
 
 
-The client request/server reponse cycle is illustrated in the figure below: 
+The client request/server response cycle is illustrated in the figure below: 
 
 ![](/assets/img/async_api/workflow.png){:style="width: 100%; display:block; margin-left:auto; margin-right:auto"}
 
@@ -98,7 +98,7 @@ Let's go ahead and implement each stage in the workflow.
 ```console
 docker run --name broker-backend -d redis -p 6379:6379
 ```
-The redis server is listening at port 6379. We next intialize the task queue:
+The redis server is listening at port 6379. We next initialize the task queue:
 
 ```python
 # server.py
@@ -203,13 +203,13 @@ curl localhost:5000/async_long_running_task/923733ec-2285-4295-9613-558703248957
 {"task_status":"SUCCESS"}
 ```
 
-For more information abount possible built-in states in celery, have a look at [here](https://docs.celeryq.dev/en/stable/reference/celery.states.html).
+For more information about possible built-in states in celery, have a look at [here](https://docs.celeryq.dev/en/stable/reference/celery.states.html).
 
 Two important remarks:
 - State `PENDING` is vague. On the one hand, it means that the task is well positioned in the queue but is not picked up yet by the workers. But on the other hands, it also means the task does not exist because we provided a wrong `task_id`.
 - Apart from built-in states, we can enrich the state set by adding [custom states](https://www.distributedpython.com/2018/09/28/celery-task-states/), for example, in order to ensure a smooth tracking of a heavy-duty task, we can detail the progress of the task by adding states such as `IN PROGRESS` or `STEP 1`, `STEP 2`.
 
-**(4)** Once the task is sucessfully executed, its result is stored in the backend.
+**(4)** Once the task is successfully executed, its result is stored in the backend.
 
 ```python
 # server.py
