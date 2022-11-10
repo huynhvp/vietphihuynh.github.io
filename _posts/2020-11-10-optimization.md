@@ -40,7 +40,7 @@ According to [https://onnx.ai/](https://onnx.ai/), [ONNX](https://onnx.ai/) (Ope
 ![](/assets/img/optimization/onnx.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}([https://onnx.ai/](https://onnx.ai/))
 
 ##### ![](/assets/img/optimization/question_2.png){:style="width: 3.5%"} <b>Adapter: ONNX Runtime</b>
-[ONNX Runtime](https://onnxruntime.ai/) is a performant inference engine that can read, optimize the ONNX model format and leverage hardware accelerators to perform model inference from ONNX format. It is compatible with various technology stack (frameworks, operating systems and hardware platforms). 
+[ONNX Runtime](https://onnxruntime.ai/) is a performant inference engine that can read, optimize the ONNX model format and leverage hardware accelerators to perform inference from ONNX format. It is compatible with various technology stack (frameworks, operating systems and hardware platforms). 
 
 ![](/assets/img/optimization/onnx_runtime.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}([ONNX Runtime](https://onnxruntime.ai/))
 
@@ -48,7 +48,7 @@ For example, assuming your production environment supports `Linux OS x64`, `Pyth
 
 ![](/assets/img/optimization/onnx_runtime_choice.png){:style="width: 80%; display:block; margin-left:auto; margin-right:auto"}
 
-At this time, we see that, with <b>ONNX</b> and <b>ONNX Runtime</b>, we are able to solve two of the issues of putting a ML model in production (compatibility or interoperability, model inference performance) introduced earlier in the post. For ML developers, they are liberated from the constraint of framework compatibility and have more freedom to choose their preferred tech stacks. For hardware manufacturers, they can rely on a standard and universal software specification (e.g. ONNX model format) to ease their process of hardware optimization for AI. 
+With <b>ONNX</b> and <b>ONNX Runtime</b>, we are able to address two of the issues of putting a ML model in production (compatibility/interoperability and inference performance) introduced earlier in the post. For ML developers, they are liberated from the constraint of framework compatibility and have more freedom to choose their preferred tech stacks. For hardware manufacturers, they can rely on a standard and universal software specification (e.g. ONNX model format) to ease their process of hardware optimization for AI. 
 
 Now, let's go a bit more details into possible inference strategies with ONNX format.
 
@@ -64,14 +64,14 @@ Now, let's go a bit more details into possible inference strategies with ONNX fo
 
 ##### <b>Huggingface's Optimum</b> ![](/assets/img/optimization/optimum.png){:style="width: 3.5%"}
 
-If you are working with Transformers and you want to easily accelerate your model performance leveraging your existing hardware powers, you may think of [Optimum](https://huggingface.co/docs/optimum/index). It gathers a set of optimization toolkits (e.g. ONNX Runtime presented above, Intel Neural Compressor, OpenVINO) each of which is designed specifically for each specific hardware. It also provides a high-level API to facilitate the utilization and get the model optimization done in a few lines of code. Typically, an optimization pipeline with Optimum consists of 3 steps:
+If you are working with Transformers and you want to easily accelerate your model performance leveraging your existing hardware powers, you may think of [Optimum](https://huggingface.co/docs/optimum/index). It gathers a set of optimization toolkits (e.g. ONNX Runtime presented above, Intel Neural Compressor, OpenVINO) each of which is designed specifically for each specific hardware. It also provides a high-level API to facilitate the utilization and the optimization in a few lines of code. Typically, an optimization pipeline with Optimum consists of 3 steps:
 - Convert the trained model into the standard format such as ONNX or OpenVINO.
 
 - Optimize the converted model (e.g. graph optimization, quantization) using available Runtimes such as ONNX Runtime or OpenVINO Runtime.
 
 - Run the inference on optimized model.
 
-Now, let's get our hand a bit dirty by trying to accelerate a Transformer model with ONNX and ONNX Runtime using Optimum. Specifically, we optimize the inference of a BERT-based model for text classification task ([Sentiment Analysis](https://huggingface.co/tasks/text-classification#sentiment-analysis)).
+Now, let's get our hand a bit dirty by trying to accelerate a Transformer model with ONNX and ONNX Runtime using Optimum. In detail, we optimize the inference of a BERT-based model for text classification task ([Sentiment Analysis](https://huggingface.co/tasks/text-classification#sentiment-analysis)).
 
 <b>Example:</b>
 
@@ -181,7 +181,7 @@ Clearly, with ONNX format and ONNX Runtime, the performance has been significant
 
 This post walked you through the introduction of two challenges for deploying an AI model (Transformer model in particular) in production: <b>(i)</b> the interoperability between different frameworks and <b>(ii)</b> the performance issue. These two challenges can be addressed by standardizing model formats and employing a powerful cross-platform inference engine for running the inference on this format, such as {ONNX format, ONNX Runtime} or {OpenVINO, OpenVINO Runtime}. 
 
-If we relax the interoperability aspect and focus on boosting the model performance, then, apart from the method based on converting the original model into standard format as described in this post, [kernl](https://github.com/ELS-RD/kernl), recently released, intervenes directly in GPU kernels which allows to accelerate and optimize your model right on Pytorch with a single line of code, without converting to any standard format. Its benchmark (below) shows impressive improvements over other optimization techniques. Furthermore, they pay more attention to generative models (e.g. Seq2Seq model) which prove to be more difficult to optimize. However, if you don't have the new generation of NVIDIA GPU (Ampere),   ([follow up here](https://github.com/ELS-RD/kernl/issues/133))
+If we relax the interoperability aspect and focus on boosting the model performance, then, apart from the method based on converting the original model into standard format as described in this post, [kernl](https://github.com/ELS-RD/kernl), recently released, intervenes directly in GPU kernels which allows to accelerate and optimize your model right on Pytorch with a single line of code, without converting to any standard format. Its benchmark (below) shows impressive improvements over other optimization techniques. Furthermore, they pay more attention to generative models (e.g. Seq2Seq model) which prove to be more difficult to optimize. However, if you don't have the new generation of NVIDIA GPU (Ampere), you are not able to use this tool yet. ([follow up here](https://github.com/ELS-RD/kernl/issues/133))
 
 ![](/assets/img/optimization/kernl.png){:style="width: 90%; display:block; margin-left:auto; margin-right:auto"}
 ([https://github.com/ELS-RD/kernl](https://github.com/ELS-RD/kernl))
