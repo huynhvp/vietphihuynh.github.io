@@ -20,7 +20,7 @@ When it comes to deploying a machine learning/deep learning model in production 
 
   In production, together with accuracy, scalability and high performance become crucial concerns. To deal with that, there could be two strategies:
 
-    - <b>Using smaller models or distilled models that still yield the accuracy you need:</b> DL models, especially, Transformer-based LM models, become more and more powerful, at the cost of number of model parameters and environmental responsibility (carbon footprint). However, larger model is not always better than smaller model. Your data, your interventions (e.g. preprocessing, hyperparameters, fine-tuning, postprocessing) also account for the performance of your model.
+    - <b>Using smaller models or distilled models that still yield the accuracy you need:</b> DL models, especially, Transformer-based LM models, become more and more powerful, at the cost of number of model parameters and environmental responsibility (carbon footprint). However, larger model does not necessarily mean better. The data size, the training/fine-tuning recipe also account for the performance of your model ([https://www.deeplearning.ai/the-batch/finding-the-best-data-to-parameter-ratio-for-nlp-models/](https://www.deeplearning.ai/the-batch/finding-the-best-data-to-parameter-ratio-for-nlp-models/)).
 
   ![](/assets/img/optimization/model_size.jpg){:style="width: 100%; display:block; margin-left:auto; margin-right:auto"} ([https://huggingface.co/blog/large-language-models](https://huggingface.co/blog/large-language-models))
 
