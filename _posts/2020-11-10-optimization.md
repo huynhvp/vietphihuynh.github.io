@@ -22,7 +22,7 @@ When it comes to deploying a machine learning/deep learning model in production 
 
     - <b>Using smaller models or distilled models that still yield the accuracy you need:</b> DL models, especially, Transformer-based LM models, become more and more powerful, at the cost of number of model parameters and environmental responsibility (carbon footprint). However, larger model does not necessarily mean better. The data size, the training/fine-tuning recipe also account for the performance of your model ([https://www.deeplearning.ai/the-batch/finding-the-best-data-to-parameter-ratio-for-nlp-models/](https://www.deeplearning.ai/the-batch/finding-the-best-data-to-parameter-ratio-for-nlp-models/)).
 
-  ![](/assets/img/optimization/model_size.jpg){:style="width: 100%; display:block; margin-left:auto; margin-right:auto"} ([https://huggingface.co/blog/large-language-models](https://huggingface.co/blog/large-language-models))
+  ![](/assets/img/optimization/model_size.jpg){:style="width: 100%; display:block; margin-left:auto; margin-right:auto"} *(Source: [https://huggingface.co/blog/large-language-models](https://huggingface.co/blog/large-language-models))*
 
     - <b>Optimizing your model:</b> basically, the optimization involves the improvement of running time (latency) and memory throughput and it is done not only at software level (algorithm, training framework, OS, programming language) but also at hardware level (GPU, hardware accelerator). As the AI ecosystem is fragmented, we can have many possible combinations of {OS, framework, runtime, hardware} with different pros/cons for developing a model. This makes the optimization a challenging task.
 
@@ -37,12 +37,12 @@ It requires two plugins: (i) a <b>converter</b> to transform the model you are d
 ##### ![](/assets/img/optimization/question_1.png){:style="width: 3.7%"} <b>ONNX (Open Neural Network eXchange) Converter</b>
 According to [https://onnx.ai/](https://onnx.ai/), [ONNX](https://onnx.ai/) (Open Neural Network eXchange) is an open serialized format built to represent machine learning models. ONNX defines a common set of operators - the building blocks of machine learning and deep learning models - and a common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compilers. It is backed by many leading AI companies:
 
-![](/assets/img/optimization/onnx.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}([https://onnx.ai/](https://onnx.ai/))
+![](/assets/img/optimization/onnx.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}*(Source: [https://onnx.ai/](https://onnx.ai/))*
 
 ##### ![](/assets/img/optimization/question_2.png){:style="width: 3.5%"} <b>Adapter: ONNX Runtime</b>
 [ONNX Runtime](https://onnxruntime.ai/) is a performant inference engine that can read, optimize the ONNX model format and leverage hardware accelerators to perform inference from ONNX format. It is compatible with various technology stack (frameworks, operating systems and hardware platforms). 
 
-![](/assets/img/optimization/onnx_runtime.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}([ONNX Runtime](https://onnxruntime.ai/))
+![](/assets/img/optimization/onnx_runtime.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}*(Source: [https://onnxruntime.ai](https://onnxruntime.ai/))*
 
 For example, assuming your production environment supports `Linux OS x64`, `Python runtime` and `NVIDIA GPU` as in figure below, then you can install ONNX Runtime via `pip install onnxruntime-gpu` to be ready for deploying any model created from any technology stack on your dev machine as long as it can be exported to ONNX format.
 
@@ -152,6 +152,7 @@ We measure the latency of inference settings described above with a simple bench
 intput = "I am learning how to accelerate the inference of a language model using Huggingface's Optimum.  \
              I am wondering if it can bring some performance gain. I hope it does."
 
+# ref: https://www.philschmid.de/optimizing-transformers-with-optimum
 def measure_latency(pipe):
     latencies = []
     # warm up
@@ -181,10 +182,10 @@ Clearly, with ONNX format and ONNX Runtime, the performance has been significant
 
 This post walked you through the introduction of two challenges for deploying an AI model (Transformer model in particular) in production: <b>(i)</b> the interoperability between different frameworks and <b>(ii)</b> the performance issue. These two challenges can be addressed by standardizing model formats and employing a powerful cross-platform inference engine for running the inference on this format, such as {ONNX format, ONNX Runtime} or {OpenVINO, OpenVINO Runtime}. 
 
-If we relax the interoperability aspect and focus on boosting the model performance, then, apart from the method based on converting the original model into standard format as described in this post, [kernl](https://github.com/ELS-RD/kernl), recently released, intervenes directly in GPU kernels which allows to accelerate and optimize your model right on Pytorch with a single line of code, without converting to any standard format. Its benchmark (below) shows impressive improvements over other optimization techniques. Furthermore, they pay more attention to generative models (e.g. Seq2Seq model) which prove to be more difficult to optimize. However, if you don't have the new generation of NVIDIA GPU (Ampere), you are not able to use this tool yet. ([follow up here](https://github.com/ELS-RD/kernl/issues/133))
+If we relax the interoperability aspect and focus on boosting the model performance, then, apart from the method based on converting the original model into standard format as described in this post, [kernl](https://github.com/ELS-RD/kernl), recently released, intervenes directly in GPU kernels that allows to accelerate and optimize your model right on Pytorch with a single line of code, without converting to any standard format. Its benchmark (below) shows impressive improvements over other optimization techniques. Furthermore, they pay more attention to generative models (e.g. Seq2Seq model) which prove to be more difficult to optimize. However, if you don't have the new generation of NVIDIA GPU (Ampere), you are not able to use this tool yet. ([follow up here](https://github.com/ELS-RD/kernl/issues/133))
 
 ![](/assets/img/optimization/kernl.png){:style="width: 90%; display:block; margin-left:auto; margin-right:auto"}
-([https://github.com/ELS-RD/kernl](https://github.com/ELS-RD/kernl))
+*(Source: [https://github.com/ELS-RD/kernl](https://github.com/ELS-RD/kernl))*
 
 <b>References</b>:
 
