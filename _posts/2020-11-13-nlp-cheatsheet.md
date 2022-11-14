@@ -34,9 +34,9 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
 <br>
 
-### <b>1. Topics</b>
-#### <b>1.1. Neural Text Generation </b>
-##### <b>1.1.2 Decoding methods </b>
+### <b>2. Topics</b>
+#### <b>2.1. Neural Text Generation </b>
+##### <b>2.1.1 Decoding methods </b>
 <b>2022</b>
 
 - [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
