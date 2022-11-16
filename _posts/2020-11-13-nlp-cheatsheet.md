@@ -53,5 +53,20 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
+#### <b>2.3. Entity Linking </b>
 
+<b>2021</b>
 
+- [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
+
+    Very interesting entity linker that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
+
+    Example:
+    ```console
+    Encoder: In 1503, Leonardo began painting the Mona Lisa
+    Decoder: In 1503, [Leonardo](Leonardo da Vinci) began painting the [Mona Lisa](Mona Lisa)
+
+    where [X](Y) : X is the mention, and Y is the entity label (aka. entity identifier) that represents X.
+    ```
+
+    Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
