@@ -5,7 +5,6 @@ date: 2022-11-13 10:09:00
 description: 
 tags: research
 categories: NLP
-toc-title: "INDICE"
 ---
 
 ---
@@ -15,7 +14,7 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 ---
 
 <b>Table of Contents</b>
-* TOC [aerer]
+* TOC []
 {:toc}
 
 ### <b>1. Best Practices</b>
@@ -53,13 +52,13 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
-#### <b>2.3. Entity Linking </b>
+#### <b>2.3. Entity Linking & Disambiguation</b>
 
 <b>2021</b>
 
 - [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
 
-    Very interesting entity linker that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
+    Very interesting entity retriever that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
 
     Example:
     ```console
@@ -70,3 +69,20 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
     ```
 
     Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
+
+#### <b>2.4. Automated Knowledge Base Construction with Language Model</b>
+
+[An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
+
+<b>2020</b>
+
+- [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf) (Jiang et al., TACL 2020)
+
+    Knowledge in LM can be probed by asking the LM fill in the blanks of prompts such as "CR7 plays for ___". This prompt-based method can only measure the lower bound of amount of knowledge contained in LM as there is no single prompt that works best for all instances of a relation (depending on what LM sees during its pre-training). To predict a missing object in a KB triple $$tpl$$: *<sub, rel, ?>*, $$tpl$$ is converted into a cloze-style prompt $$t_r$$ that semantically expresses the relation *rel* and let the LM predict the object by filling the blank in $$t_r$$. No prompt fits all, they propose two ways to generate a set of prompts for each relation $$r$$:
+     - *Mining-based generation*: <b>(i)</b> collecting sentences that contain both subject and object of a given relation $$r$$, words between subject and object can be viewed as a representation of $$r$$; <b>(ii)</b> if there is no meaningful middle words, sentence is analyzed syntactically, a prompt for $$r$$ can be generated from the dependency tree.
+     - *Paraphrasing-based generation*: starting from an initial prompt $$p$$ for $$r$$, $$p$$ is paraphrased into other $$p'$$ semantically similar. For example, if $$r$$ == "*hasName*" has a prompt $$p$$ == "*x is named as y*" then $$p'$$ could be "*y is a name of x*". Back-translation is a prevailing method for paraphrasing.
+
+    <br>
+    <b>Thoughts</b>: 
+     - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
+     - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.

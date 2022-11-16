@@ -7,7 +7,7 @@ nav: true
 
 ## Journals
 
-* <b id="jws_2022">[JWS 2022]</b> Jixiong Liu, Yoan Chabot, Raphaël Troncy, <b>Viet-Phi Huynh</b>, Thomas Labbé and Pierre Monnin. [From Tabular Data to Knowledge Graphs: A Survey of Semantic Table Interpretation Tasks and Methods](). In [Journal of Web Semantics](), 2022.
+* <b id="jws_2022">[JoWS 2022]</b> Jixiong Liu, Yoan Chabot, Raphaël Troncy, <b>Viet-Phi Huynh</b>, Thomas Labbé and Pierre Monnin. [From Tabular Data to Knowledge Graphs: A Survey of Semantic Table Interpretation Tasks and Methods](). In [Journal of Web Semantics](), 2022.
 
 * <b id="jdiq_2020">[JDIQ 2020]</b> Naser Ahmadi, <b>Viet-Phi Huynh</b>, Vamsi Meduri, Stefano Ortona, Paolo Papotti. [Mining expressive rules in knowledge graphs](https://dl.acm.org/doi/abs/10.1145/3371315). In [Journal of Data and Information Quality](), 2020.
 

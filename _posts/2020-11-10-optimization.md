@@ -7,6 +7,10 @@ tags: dev
 categories: Optimization, ONNX, ONNX_Runtime, Huggingface_Optimum, Transformer.
 ---
 
+<b>Table of Contents</b>
+* TOC []
+{:toc}
+
 ### <b>Introduction</b>
 When it comes to deploying a machine learning/deep learning model in production environments, there are many factors that need to be worked out. In this post, I would like to outline 2 aspects: 
 

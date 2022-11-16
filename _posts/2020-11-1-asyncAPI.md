@@ -7,7 +7,11 @@ tags: dev
 categories: API, python, flask, gunicorn, celery
 ---
 
-## **What is REST API ?**
+<b>Table of Contents</b>
+* TOC []
+{:toc}
+
+## <b>What is REST API ?</b>
 
 <b>API</b> (Application Programming Interface) is a software interface that allows one application to communicate with another application.  **REST API** (Representational State Transfer) can be understood as a web service API where two applications talk to each other over a network (e.g. internet). Imagine that you are developing and deploying a system with a lot of interesting functionalities, you want to share it with your clients so that they can integrate your tools into their application workflow. To some extent, the client would appreciate a friendly and easy access to your application server. Instead of reading every line of your code to see what is going on inside algorithms, they prefer an abstract understanding of the behavior of the application like: what does this application do, what are the required formats/types of input/output. To this end, **REST API** delivers a set of friendly functions like **POST, GET, DELETE** to your application server in order for clients to easily communicate.
 
@@ -31,7 +35,7 @@ with its capital in Paris, the country's largest city and main cultural and comm
 
 > Flask is shipped with some basic web server features, therefore, for development purpose, it is acceptable if Flask is used as WSGI server. However, in production, it is recommended using a real WSGI server, such as Gunicorn.
 
-## **Problems of Synchronous API**
+## <b>Problems of Synchronous API</b>
 
 In synchronous API, a synchronous worker handles a single request at a time, the client and the server communicate uninterruptedly back and forth in the same time frame. 
 
@@ -76,7 +80,7 @@ If a client application sends a request to the server for executing the `long-ru
 
 > One solution for this issue is to use async workers, such [Greenlets, gthread](https://docs.gunicorn.org/en/stable/design.html) for the server side, or [asyncio](https://docs.python.org/3/library/asyncio.html) for the client side. However, due to their thread-based nature, these kinds of async workers are only suitable for I/O-bound application.
 
-## **Asynchronous API**
+## <b>Asynchronous API</b>
 
 Asynchronous API comes up with the idea that in the web server, a heavy process should stay outside the main workflow of the server as well as outside the request/response cycle between client and server. Instead, it should be handled in background. By this way, when a client sends a request, the server can put the request into a task queue and let a task orchestrator (e.g. Celery) pick up a worker to deal with it, the client is immediately acknowledged with a `task_id`, the client can continue to do other things without waiting for the termination of the request, they can get back later to the server with the `task_id` when the result is ready. Also, the server is free to accept other requests from other users.
 
