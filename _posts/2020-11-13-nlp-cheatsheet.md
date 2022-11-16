@@ -25,7 +25,7 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
 - [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
 
-    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (*domain-adaptive pretraining*) can improve the performance of downstream tasks.
+    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (*domain-adaptive pretraining*) or task-specific unlabeled data (*task-adaptive pretraining*) can improve the performance of downstream tasks.
 
 <b>2019</b>
 
