@@ -77,7 +77,18 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 <b>Remarkable Challenges:</b>
 - LM is not trained to assert factual knowledge, but to predict masked tokens/next tokens. So when it is seen predicting a true fact, is it because of the knowledge it learned or just the correlation with what it learned ([educated guess](https://aclanthology.org/2021.acl-long.146/))
 
-- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training --> LM should know its limit when answering something (e.g. chose to answering "No" instead of attempting to say anything)
+- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training --> LM should know its limit when answering something (e.g. chose to answer "No" instead of attempting to say anything)
+
+<b>2022</b>
+
+- [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
+
+    This work continues to pre-train BERT with task-specific data to make it familiar with the task. How ? triples *<sub, rel, obj>* are verbalized into a sentence using a prompt template of *rel*. As the task is object prediction, the object or surround words in the sentence are masked and the LM is asked to predict them. Large dataset is necessary for pre-training, hence, they leverage Wikidata for data augmentation where they generate KG triples that have same relations as  ). However, they discover later that the accuracy does not clearly relate to data size but the property of relation (see below).
+    - Prompt generation: they curate a set of prompts for a relation both in manual and automatic way. In manual way, they explicitly append the type of the subject into the prompt, such as "The musician [SUBJ] plays [OBJ]" for relation "PersonInstrument". In automatic way, they employ two methods from [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf). However, in contrast to [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf), this paper shows that an ensemble of automatically-generated prompts is not better than a single manual-curated one.
+    - Prompt decomposition: a relation can have diverse domain and diverse range. For example, considering the relation "StateSharesBorderState", its domain can include "Andalusia"-is a autonomous community or "Hebei" - a province. To better distinguish the type of the subject and probe more relevant knowledge from LM, two prompts are performed:
+      - ask for subject type: e.g. e "[SUBJ], as a place, is a [TYPE]".
+      - inject the subject type into the prompt of the relation: e.g. "[SUBJ] [TYPE] shares border with [MASK] [TYPE]". 
+
 
 <b>2020</b>
 
