@@ -74,6 +74,11 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
+<b>Remarkable Challenges:</b>
+- LM is not trained to assert factual knowledge, but to predict masked tokens/next tokens. So when it is seen predicting a true fact, is it because of the knowledge it learned or just the correlation with what it learned ([educated guess](https://aclanthology.org/2021.acl-long.146/))
+
+- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training --> LM should know its limit when answering something (e.g. chose to answering "No" instead of attempting to say anything)
+
 <b>2020</b>
 
 - [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf) (Jiang et al., TACL 2020)
