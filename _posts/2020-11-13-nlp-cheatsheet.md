@@ -70,20 +70,54 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
     Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
 
-#### <b>2.4. Automated Knowledge Base Construction with Language Model</b>
+#### <b>2.4. Probing Knowledge from Language Model</b>
+##### <b>2.4.1 Knowledge Retriever + Language Model </b>
+
+<b>Overview:</b>
+
+Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM.
+
+<b>2021</b>
+
+- [Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering](https://arxiv.org/abs/2007.01282) (Izacard et al., EACL 2021)
+
+    <b>Retrieved evidence fusion in decoder (*Fusion-in-Decoder*).</b>
+
+    To address the Open Domain Question Answering, firstly, an independent knowledge retriever is leveraged to retrieve supporting passages for the input question, then, a seq2seq model (T5) takes as input the combination of the input question and supporting passages to produce the answer. Specifically, each retrieved passage concatenated with the input question is independently encoded by the encoder and their representations are merged together before sending to the decoder, in this way, the decoder can attend over the whole set of retrieved potential evidences and rely on them to generate the answer. There are two advantages of this *fusion-in-decoder* method:
+
+     - Avoid encoding all retrieved passages and the input question in one place which is very costly due to significant lengths of the passages. 
+     - Thanks to the first point, we can efficiently increase the number of retrieved support passages,
+     leading to the higher accuracy in the answer.
+
+<b>2020</b>
+
+- [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/pdf/2002.08909.pdf) (Guu et al., ICML 2020)
+
+    <b>Knowledge Retriever jointly pre-trained with LM.</b>
+
+    BERT-style LM is pre-trained to denoise a corrupted input sentence $$\hat{x}$$ by predicting the masked tokens [MASK] in $$\hat{x}: p(x| \hat{x})$$. For example, given "The [MASK] is the currency of the United
+Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the prediction more interpretable by first retrieving possibly helpful documents $$z$$ ($$z$$ plays as latent variable) from a knowledge source $$Z$$ and using them (as evidences) to support the prediction of [MASK], as following:
+
+    $$p(x \mid \hat{x}) = \sum_{z \in Z}{ p (x | \hat{x}, z ) * p (z | \hat{x}) }$$
+
+    $$ p (x \mid \hat{x}, z ) $$ helps to inform which documents $$z$$ contribute the most to [MASK] tokens. The <b>knowledge retriever</b> $$ p_{\theta}(z \mid \hat{x}) $$ and <b>knowledge-augmented encoder</b> $$ p_{\phi}(x \mid \hat{x}, z )$$ are modelled separately using two different BERT$$_{\theta}$$ and BERT$$_{\phi}$$. Document $$z$$ is represented by its title and body. $$ p_{\theta}(z \mid \hat{x}) $$ involves the cosine similarity between the sentence embedding produced by BERT$$_{\theta}$$ of $$\hat{x}$$ and $$z$$. During the pre-training, the marginal $$p(x \mid \hat{x})$$ requires a summation over all documents $$z$$ in $$Z$$ which is very costly. Also, as $${\theta}$$ changes every training step, hence the embeddings <b>Emb(z)</b> of all documents $$z$$ in $$Z$$ need to be recalculated every step $$\rightarrow$$ sound impossible. To deal with these issues, REALM proposes two training strategies
+     - $$ p_{\theta}(z \mid \hat{x}) $$ is marginalized over only top-K documents $$z$$ instead of all. Top-K relevant documents $$z$$ w.r.t. input $$\hat{x}$$ can be efficiently performed by Maximum Inner Product Search (MIPS) algorithm where the embeddings of $$z$$(s) are pre-computed and pre-indexed.
+     - The <b>Emb(z)</b> are freezed for an amount of time and are only re-calculated every several hundred update step.
+
+##### <b>2.4.2 Automated Knowledge Base Construction with Language Model</b>
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
 <b>Remarkable Challenges:</b>
 - LM is not trained to assert factual knowledge, but to predict masked tokens/next tokens. So when it is seen predicting a true fact, is it because of the knowledge it learned or just the correlation with what it learned ([educated guess](https://aclanthology.org/2021.acl-long.146/))
 
-- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training --> LM should know its limit when answering something (e.g. chose to answer "No" instead of attempting to say anything)
+- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything)
 
 <b>2022</b>
 
 - [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
 
-    This work continues to pre-train BERT with task-specific data to make it familiar with the task. How ? triples *<sub, rel, obj>* are verbalized into a sentence using a prompt template of *rel*. As the task is object prediction, the object or surround words in the sentence are masked and the LM is asked to predict them. Large dataset is necessary for pre-training, hence, they leverage Wikidata for data augmentation where they generate KG triples that have same relations as  ). However, they discover later that the accuracy does not clearly relate to data size but the property of relation (see below).
+    This work continues to pre-train BERT with task-specific data to make it familiar with the task. How ? triples *<sub, rel, obj>* are verbalized into a sentence using a prompt template of *rel*. As the task is object prediction, the object or surround words in the sentence are masked and the LM is asked to predict them. Large dataset is necessary for pre-training, hence, they leverage Wikidata for data augmentation where they generate KG triples that have same relations as provided training relations). However, they discover later that the accuracy does not clearly relate to data size but the property of relation (see below).
     - Prompt generation: they curate a set of prompts for a relation both in manual and automatic way. In manual way, they explicitly append the type of the subject into the prompt, such as "The musician [SUBJ] plays [OBJ]" for relation "PersonInstrument". In automatic way, they employ two methods from [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf). However, in contrast to [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf), this paper shows that an ensemble of automatically-generated prompts is not better than a single manual-curated one.
     - Prompt decomposition: a relation can have diverse domain and diverse range. For example, considering the relation "StateSharesBorderState", its domain can include "Andalusia"-is a autonomous community or "Hebei" - a province. To better distinguish the type of the subject and probe more relevant knowledge from LM, two prompts are performed:
       - ask for subject type: e.g. e "[SUBJ], as a place, is a [TYPE]".
