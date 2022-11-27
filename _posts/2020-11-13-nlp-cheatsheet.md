@@ -194,6 +194,23 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 #### <b>2.5. Domain-specific Language Model </b>
 
+<b>2021</b>
+
+- [Adapt-and-Distill: Developing Small, Fast and Effective Pretrained Language Models for Domains](https://aclanthology.org/2021.findings-acl.40.pdf) (Yao et al., ACL Findings 2021)
+
+    To adapt a general domain LM to a specific domain, it is necessary to augment the original vocabulary with domain-specific subwords or terms (original vocabulary is kept intact). The paper proposes a simple method to determine domain-specific tokens to add to the vocabulary.
+
+    It assumes that each subword $$x_i$$ is independent of another and it is assigned a probability $$p(x_i)$$ equal to its frequency in the corpus:
+
+    $$\forall i \; x_i \in \mathcal{V}, \; \sum_{x_i \in \mathcal{V}} p(x_i)  = 1$$ where $$\mathcal{V}$$ is the vocabulary.
+
+    and the log probability of a sentence $$x$$ consisting of a subword sequence $$x = (x_1,...,x_M)$$ is given by: $$ P(x) = log \prod_{i=1}^{M} p(x_i) = \sum_{i=1}^{M} log \; p(x_i)$$
+
+    Given a domain-specific corpus D consisting of $$\mid$$D$$\mid$$ sentences, the likelihood of D is calculated as: $$ P(D) = \sum_{x \in D} log \; P(x)$$.
+
+    The original vocabulary is iteratively enriched with subwords taken from domain corpus D. At the time step $$i$$, a subset of subwords with highest frequency in D is added to the vocabulary,  which helps to improve the likelihood $$P(D)$$. The procedure continues if the likelihood gain w.r.t. previous time step $$i-1$$ is higher than a threshold $$\delta$$: $$\frac{P_{i} (D) - P_{i-1} (D)}{P_{i-1} (D)} > \delta$$
+
+    
 <b>2020</b>
 
 - [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
