@@ -20,6 +20,8 @@ nav: true
 
 ## Conference Papers
 
+* <b id="iswc_2022_b">[ISWC 2022]</b> <b>Viet-Phi Huynh</b>, Yoan Chabot, Thomas Labbé, Jixiong Liu and Raphaël Troncy. [From Heuristics to Language Models: A Journey Through the Universe of Semantic Table Interpretation with DAGOBAH](https://github.com/yoanchabot/papers/raw/main/huynh2022b.pdf). In Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2022, 21st International Semantic Web Conference (ISWC’22), remote, China, October 23-27, 2022.
+
 * <b id="iswc_2022_a">[ISWC 2022]</b> Jixiong Liu, <b>Viet-Phi Huynh</b>, Yoan Chabot and Raphaël Troncy. [Radar Station: Using KG Embeddings for Semantic Table Interpretation and Entity Disambiguation](https://github.com/yoanchabot/papers/raw/main/liu2022a.pdf). In Research Track, [21st International Semantic Web Conference (ISWC'22)](https://iswc2022.semanticweb.org/), remote, China, October 23-27, 2022.
 
 * <b id="ic_2022">[IC 2022]</b> <b>Viet-Phi Huynh</b>, Jixiong Liu, Yoan Chabot, Frédéric Deuzé, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Annotation sémantique de données tabulaires par comparaison du contexte des tables et d'un graphe de connaissances](https://github.com/yoanchabot/papers/raw/main/huynh2022.pdf). In [IC2022](https://ci.mines-stetienne.fr/pfia2022/conferences/ic/), St-Etienne, France, June 29-July 1st, 2022. **Best Paper Award** :medal_sports:.
@@ -30,7 +32,7 @@ nav: true
 
 * <b id="iswc_2020">[ISWC 2020]</b> <b>Viet-Phi Huynh</b>, Jixiong Liu, Yoan Chabot, Thomas Labbé, Pierre Monnin and Raphaël Troncy. [DAGOBAH: Enhanced Scoring Algorithms for Scalable Annotations of Tabular Data](https://github.com/yoanchabot/papers/raw/main/huynh2020a.pdf). In [Semantic Web Challenge on Tabular Data to Knowledge Graph Matching 2020](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/index.html/), [19th International Semantic Web Conference (ISWC'20)](https://iswc2020.semanticweb.org/), Athens (remote), Greece, November 1-6, 2020.
 
-* <b id="cikm_2019">[CIKM 2019]</b> <b>Viet-Phi Huynh</b>, Paolo Papotti. [A benchmark for fact checking algorithms built on knowledge bases](https://www.eurecom.fr/en/publication/5996/download/data-publi-5996.pdf). In [28th ACM International Conference on Information and Knowledge Management (CIKM'19)](), Athens (remote), Beijing, China, November, 2019. **Travel Grant** 	:airplane:.
+* <b id="cikm_2019">[CIKM 2019]</b> <b>Viet-Phi Huynh</b>, Paolo Papotti. [A benchmark for fact checking algorithms built on knowledge bases](https://www.eurecom.fr/en/publication/5996/download/data-publi-5996.pdf). In [28th ACM International Conference on Information and Knowledge Management (CIKM'19)](), Beijing, China, November, 2019. **Travel Grant** 	:airplane:.
 
 * <b id="www_2018">[WWW 2018]</b> <b>Viet-Phi Huynh</b>, Paolo Papotti. [Towards a benchmark for fact checking with knowledge bases](https://dl.acm.org/doi/pdf/10.1145/3184558.3191616). In [Reasoning on Data Workshop](), [The Web Conference (WWW'18)](), Lyon, France, 2018. 
 
