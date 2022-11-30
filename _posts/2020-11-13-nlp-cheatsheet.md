@@ -210,7 +210,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     The original vocabulary is iteratively enriched with subwords taken from domain corpus D. At the time step $$i$$, a subset of subwords with highest frequency in D is added to the vocabulary,  which helps to improve the likelihood $$P(D)$$. The procedure continues if the likelihood gain w.r.t. previous time step $$i-1$$ is higher than a threshold $$\delta$$: $$\frac{P_{i} (D) - P_{i-1} (D)}{P_{i-1} (D)} > \delta$$
 
+- [UDALM: Unsupervised Domain Adaptation through Language Modeling](https://aclanthology.org/2021.naacl-main.203.pdf) (Karouzos et al., NAACL 2021)
     
+    This method adapts a general pretrained LM to the target domain distribution in a simple strategy consisting of three steps:
+
+    - Pre-training LM on general corpus using MLM objective.
+    - Continue the pre-trainining on target domain corpus using MLM objective
+    - Perform simultaneously/interleavely two supervised fine-tuning task: (i) a supervised task on labelled source domain data (e.g. classification) (ii) MLM task on target domain data. The idea is to avoid the <b>catastrophic forgetting</b> while adapting the general LM to target domain:
+    
+        $$Loss = \lambda Loss_{classification \; task} + (1-\lambda) Loss_{MLM \; task}$$.
+
+        During this process, the samples from two tasks are interleaved in a batch and are fed to the BERT encoder. The value of $$\lambda$$ is determined by the proportion of samples of the classification task (i) in the batch. 
+
 <b>2020</b>
 
 - [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
