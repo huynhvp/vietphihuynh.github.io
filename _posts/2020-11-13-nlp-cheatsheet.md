@@ -194,6 +194,27 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 #### <b>2.5. Domain-specific Language Model </b>
 
+<b>2022</b>
+
+- [The Trade-offs of Domain Adaptation for Neural Language Models](https://aclanthology.org/2022.acl-long.264.pdf) (Grangier et al., ACL 2022)
+
+    This paper provides some evidences using some concepts of machine learning theory to support past prevailing empirical practices/observations for domain adaption of LM.
+
+    <b>1. In-domain training</b>
+
+    The loss of a LM  in a domain $$\mathcal{D}$$ is decomposed as 3 components: 
+    $$\mathcal{L} (\theta_D, \mathcal{D}) = \mathcal{L}_H(\mathcal{D}) + \mathcal{L}_{app} (\mathcal{D}, \Theta) + \mathcal{L}_{est} (\mathcal{D}, \Theta, D)$$
+    where 
+    - $$\mathcal{L}_H(\mathcal{D})$$ is the intrinsic uncertainty of the domain $$\mathcal{D}$$ itself.
+    - $$\mathcal{L}_{app} (\mathcal{D}, \Theta)$$ is the approximation error of using a LM parameterized by $$\theta \in \Theta$$ to approximate the true distribution $$P( \bullet \mid \mathcal{D})$$ over domain $$\mathcal{D}$$: $$\mathcal{L}_{app} (\mathcal{D}, \Theta) =  \min_{\theta \in \Theta} \mathcal{L}(\theta; \mathcal{D}) - H(P( \bullet \mid \mathcal{D}))$$ where $$\mathcal{L}(\theta; \mathcal{D})$$ is the expectation of risk of using LM $$P(\bullet \mid \theta)$$ to approximate true distribution $$P(\bullet \mid \mathcal{D})$$:  $$\mathcal{L}(\theta; \mathcal{D}) = -\sum_{y \in \mathcal{D}} log \; P(y \mid \theta) P(y \mid \mathcal{D})$$. Larger model with deeper, wider layers has more capacity, consequently, can reduce this error.
+    - $$\mathcal{L}_{est} (\mathcal{D}, \Theta, D)$$ is the error of using the LM parameters empirically estimated from a subset $$D \subset \mathcal{D}$$ to represent the true distribution $$P(\bullet \mid \mathcal{D})$$: $$\mathcal{L}_{est} (\mathcal{D}, \Theta, D) = \mathcal{L} (\theta_D, \mathcal{D}) - \min_{\theta} \mathcal{L}(\theta; \mathcal{D})$$ where $$\theta_D = arg \min_{\theta \in \Theta} \mathcal{L} (\theta, D) $$.
+
+    For a given training set size, increasing the size of the model can decrease $$\mathcal{L}_{app} (\mathcal{D}, \Theta)$$ but can increase $$\mathcal{L}_{est} (\mathcal{D}, \Theta, D)$$ due to overfiting $$\rightarrow$$ $$\mathcal{L}_{app} \; vs. \; \mathcal{L}_{est}$$ trade-off or VC-dimension trade-off.
+
+
+    <b>2. Out-of-domain training</b>
+
+
 <b>2021</b>
 
 - [Adapt-and-Distill: Developing Small, Fast and Effective Pretrained Language Models for Domains](https://aclanthology.org/2021.findings-acl.40.pdf) (Yao et al., ACL Findings 2021)
