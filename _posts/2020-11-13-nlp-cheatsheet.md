@@ -192,7 +192,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
      - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.
 
-#### <b>2.5. Domain-specific Language Model </b>
+#### <b>2.5. Domain Adaptation of Language Model </b>
 
 <b>2022</b>
 
@@ -219,6 +219,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     $$\forall \epsilon, \exists D \subset \mathcal{D}, \mathcal{L}(\theta_D; \mathcal{T}) \leqslant H(\mathcal{T}) + KL(\mathcal{D}, \mathcal{T}) + \epsilon $$
 
     <b>3. Fine-Tuning & Multitask Learning</b>
+
+    Pre-training a LM on a large out-of-domain corpus $$D$$ then fine-tuning it on a small in-domain corpus $$T$$ implicitly involves the trade-off between empirical losses over $$T$$ and $$D$$. This trade-off is controlled by the number of fine-tuning steps $$n_{ft}$$: $$ \parallel \theta_{ft} - \theta_D  \parallel_2 \;\leqslant \lambda n_{ft} g_{max} $$ where $$\lambda$$ is maximum learning rate, $$g_{max}$$ is upper bound of update norm. More fine-tuning steps $$n_{ft}$$, larger possible distance between $$\theta_{ft}$$ and $$\theta_D$$ is, meaning that $$\theta_{ft}$$ could be no longer optimal for $$D$$ where $$\mathcal{L}(\theta_{ft}; D)$$ may be far from the optimum $$\mathcal{L}(\theta_{D}; D)$$. For this reason, fine-tuning is also considered as a regularization technique.
     
 
 <b>2021</b>

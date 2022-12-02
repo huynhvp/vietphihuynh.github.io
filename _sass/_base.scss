@@ -16,9 +16,15 @@ hr {
 table {
   td, th {
     color: var(--global-text-color);
+    font-weight: 600;
   }
+  th {
+    width: 10%;
+  }
+
   td {
     font-size: 1rem;
+    font-weight: 400;
   }
 }
 
