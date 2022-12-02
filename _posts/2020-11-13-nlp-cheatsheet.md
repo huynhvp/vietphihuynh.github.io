@@ -198,11 +198,11 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - [The Trade-offs of Domain Adaptation for Neural Language Models](https://aclanthology.org/2022.acl-long.264.pdf) (Grangier et al., ACL 2022)
 
-    This paper provides some evidences using some concepts of machine learning theory to support past prevailing empirical practices/observations for domain adaption of LM.
+    This paper provides some evidences using concepts of machine learning theory to support past prevailing empirical practices/observations for domain adaption of LM.
 
     <b>1. In-domain training</b>
 
-    The loss of a LM  in a domain $$\mathcal{D}$$ is decomposed as 3 components: 
+    The loss of fitting a LM  to a domain $$\mathcal{D}$$ is decomposed as 3 components: 
     $$\mathcal{L} (\theta_D, \mathcal{D}) = \mathcal{L}_H(\mathcal{D}) + \mathcal{L}_{app} (\mathcal{D}, \Theta) + \mathcal{L}_{est} (\mathcal{D}, \Theta, D)$$
     where 
     - $$\mathcal{L}_H(\mathcal{D})$$ is the intrinsic uncertainty of the domain $$\mathcal{D}$$ itself.
@@ -214,6 +214,12 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     <b>2. Out-of-domain training</b>
 
+    Given two LMs pretrained on two generic domaines $$\mathcal{D}$$ and $$\mathcal{D'}$$, which one we should choose to adapt it to a target domain $$\mathcal{T}$$ ?. Intuitively, we choose the one whose distribution is closer to the target distribution $$\mathcal{T}$$ or KL divergence between two distributions is smaller as the generalization loss of adapting LM parameters $$\theta_D$$ estimated from generic domain $$\mathcal{D}$$ for $$\mathcal{T}$$ is upper-bounded by the KL divergence $$KL(\mathcal{D}, \mathcal{T})$$
+
+    $$\forall \epsilon, \exists D \subset \mathcal{D}, \mathcal{L}(\theta_D; \mathcal{T}) \leqslant H(\mathcal{T}) + KL(\mathcal{D}, \mathcal{T}) + \epsilon $$
+
+    <b>3. Fine-Tuning & Multitask Learning</b>
+    
 
 <b>2021</b>
 
