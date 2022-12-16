@@ -58,12 +58,12 @@ In the learning context, $$H_{\mathcal{V}}(Y \mid X )$$ is estimated by training
 1. <b>Compare different models $$\mathcal{V}$$ for the same dataset $$(X, Y)$$ by computing $$I_{\mathcal{V}}(X \rightarrow Y)$$</b>
 
    Following figure shows the test accuracy of 4 models \{GPT2-small, BERT-base, BART-base, DistillBERT-base \} on SNLI task. Model with higher $$\mathcal{V}-information$$ exploits more information from the dataset, leading to better performance (BART-base).
-  ![](/assets/img/v_information/snli.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: copied from the paper)*
+  ![](/assets/img/v_information/snli.PNG){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: copied from the paper)*
 
    Furthermore, $$\mathcal{V}-information$$ can be an early sign of overfitting. At epoch 5, the models start to be less certain about the true label $$\rightarrow$$ $$\mathcal{V}-information$$ starts to decrease but it can still make correct predictions (test accuracy is stable). Then, at epoch 10, $$\mathcal{V}-information$$ reach its lowest value and diverges but it looks like test accuracy is just starting to decline.
 
 2. <b>Compare the difficulty of different dataset $$(X, Y)$$(s) for the same model $$\mathcal{V}$$ by computing $$I_{\mathcal{V}}(X \rightarrow Y)$$ </b>
 
    The dotted lines in figure below show $$BERT-information$$(s) ($$\mathcal{V}$$ = BERT) for 3 NLI datasets: CoLA, MultiNLI and SNLI. It is expected that CoLA is the most difficult dataset, then MultiNLI for NLI task addressed by BERT model.
-   ![](/assets/img/v_information/dataset_diff.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: copied from the paper)*
+   ![](/assets/img/v_information/dataset_diff.PNG){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: copied from the paper)*
    
