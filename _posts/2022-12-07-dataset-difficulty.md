@@ -4,7 +4,7 @@ title: PoTM - Understanding Dataset Difficulty with V-Usable Information
 date: 2022-12-06 10:09:00
 description: 
 tags: research
-categories: paper_of_the_month
+categories: paper_of_the_month, information_theory, machine_learning
 ---
 
 ---
