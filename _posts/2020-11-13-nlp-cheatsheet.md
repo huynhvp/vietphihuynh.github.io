@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2022-11-13 10:09:00
+date: 2022-12-19 10:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -190,6 +190,25 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 - LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything)
 
 <b>2022</b>
+
+- [Rewire-then-Probe: A Contrastive Recipe for Probing Biomedical Knowledge of Pre-trained Language Models](https://arxiv.org/pdf/2110.08173.pdf) (Meng et al., ACL 2022)
+
+    <b>Contrastive-Probe for Knowledge probing from LM.</b>
+
+    Knowledge probing approaches based on mask prediction or text generation have two typical drawbacks:
+
+    - Multi-token span prediction: the mask prediction approaches use the MLM head to fill in a single mask token in a cloze-style query $$\rightarrow$$ if an answer entity names that contain multi-token span, the query needs to be padded with the same amount of [MASK] token.
+
+    - The answer may not be a valid identifier of an entity: the mask prediction or text generation approaches rely on the vocabulary to generate the answer in an unconstrained way $$\rightarrow$$ the generated texts may not exist in the answer space. Furthermore, different LMs can have different vocabularies, leading to the vocabulary bias.
+
+    The paper introduces <b>Contrastive-Probe</b> that addresses two above issues by avoiding using the LM head for mask prediction or text generation. Similarly to sentence embedding approaches, <b>Contrastive-Probe</b> employs the LM to encode the prompt query $$q$$(e.g. "Elvitegravir may prevent [Mask]", [Mask] can represent multiple tokens) into the embedding $$e_q$$ and encode each answer (e.g. "Epistaxis") in the complete answer space into another embeddings $$e^i_s, i=1..N$$ where $$N$$ is the size of answer space. The K-nearest neighbors $$e^k_s, k=1..K$$ of $$e_q$$ in the embedding space are considered as the answer of $$q$$. Self-supervised contrastive learning is used to rewire the pretrained LM to this answer-retrieval task. Specifically, with infoNCE objective loss, the PLM is fine-tuned in order for the {query, correct answer} pairs (positive samples) stay close to each other and {query, other answer in the same batch} pairs (negative samples) are pulled far apart.
+
+    Testing on bio domain, <b>Contrastive-Probe</b> achieved several following results:
+
+    -  <b>Contrastive-Probe</b> outperforms other probing baselines (mask prediction, text generation) ) regardless of the underlying PLM on MedLAMA benchmark for Bio domain.
+    - It is effective at predict long answer (aka. multi-token span)
+    - In phase with previous observation, no configuration fits all relations. Different relation require different underlying LM, different depth of tuning layer for the best performance.
+    - It is pretty stable in performance where training with different dataset results small deviation and similar trend.
 
 - [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
 
