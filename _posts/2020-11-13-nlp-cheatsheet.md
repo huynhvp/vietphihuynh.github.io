@@ -153,6 +153,14 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
 Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM.
 
+<b>2022</b>
+
+- [SKILL: Structured Knowledge Infusion for Large Language Models](https://aclanthology.org/2022.naacl-main.113.pdf) (Moiseev et al., NAACL 2022)
+
+    The paper introduces <b>SKILL</b> a simple way to inject knowledge from structured data, such as a KG, into a language model, that can benefit knowledge-retrieval-based downstream tasks. <b>SKILL</b> continue to pretrain LLM directly on structured data (e.g. triples in KG) with salient-term masking without synthesizing them into equivalent natural sentences (e.g. KELM) as they found that the two approaches are competitive with each other. 
+
+    <b>SKILL</b> demonstrates better performance than original LMs on Wikidata-related QA benchmarks as it is pre-trained on Wikidata triples. Most of the gains comes from the ability to memorize KG triples during the training. As a consequence, the model can perform very well on 1-hop questions that are supported by single triples, such as "When was Elon Musk born ?" corresponds to the triple *<Elon Musk, date of birth, ?>*. However, when it comes to answering multi-hop questions (e.g. "Who worked at the companies directed by Elon Musk ?" may correspond to two triples *<Elon Musk, owner of, ?x>* and *<?y, employer, ?x>* ) which requires not only the memorizing ability but also the reasoning ability, <b>SKILL</b> performs just slightly better than original LMs. <b> The author points out one limitation of SKILL is that the training relies on a random set of independent triples, lacking of topological structure exploitation of a KG describing how triples are connected. Addressing this issue can improve the multi-hop QA tasks</b>.
+
 <b>2021</b>
 
 - [Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering](https://arxiv.org/abs/2007.01282) (Izacard et al., EACL 2021)
@@ -179,6 +187,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     $$ p (x \mid \hat{x}, z ) $$ helps to inform which documents $$z$$ contribute the most to [MASK] tokens. The <b>knowledge retriever</b> $$ p_{\theta}(z \mid \hat{x}) $$ and <b>knowledge-augmented encoder</b> $$ p_{\phi}(x \mid \hat{x}, z )$$ are modelled separately using two different BERT$$_{\theta}$$ and BERT$$_{\phi}$$. Document $$z$$ is represented by its title and body. $$ p_{\theta}(z \mid \hat{x}) $$ involves the cosine similarity between the sentence embedding produced by BERT$$_{\theta}$$ of $$\hat{x}$$ and $$z$$. During the pre-training, the marginal $$p(x \mid \hat{x})$$ requires a summation over all documents $$z$$ in $$Z$$ which is very costly. Also, as $${\theta}$$ changes every training step, hence the embeddings <b>Emb(z)</b> of all documents $$z$$ in $$Z$$ need to be recalculated every step $$\rightarrow$$ sound impossible. To deal with these issues, REALM proposes two training strategies
      - $$ p_{\theta}(z \mid \hat{x}) $$ is marginalized over only top-K documents $$z$$ instead of all. Top-K relevant documents $$z$$ w.r.t. input $$\hat{x}$$ can be efficiently performed by Maximum Inner Product Search (MIPS) algorithm where the embeddings of $$z$$(s) are pre-computed and pre-indexed.
      - The <b>Emb(z)</b> are freezed for an amount of time and are only re-calculated every several hundred update step.
+
+    Regarding the training setting, the model is trained using masked-language modelling. They found that masking salient terms instead of masking random span could significantly improve the performance on downstream tasks.
 
 ##### <b>2.4.2 Automated Knowledge Base Construction with Language Model</b>
 
