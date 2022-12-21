@@ -220,6 +220,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Additionally, their analysis conveys two messages: <b>(i)</b> by counting number of sentences in the training that contain both the head and the tail of a triple, it indicates that PLM-based KGC still outperforms KGE-based KGC on the triples with zero co-occurrence of {head, tail} in the training set $$\rightarrow$$ they argue PLMs, apart from seeing many facts in the massive text, have the ability to reason the knowledge. <b>(i)</b> PLM-based KGC models are less sensitive to the size of training dataset where reducing the training data size decreases slightly the prediction accuracy.
    
+- [SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models](https://arxiv.org/pdf/2203.02167.pdf) (Wang et al. ACL 2022)
+
+    <b>SimKGC: Promptless method for KGC based on sentence embedding</b>
+
+    To predict an entity $$e_i \in KG \; \mathcal{E}$$ for a triple $$<h, r, ?>$$, SimKGC employs a PLM-based bi-encoder architecture where two encoders do not share parameters. One encoder computes the relation-aware embedding $$e_{hr}$$ for the head entity $$h$$ from the concatenation of the descriptions of the head entity and the relation: "[header_description] [SEP] [relation_description]". Another encoder is leveraged to compute the embedding of the description of the candidate tail entity $$e_t$$. Candidate tail entities $$e^i_t$$ are ranked according to the cosine similarity between its embedding and the relation-aware embedding of the head entity $$e_{hr}$$. The bi-encoder is trained to learn useful representation for head entity and tail entity in the triple using contrastive learning.
+
+    The paper argues that the reason why previous contrastive learning-based models are lag behind SOTA KGE-based models highly involves the ineffectiveness of training setting for contrastive learning where they use small negative sample size ($$\approx$$ 1..5 due to computational complexity) and the margin loss. Indeed, by augmenting the number of negative sample per positive sample (e.g. 256) and changing the margin loss to InfoNCE loss, they obtain much better performance and outperform KGE-based models. 
+
+    For further improvement, in addition to in-batch negative, SimKGC also combine two other strategies for generating negative samples:
+    - Pre-batch Negatives: sample batches at training step $$t-1$$, $$t-2$$... can be considered as negative samples for current training batch at step $$t$$.
+    - Self-Negatives: triple $$<h, r, h>$$ (tail entity is predicted as head entity) is seen as a hard negative sample for the triple $$<h, r, ?>$$ $$\rightarrow$$ this makes the model rely less on the spurious text matching/overlapping to make the prediction.
+
+    Lastly, the work also stresses that predicting *one-to-many, many-to-one, many-to-many* relations is more difficult.
+
 
 - [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
 
