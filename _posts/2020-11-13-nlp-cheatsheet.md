@@ -36,8 +36,13 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
 - [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
 
-    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (*domain-adaptive pretraining*) or task-specific unlabeled data (*task-adaptive pretraining*) can improve the performance of downstream tasks.
+    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (<b>domain-adaptive pretraining DAPT</b>) or task-specific unlabeled data (<b>task-adaptive pretraining TAPT</b>) can improve the performance of downstream tasks.
 
+    Some findings from a thorough analysis of domain- and task- adaptive pretraining across 4 domains and 8 downstream task involving both high- and low- resource settings:
+    - Target domain which is more dissimilar to the source domain benefits more the <b>DAPT</b>. The domain dissimilarity can be quantified by the vocabulary overlap.
+    - Combined <b>DAPT, then TAPT</b> setting achieves the best performance on all tasks.
+    - <b>TAPT</b> could be harmful when applied across tasks (i.e. pretrain the LM with unlabeled data of a task, then fine-tune it with data of another task within the same given domain can degrade the performance of later task).
+    - In low-resource scenario, augmenting the unlabeled data that aligns with the task distribution is beneficial. One data augmentation approach is to employ an external LM to encode task's data and in-domain corpus into a shared embedding space, then for each sample in the task's data, $$k$$ candidate samples are selected from the in-domain corpus using k-nearest neighbor search.
 
 <b>2019</b>
 
