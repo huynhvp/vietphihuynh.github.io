@@ -9,7 +9,7 @@ categories: paper_of_the_month, information_theory, machine_learning
 
 ---
 
-In this post, I would like to resume an interesting paper that received the Outstanding Paper Award at ICML 2022: [Understanding Dataset Difficulty with V-Usable Information (Ethayarajh et al.)](https://proceedings.mlr.press/v162/ethayarajh22a/ethayarajh22a.pdf). The paper introduces a novel method for estimating the difficulty of a dataset w.r.t. a model using information theory. Specifically, it proposes $$\mathcal{V}$$ - *usable information* and *pointwise* $$\mathcal{V}$$ - *usable information* extended from Shannon's mutual information to measure how much information contained in a dataset $$(X, Y)$$ ($$X$$: input, $$Y$$: label for example) or in an instance of $$(X, Y)$$ is *usable* by a model $$\mathcal{V}$$. Lower value $$\mathcal{V}$$ - *usable information* indicates that the dataset (or the instance) is more difficult for the model $$\mathcal{V}$$.
+In this post, I would like to summarize an interesting paper that received the Outstanding Paper Award at ICML 2022: [Understanding Dataset Difficulty with V-Usable Information (Ethayarajh et al.)](https://proceedings.mlr.press/v162/ethayarajh22a/ethayarajh22a.pdf). The paper introduces a novel method for estimating the difficulty of a dataset w.r.t. a model using information theory. Specifically, it proposes $$\mathcal{V}$$ - *usable information* and *pointwise* $$\mathcal{V}$$ - *usable information* extended from Shannon's mutual information to measure how much information contained in a dataset $$(X, Y)$$ ($$X$$: input, $$Y$$: label for example) or in an instance of $$(X, Y)$$ is *usable* by a model $$\mathcal{V}$$. Lower value $$\mathcal{V}$$ - *usable information* indicates that the dataset (or the instance) is more difficult for the model $$\mathcal{V}$$.
 
 ---
 
@@ -52,6 +52,17 @@ In practice, it is impossible to calculate the true $$\mathcal{V}-information$$ 
 
 In the learning context, $$H_{\mathcal{V}}(Y \mid X )$$ is estimated by training (or fine-tuning) a model $$f \in \mathcal{V}$$ with cross-entropy loss to minimize the negative log-likelihood of $$Y$$ given $$X$$: $$\mathbb{E}_{y \sim Y_{train}, x \sim X_{train}}[-\text{log} \; f[x](y)]$$, then using the trained model to calculate $$\mathbb{E}_{y \sim Y_{test}, x \sim X_{test}}[-\text{log} \; f[x](y)]$$ on test dataset. Similarly, $$H_{\mathcal{V}}(Y)$$ is estimated by fitting another model $$f \in \mathcal{V}$$ on label distribution.
 
+### <b>Pointwise $$\mathcal{V}$$ information </b>
+
+$$\mathcal{V}$$ information is extended to individual instance $$(x, y)$$ of random variables $$(X, Y)$$ under pointwise $$\mathcal{V}$$ information $$\textsf{PVI}(x, y)$$.
+
+$$\textsf{PVI}(x \rightarrow y) = - \text{log} \; g[\varnothing](y) + \text{log} \; g'[x](y) $$
+
+where $$g \in \mathcal{V} \; s.t. \mathbb{E}[- \text{log} \; g[\varnothing](Y)] = H_{\mathcal{V}}(Y)$$ and $$g' \in \mathcal{V} \; s.t. \mathbb{E}[- \text{log} \; g'[X](Y)] = H_{\mathcal{V}}(Y \mid X)$$. Loosely speaking, $$g$$ and $$g'$$ are models (e.g. BERT) before and after fine-tuning with training samples of $$(X, Y)$$, and $$\textsf{PVI}(x, y)$$ is the difference in log-probability that two models assign to the label $$y$$. The higher the $$\textsf{PVI}$$, the easier the instance is w.r.t. $$\mathcal{V}$$.
+
+$$\textsf{PVI}(x, y)$$ should only depend on the distribution of $$X$$ and $$Y$$. Fine-tuning models $$\in \mathcal{V}$$ with different size of training set $$\{(x, y)_i\}_{i=1}^k$$ should not change this quantity.
+
+The estimated $$\mathcal{V}$$ information $$\hat{I}_{\mathcal{V}}(X, Y)$$ is written as: $$\hat{I}_{\mathcal{V}}(X, Y) = \frac{\sum_i \text{PVI} (x_i, y_i)}{n}.$$ 
 
 ### <b>Usage of $$\mathcal{V}$$ information </b>
 
@@ -66,4 +77,10 @@ In the learning context, $$H_{\mathcal{V}}(Y \mid X )$$ is estimated by training
 
    The dotted lines in figure below show $$BERT-information$$(s) ($$\mathcal{V}$$ = BERT) for 3 NLI datasets: CoLA, MultiNLI and SNLI. It is expected that CoLA is the most difficult dataset, then MultiNLI for NLI task addressed by BERT model.
    ![](/assets/img/v_information/dataset_diff.PNG){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: copied from the paper)*
+
+3. $$\textsf{PVI}$$ can help to spot mislabelled instances where such instances have negative $$\textsf{PVI}$$.
+
+4. The $$\textsf{PVI}$$ threshold at which predictions become incorrect is similar across datasets. The gold threshold is 0.5 which is useful for cross-dataset comparison.
+
+
    
