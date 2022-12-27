@@ -188,6 +188,7 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
     Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
 
 #### <b>2.4. Probing Knowledge from Language Model</b>
+
 ##### <b>2.4.1 Knowledge Retriever + Language Model </b>
 
 <b>Overview:</b>
@@ -307,6 +308,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     <b>Thoughts</b>: 
      - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
      - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.
+
+##### <b>2.4.3 Prompting Methods </b>
+
+<b>2022</b>
+
+- [Do Prompt-Based Models Really Understand the Meaning of Their Prompts?](https://arxiv.org/pdf/2109.01247.pdf) (Webson et al., NAACL 2022)
+
+    Under the $$k$$-shot scenerios ($$k=0..256$$) for NLI task, the paper finds that LMs learn irrelevant prompts, misleading prompts as fast as instructive prompts, and this is consistent across various models (GPT, BERT, T0, T5). This questions whether the models understand the semantics of the prompts or they are too robust to prompt semantics, making them distinguish proper instructions from pathological ones.
+
+    They also shows that LMs are more sensitive to the semantics of prediction labels. Learning to predict arbitrary labels (e.g. 1 for Yes, 2 for No) or reversed labels (e.g. No for Yes, Yes for No) is much slower than predicting directly the original labels (Yes/No). The choice of prediction labels can contaminate the semantics of prompt template. Proper prompt associated with arbitrary labels (e.g. 1 for Yes, 2 for No) underperformed irrelevant prompts associated with direct label (Yes/No). Intuitively, given a few samples, human can easily learn the mapping Yes $$\rightarrow$$ 1, No $$\rightarrow$$ 2.
+
+
 
 #### <b>2.5. Domain Adaptation of Language Model </b>
 
