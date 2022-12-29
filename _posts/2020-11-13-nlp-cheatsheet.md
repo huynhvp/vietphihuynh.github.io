@@ -232,6 +232,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Regarding the training setting, the model is trained using masked-language modelling. They found that masking salient terms instead of masking random span could significantly improve the performance on downstream tasks.
 
+- [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
+
+    The paper hypothesizes that the representation learning problem may be easier than the prediction problem. For example, two sentences *Dickens is the author of* and *Dickens wrote* will essentially have the same distribution over the next word, even if they do not know what that distribution is. Given a sequence of tokens $$x = (w_1,...,w_{t-1})$$, $$k$$ nearest neighbors $$\mathcal{N}$$ of $$x$$ is retrieved from a pre-built catalog $$\mathcal{C}$$ by comparing the sentence embedding of each sequence in Eclidean space. Each nearest neighbor $$x_i$$ of $$x$$ has a next token $$y_i$$: $$(x_i, y_i) \in \mathcal{N}$$. The distribution of the next token $$y$$ of $$x$$ can be estimated via a simple linear regression: 
+    $$p_{kNN} (y \mid x) = \sum_{(x_i, y_i) \in \mathcal{N}} softmax (\mathbb{1}_{y=y_i} exp (-d (\textsf{Emb}(x), \textsf{Emb}(x_i))))$$.
+
+    The LM distribution of a token $$y$$ $$p_{LM} (y \mid x)$$ given $$x$$ is then updated by the nearest neighbor distribution $$p_{kNN} (y \mid x)$$:
+    $$ p (y \mid x) = \lambda p_{kNN} (y \mid x) + (1-\lambda) p_{LM} (y \mid x)$$.
+
+    Several advantages of nearest neighbor LM:
+    - No additional training required.
+    - Long-tail patterns can be explicitly memorized in the pre-built catalog $$\mathcal{C}$$ instead of encoded implicitly in model parameters. New domain can be adapted to LM by creating a new catalog for the target domain dataset.
+    - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
+
+
 ##### <b>2.4.2 Automated Knowledge Base Construction with Language Model</b>
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
@@ -243,6 +257,24 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
+- [KnowPrompt: Knowledge-aware Prompt-tuning with Synergistic Optimization for Relation Extraction](https://arxiv.org/pdf/2104.07650.pdf) (Chen et al., The WebConf 2022)
+
+    <b>KnowPrompt: prompting with knowledge constraint </b>
+
+    ![](/assets/img/cheatsheet/knowprompt.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    KnowPrompt relieves the cumbersome prompt engineering by representing the prompt template and prompt verbalizer by learnable virtual words. Specifically, given a prompt: $$\textsf{[CLS] It solds [E1] ALICO [/E1] to [E2] MetLife Inc [/E2] for \$162 billion. [SEP]  [sub] ALICO [sub] [MASK] [obj] Metlife Inc [obj]. [SEP] }$$
+    where the first sentence is the context in which foreknow sentinel tokens $$\textsf{[E1], [E2]}$$ indicates entities whose relation will be discovered in the second sentence. Three tokens $$\textsf{[sub], [MASK], [obj]}$$ are considered as virtual words representing the subject entity type, the relation, and the object entity type respectively. The possible relation $$r$$ between $$\textsf{E1}$$ and $$\textsf{E2}$$ is computed from the probability distribution at $$\textsf{[MASK]}$$ token. 
+
+    To guide $$\textsf{[sub], [obj]}$$ to represent meaningfully the associated entity $$\textsf{E1, E2}$$ as well as to encode the structural constraint between them and the relation, KnowPrompt:
+
+    - Instead of random initialization, the embeddings of $$\textsf{[sub], [MASK], [obj]}$$ are initialized with prior distribution (calculated by frequency statistics) of entity type's word-embedding and relation's word embedding.
+    - Incorporate structural knowledge constraint: apart from LM loss, inspired by knowledge graph embedding, KnowPrompt interprets $$\textsf{[MASK]}$$ as a translation from $$\textsf{[sub]}$$ to $$\textsf{[obj]}$$ (similar to TransE), leading to the minimization of the Euclidean distance in the embedding space: $$d([sub], [obj]) = \mid \mid [sub] + [MASK] - [obj]  \mid \mid_2$$
+
+    <br>
+    
 - [Rewire-then-Probe: A Contrastive Recipe for Probing Biomedical Knowledge of Pre-trained Language Models](https://arxiv.org/pdf/2110.08173.pdf) (Meng et al., ACL 2022)
 
     <b>Contrastive-Probe for Knowledge probing from LM.</b>
@@ -318,7 +350,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     Under the $$k$$-shot scenerios ($$k=0..256$$) for NLI task, the paper finds that LMs learn irrelevant prompts, misleading prompts as fast as instructive prompts, and this is consistent across various models (GPT, BERT, T0, T5). This questions whether the models understand the semantics of the prompts or they are too robust to prompt semantics, making them distinguish proper instructions from pathological ones.
 
     They also shows that LMs are more sensitive to the semantics of prediction labels. Learning to predict arbitrary labels (e.g. 1 for Yes, 2 for No) or reversed labels (e.g. No for Yes, Yes for No) is much slower than predicting directly the original labels (Yes/No). The choice of prediction labels can contaminate the semantics of prompt template. Proper prompt associated with arbitrary labels (e.g. 1 for Yes, 2 for No) underperformed irrelevant prompts associated with direct label (Yes/No). Intuitively, given a few samples, human can easily learn the mapping Yes $$\rightarrow$$ 1, No $$\rightarrow$$ 2.
-
 
 
 #### <b>2.5. Domain Adaptation of Language Model </b>
