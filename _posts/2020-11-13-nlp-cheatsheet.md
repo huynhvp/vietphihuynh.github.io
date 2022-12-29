@@ -197,6 +197,21 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2022</b>
 
+- [Don’t Prompt, Search! Mining-based Zero-Shot Learning with Language Models](https://arxiv.org/pdf/2210.14803.pdf) (van de Kar et al., EMNLP 2022)
+
+    $$\textsf{Generate-filter-finetune}$$<b> approach for zero-shot learning</b>
+
+    ![](/assets/img/cheatsheet/dontprompt_mine.png){:style="width: 35%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    The paper introduces a retrieval augmented zero-shot learning method which is more flexible and interpretable than prompting methods. The present method is reliant on an unlabeled corpus playing as knowledge source (e.g. the corpus used for pretraining), a regex-like mining pattern and a set of verbalizer that represents a downstream task (similar to prompting), such as $$\textsf{(is} \mid \textsf{was) \{VERBALIZER\}*. \{INPUT\} }$$ for sentiment analysis where $$\textsf{VERBALIZER} \in $$ $$\textsf{\{good, great, awesome, etc\}}$$ for positive label and $$\textsf{\{bad, awful, terrible, etc\}}$$ for negative label. It consists of 3 steps:
+    1. Using the regex-based mining pattern to extract training samples from the unlabeled corpus. For example, given the pattern above, the sentences following *"is good"* or *"was good"* are examples of the positive class, and the sentences following *"is bad"*, *"was bad"* are examples of the negative class.
+    2. As mined samples can be noisy, they are filtered by zero-shot prompting. Specifically, samples in which predicated label by zero-shot prompting and the mined label do not match will be removed.
+    3. The mined dataset is then used to finetune a pretrained LM for the downstream task. Intuitively, the original zero-shot learning is casted as full finetuning with the help of mined dataset.
+
+    Experimented on sentiment analysis, topic classification and NLI tasks, mining approach outperforms zero-shot prompting method when using the same verbalizers and comparable patterns. It can partly explain the performance of prompting method using the fact that many task-relevant examples are seen during the training which can be explicitly retrieved through simple regex mining pattern.
+
 - [SKILL: Structured Knowledge Infusion for Large Language Models](https://aclanthology.org/2022.naacl-main.113.pdf) (Moiseev et al., NAACL 2022)
 
     The paper introduces <b>SKILL</b> a simple way to inject knowledge from structured data, such as a KG, into a language model, that can benefit knowledge-retrieval-based downstream tasks. <b>SKILL</b> continue to pretrain LLM directly on structured data (e.g. triples in KG) with salient-term masking without synthesizing them into equivalent natural sentences (e.g. KELM) as they found that the two approaches are competitive with each other. 
@@ -274,7 +289,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Incorporate structural knowledge constraint: apart from LM loss, inspired by knowledge graph embedding, KnowPrompt interprets $$\textsf{[MASK]}$$ as a translation from $$\textsf{[sub]}$$ to $$\textsf{[obj]}$$ (similar to TransE), leading to the minimization of the Euclidean distance in the embedding space: $$d([sub], [obj]) = \mid \mid [sub] + [MASK] - [obj]  \mid \mid_2$$
 
     <br>
-    
+
 - [Rewire-then-Probe: A Contrastive Recipe for Probing Biomedical Knowledge of Pre-trained Language Models](https://arxiv.org/pdf/2110.08173.pdf) (Meng et al., ACL 2022)
 
     <b>Contrastive-Probe for Knowledge probing from LM.</b>
