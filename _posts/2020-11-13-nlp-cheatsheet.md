@@ -20,6 +20,20 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 ### <b>1. Best Practices</b>
 #### <b>1.1. Training/Fine-Tuning recipes</b>
 
+<b>2022</b>
+
+- [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+
+    The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
+
+    Some empirical findings about $$M(f)$$ and $$T(f, \tau)$$ are:
+    - Larger causal LMs memorize faster. Smaller masked LMs memorize quicker initially (lower $$\tau$$) and slower in the long run (larger $$\tau$$).
+    - The studied memorization occurs before overfitting $$\rightarrow$$ overfitting cannot explain why larger models memorize faster.
+    - Learning ability of large LMs are less sensitive to learning rate.
+    - Prepending a unique identifer to every traing samples leads to faster memorization.
+    - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
+    - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
+
 <b>2021</b>
 
 - [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
