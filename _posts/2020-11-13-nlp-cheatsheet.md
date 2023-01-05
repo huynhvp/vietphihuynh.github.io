@@ -211,6 +211,18 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2022</b>
 
+- [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
+
+    <b>EIDER: Extracted Evidence Empowered Relation Extraction</b>
+
+     ![](/assets/img/cheatsheet/eider.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)   
+
+    Typical document-level relation extraction models rely on the whole document to infer the relation of an entity pair in the document. On the one hand, a minimal set of sentences (i.e. evidences) in the documents is enough for human to annotate the relation,  taking the whole document as input may add noise and ambiguity to the model. On the other hand, there is no way to extract such minimal set perfectly, leading to missing important information. <b>EIDER</b> alleviates both aspect by introducing:
+    - Joint training of relation extraction end evidence sentence extraction: a base encoder is employed to learn the representation of the relation from the counterparts of the head entity, tail entity and the whole document $$p(r \mid e_h, e_t, c_{h,t})$$, as well as to learn the representation of each evidence sentence $$s_n$$ given the head and tail entity $$p (s_n \mid e_h, e_t)$$. For the training, evidence sentences for each entity pair in a document can be either manually provided, or extracted using simple heuristics (e.g. a sentence containing both head and tail entities is considered as an evidence for this entity pair).
+    - Fusion of evidence in Inference: the score of each candidate relation is given by two inferences: one with the prediction from the whole documents, one with the prediction from the set of extracted evidence sentences (a subset of original document). \s
+
 - [Don’t Prompt, Search! Mining-based Zero-Shot Learning with Language Models](https://arxiv.org/pdf/2210.14803.pdf) (van de Kar et al., EMNLP 2022)
 
     $$\textsf{Generate-filter-finetune}$$<b> approach for zero-shot learning</b>
@@ -285,6 +297,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 - LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything)
 
 <b>2022</b>
+
+- [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
+
+    <b>EIDER: Extracted Evidence Empowered Relation Extraction</b>
+
+     ![](/assets/img/cheatsheet/eider.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)   
+
+    Typical document-level relation extraction models rely on the whole document to infer the relation of an entity pair in the document. On the one hand, a minimal set of sentences (i.e. evidences) in the documents is enough for human to annotate the relation,  taking the whole document as input may add noise and ambiguity to the model. On the other hand, there is no way to extract such minimal set perfectly, leading to missing important information. <b>EIDER</b> alleviates both aspect by introducing:
+    - Joint training of relation extraction end evidence sentence extraction: a base encoder is employed to learn the representation of the relation from the counterparts of the head entity, tail entity and the whole document $$p(r \mid e_h, e_t, c_{h,t})$$, as well as to learn the representation of each evidence sentence $$s_n$$ given the head and tail entity $$p (s_n \mid e_h, e_t)$$. For the training, evidence sentences for each entity pair in a document can be either manually provided, or extracted using simple heuristics (e.g. a sentence containing both head and tail entities is considered as an evidence for this entity pair).
+    - Fusion of evidence in Inference: the score of each candidate relation is given by two inferences: one with the prediction from the whole documents, one with the prediction from the set of extracted evidence sentences (a subset of original document). \s
 
 - [KnowPrompt: Knowledge-aware Prompt-tuning with Synergistic Optimization for Relation Extraction](https://arxiv.org/pdf/2104.07650.pdf) (Chen et al., The WebConf 2022)
 
