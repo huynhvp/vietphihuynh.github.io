@@ -183,7 +183,7 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
-#### <b>2.3. Entity Linking & Disambiguation</b>
+#### <b>2.3. Entity Linking & Disambiguation + Information Extraction</b>
 
 <b>2021</b>
 
@@ -330,6 +330,22 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     (source: copied from the paper) 
 
 <b>2022</b>
+
+- [GenIE: Generative Information Extraction](https://aclanthology.org/2022.naacl-main.342.pdf) (Josifoski et al., NAACL 2022)
+
+    Close Information Extraction (cIE) typically aims at extracting an exhaustive set of relational triplets $$(subject, relation, object)$$ from given text where $$subject/object$$ entity and $$relation$$ are constrained to come from a predefined knowledge base. Traditional cIE pipeline encompasses multiple independent sub-tasks (NER, NED, RE) which suffers from the error accumulation. <b>GenIE</b> is an end-to-end autoregressive cIE system that casts the triplet extraction as text-2text problem in which the decoder generates entities and relations token-by-token in an autoregressive fashion. They introduce special tokens \<sub\>, \<rel\>, \<obj\>, \<end_of_triplet\> to linearize the generated output. To assure that generated tokens refer to valid entity and relation, <b>GenIE</b> employs constrained beam search to guide the decoding following prefix tries built on the entity set and the relation set of the knowledge base. This makes the beam search effective for large million of entities.
+
+    ```console
+    Example
+
+    Encoder: John Smith acts in the movie Wichia
+    Decoder: <sub> Wichia (1995 film) <rel> cast member <obj> John Smith (actor) <end_of_triple> 
+                   <sub> Wichia (1995 film) <rel> instance of <obj> film <end_of_triple>
+    ```
+
+    <b>GenIE</b> enforces the order of generated triplets in the way that triples for which the subject entity appears earlier in the text will be generated first.
+
+    <b>GenIE</b> can be extended to the generation of literal object $$\rightarrow$$ similar to open Information Extraction where the object does not need to be aligned with a KB.
 
 - [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
 
