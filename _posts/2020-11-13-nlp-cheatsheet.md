@@ -447,6 +447,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
+- [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/pdf/2201.11903.pdf) (Wei et al., Neurips 2022)
+
+   While scaling up a LM is not sufficient for improve the performance of LM on reasoning tasks, the paper presents <b>Chain-of-Thought</b> prompting to unlock the reasoning ability of large language models (yes, only large LMs, mentionned by the author) by decomposing the initial task into intermediate steps and solving each steps before outputing the final answer, just emulate the way human processes a complicated reasoning problem. Instead of finetuning or rationale-augmented training a LM which requires a larget dataset of {question, intermediate step, answer}, <b>Chain-of-Thought Prompting</b> is only performed on large language models (e.g GPT3, PALM) via in-context few-shot learning learning. 
+
+   An example:
+
+   ![](/assets/img/cheatsheet/chain_of_thought.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)   
+
 - [Do Prompt-Based Models Really Understand the Meaning of Their Prompts?](https://arxiv.org/pdf/2109.01247.pdf) (Webson et al., NAACL 2022)
 
     Under the $$k$$-shot scenerios ($$k=0..256$$) for NLI task, the paper finds that LMs learn irrelevant prompts, misleading prompts as fast as instructive prompts, and this is consistent across various models (GPT, BERT, T0, T5). This questions whether the models understand the semantics of the prompts or they are too robust to prompt semantics, making them distinguish proper instructions from pathological ones.
