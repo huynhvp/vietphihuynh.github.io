@@ -44,7 +44,24 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 
     - A single LM is reused across different downstream tasks since its parameters are kept intact $$\rightarrow$$ efficient storage.
     - Only the prefix vector corresponding to the downstream task need to be optimized $$\rightarrow$$ lightweight fine-tuning: much fewer parameters w.r.t. LM. 
-    - Prefix-tuning can outperform full fine-tuning in low-data setting and have better generalization.
+    - <b>Prefix-tuning can outperform full fine-tuning in low-data setting and have better generalization.</b>
+
+    ![](/assets/img/cheatsheet/prefix_tuning.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
+
+    Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
+
+    In addition, <b>prompt-tuning</b> is based on T5 that they found that prompt-tuning with T5 off-the-shelf as the frozen model is inefficient. T5 is pre-trained exclusively on span corruption marked with unique sentinel tokens. As prompt-tuning does not modify the model parameters, it risks to produce unnaturally sentinel tokens in the output. This issue is easily overcomed by full fine-tuning. For this reason, before performing prompt-tuning, they continue to pre-train T5 with LM objective in order for the model to produce natural text output.
+
+    Other features of prompt-tuning:
+
+    - Performance scales with model size: the larger, the better.
+    - May improve the roburstness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
+    - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
+    
 
 <b>2020</b>
 
@@ -331,6 +348,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
+- [Unified Structure Generation for Universal Information Extraction](https://arxiv.org/pdf/2203.12277.pdf) (Lu et al., ACL 2022)
+
+    <b>Universal Information Extraction (UIE)</b> is a unified text-to-structure framework for Information Extraction tasks. It models various IE tasks (NER, EL, RL, etc) within a single T5-based model, allowing different tasks to be jointly learned, to share and collaborate. To this end, <b>UIE</b> introduces two univeral templates for linearizing the heterogenous input and the heterogeneous output and pre-training scheme to endow the model with common IE abilities (i.e. mapping text to structure, decoding structure).
+
+    In more details:
+
+    - SSI (Structural Schema Instructor) template to represent the heterogenous input: e.g. $$\textsf{[spot] person [asso] work for [text] Steve became CEO of Apple in 1997}$$ where special tokens $$\textsf{[spot]}$$ and $$\textsf{[asso]}$$ indicate what to extract in $$\textsf{[text]}$$ ($$\textsf{[spot]}$$: person entity, $$\textsf{[asso]}$$: its attribute).
+    - SEL (Structured Extraction Language) template to represent the heterogenous output such as $$\textsf{((entity: (attribute: )))}$$: e.g. $$\textsf{((person: Steve (work for: Apple)))}$$ for the above input.
+    - Pre-training paradigm: <b>UIE</b> is jointly trained with three objectives: (1) text-to-structure with Wikipedia-Wikidata aligned (text, KB triplets) pairs. (2) UIE decoder pretraining to autoregressively predict componentens (predicate, object) in KB triplets. (3) T5's training objective: span corruption based MLM.
+
+    ![](/assets/img/cheatsheet/uie.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
 - [GenIE: Generative Information Extraction](https://aclanthology.org/2022.naacl-main.342.pdf) (Josifoski et al., NAACL 2022)
 
     Close Information Extraction (cIE) typically aims at extracting an exhaustive set of relational triplets $$(subject, relation, object)$$ from given text where $$subject/object$$ entity and $$relation$$ are constrained to come from a predefined knowledge base. Traditional cIE pipeline encompasses multiple independent sub-tasks (NER, NED, RE) which suffers from the error accumulation. <b>GenIE</b> is an end-to-end autoregressive cIE system that casts the triplet extraction as text-2text problem in which the decoder generates entities and relations token-by-token in an autoregressive fashion. They introduce special tokens \<sub\>, \<rel\>, \<obj\>, \<end_of_triplet\> to linearize the generated output. To assure that generated tokens refer to valid entity and relation, <b>GenIE</b> employs constrained beam search to guide the decoding following prefix tries built on the entity set and the relation set of the knowledge base. This makes the beam search effective for large million of entities.
@@ -463,6 +494,33 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     They also shows that LMs are more sensitive to the semantics of prediction labels. Learning to predict arbitrary labels (e.g. 1 for Yes, 2 for No) or reversed labels (e.g. No for Yes, Yes for No) is much slower than predicting directly the original labels (Yes/No). The choice of prediction labels can contaminate the semantics of prompt template. Proper prompt associated with arbitrary labels (e.g. 1 for Yes, 2 for No) underperformed irrelevant prompts associated with direct label (Yes/No). Intuitively, given a few samples, human can easily learn the mapping Yes $$\rightarrow$$ 1, No $$\rightarrow$$ 2.
 
+<b>2021</b>
+
+- [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
+
+    Traditional fine-tuning of a LM model for a downstream task involves modifying all the model parameters, consequently, a single set of parameters  can just work best for a single task. Inspired by prompting, <b>prefix-tuning</b> freezes the LM parameters and instead prepend to it a sequence of task-specific vectors $$P_{\theta}$$ (aka. *prefix*): $$[P_{\theta}; LM_{\phi}]$$ that represent the downstream task, we optimize solely the *prefix* $$P_{\theta}$$ using the task's data to steer the LM to the task.
+
+    Prefix-tuning brings some advantages:
+
+    - A single LM is reused across different downstream tasks since its parameters are kept intact $$\rightarrow$$ efficient storage.
+    - Only the prefix vector corresponding to the downstream task need to be optimized $$\rightarrow$$ lightweight fine-tuning: much fewer parameters w.r.t. LM. 
+    - <b>Prefix-tuning can outperform full fine-tuning in low-data setting and have better generalization.</b>
+
+    ![](/assets/img/cheatsheet/prefix_tuning.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
+
+    Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
+
+    In addition, <b>prompt-tuning</b> is based on T5 that they found that prompt-tuning with T5 off-the-shelf as the frozen model is inefficient. T5 is pre-trained exclusively on span corruption marked with unique sentinel tokens. As prompt-tuning does not modify the model parameters, it risks to produce unnaturally sentinel tokens in the output. This issue is easily overcome by full fine-tuning. For this reason, before performing prompt-tuning, they continue to pre-train T5 with LM objective in order for the model to produce natural text output.
+
+    Other features of prompt-tuning:
+
+    - Performance scales with model size: the larger, the better.
+    - May improve the robustness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
+    - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
 
 #### <b>2.5. Domain Adaptation of Language Model </b>
 
