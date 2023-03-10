@@ -318,7 +318,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
 
 
-##### <b>2.4.2 Automated Knowledge Base Construction with Language Model</b>
+##### <b>2.4.2 Knowledge Extraction + Automated Knowledge Base Construction with Language Model</b>
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
@@ -350,13 +350,21 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - [Unified Structure Generation for Universal Information Extraction](https://arxiv.org/pdf/2203.12277.pdf) (Lu et al., ACL 2022)
 
-    <b>Universal Information Extraction (UIE)</b> is a unified text-to-structure framework for Information Extraction tasks. It models various IE tasks (NER, EL, RL, etc) within a single T5-based model, allowing different tasks to be jointly learned, to share and collaborate. To this end, <b>UIE</b> introduces two univeral templates for linearizing the heterogenous input and the heterogeneous output and pre-training scheme to endow the model with common IE abilities (i.e. mapping text to structure, decoding structure).
+    <b>Universal Information Extraction (UIE)</b> is a unified text-to-structure framework for Information Extraction tasks. It models various IE tasks (NER, EL, RL, etc) within a single T5-based model, allowing different tasks to be jointly learned, to share and collaborate. To this end, <b>UIE</b> introduces two univeral templates for linearizing the heterogeneous input and the heterogeneous output and pre-training scheme to endow the model with common IE abilities (i.e. mapping text to structure, decoding structure).
 
     In more details:
 
-    - SSI (Structural Schema Instructor) template to represent the heterogenous input: e.g. $$\textsf{[spot] person [asso] work for [text] Steve became CEO of Apple in 1997}$$ where special tokens $$\textsf{[spot]}$$ and $$\textsf{[asso]}$$ indicate what to extract in $$\textsf{[text]}$$ ($$\textsf{[spot]}$$: person entity, $$\textsf{[asso]}$$: its attribute).
-    - SEL (Structured Extraction Language) template to represent the heterogenous output such as $$\textsf{((entity: (attribute: )))}$$: e.g. $$\textsf{((person: Steve (work for: Apple)))}$$ for the above input.
-    - Pre-training paradigm: <b>UIE</b> is jointly trained with three objectives: (1) text-to-structure with Wikipedia-Wikidata aligned (text, KB triplets) pairs. (2) UIE decoder pretraining to autoregressively predict componentens (predicate, object) in KB triplets. (3) T5's training objective: span corruption based MLM.
+    - SSI (Structural Schema Instructor) template to represent the heterogeneous input: e.g. $$\textsf{[spot] person [asso] work for [text] Steve became CEO of Apple in 1997}$$ where special tokens $$\textsf{[spot]}$$ and $$\textsf{[asso]}$$ indicate what to extract in $$\textsf{[text]}$$ ($$\textsf{[spot]}$$: person entity, $$\textsf{[asso]}$$: its attribute).
+    - SEL (Structured Extraction Language) template to represent the heterogeneous output such as $$\textsf{((entity: (attribute: )))}$$: e.g. $$\textsf{((person: Steve (work for: Apple)))}$$ for the above input.
+    - Pre-training paradigm: <b>UIE</b> is jointly trained with three objectives: (1) text-to-structure with Wikipedia-Wikidata aligned (text, KB triplets) pairs. (2) UIE decoder pretraining to autoregressively predict components (predicate, object) in KB triplets. (3) T5's training objective: span corruption based MLM.
+    - <b>Rejection Machanism</b>: adding <b>NULL</b> to the training data to help the model learn to reject misleading generation.
+
+        ```console
+        Example
+
+        Encoder: <spot> person ... <spot> facility <asso> ... <text> Steve became CEO of Apple in 1997.
+        Decoder: ((person: Steve (work for: Apple)) (facility: [NULL]) ...
+        ```
 
     ![](/assets/img/cheatsheet/uie.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
 
@@ -460,6 +468,33 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
       - ask for subject type: e.g. e "[SUBJ], as a place, is a [TYPE]".
       - inject the subject type into the prompt of the relation: e.g. "[SUBJ] [TYPE] shares border with [MASK] [TYPE]". 
 
+<b>2021</b>
+
+- [Structured Prediction as Translation Between Augmented Natural Languages](https://arxiv.org/pdf/2101.05779.pdf) (Paolini et al., ICLR 2021)
+
+    Many knowledge extraction tasks such as NER, EL, Relation extraction, etc can be seen as structured prediction tasks where the output space consists of structured objects such as entities, relations. 
+
+    <b>Translation between Augmented Natural Languages (TANL)</b> frames multiple prediction tasks as text-2-text problems and employs an unified architecture (e.g. BART, T5, etc) to solve all those tasks without task-specific designs. To this end, they propose informative templates (called <b>augmented language</b>) to encode structured input and decode output text into structured objects. 
+
+   ![](/assets/img/cheatsheet/taln.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)   
+
+    One remarkable feature of TANL's encode scheme is its ability to represent nested entities and multiple relations, as illustrated in example below:
+
+    ```console
+    Example
+
+    Encoder: Six days after starting acyclovir she exhibited signs of lithium toxicity.
+    Decoder: Six days after starting [ acyclovir | drug ] she exhibited signs of [ [ lithium | drug ] toxicity |
+                        disease | effect = acyclovir | effect = lithium ].
+    ```
+
+    To ensure the consistency and the relevance of decoder's output text, <b>TANL</b> follows several post-processing steps including:
+    - Dynamic Programming to align generate output text with input text. This helps to tackle imperfect generation by the decoder (e.g. generated word is a mispelling version of input word).
+    - Verify if predicted tail entity of predicted relation extactly matches an entity in the input.
+
+    <b>TANL</b> is shown to be beneficial in multi-task learning in which a single model is trained on multiple different datasets for different structured prediction tasks and in low-data regime (few shot finetuning).
 
 <b>2020</b>
 
