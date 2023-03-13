@@ -329,6 +329,25 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- [Understanding Fine-tuning for Factual Knowledge Extraction from Language Models](https://arxiv.org/pdf/2301.11293.pdf) (Kazemi et al., submitted to JMLR)
+
+    This study dives more deeply into the application of using language models to construct a knowledge graph. By investigating the behavior of LMs finetuned for factual knowledge extraction, the author argues that the finetuning process results both positive and negative impacts, depending on the frequency mismatch of entity appearance between the train data and the test data. They relates this issue to the well-known Out-of-distribution generalization in machine learning:
+
+    - Positive impact: if the train and test dataset have similar entity frequency (low mismatch), the fine-tuning yields improvements for knowledge extraction.
+
+    - Negative impact: otherwise (high mismatch), the fine-tuning is no better than zero-shot or few-shot learning due to the appearance of *forgetting*-related effects: <b>Frequency Shock</b> and <b>Range Shift</b> that may sometimes outweigh positive impact.
+
+    Examples of <b>Frequency Shock</b> are shown below:
+    ![](/assets/img/cheatsheet/frequency_short.png){:style="width: 45%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    Even though both "Moscow" and "Baku" are observed an equal number of times (5) during the fine-tuning, "Baku" is less popular then "Moscow" during the pre-training of the LM $$\rightarrow$$ the fine-tuned model receives a frequency shock (i.e. "Boku" shift from "unpopular" in pre-training to "as-popular-as" "Moscow" in fine-tuning), making it over-predict "Baku" (rare entity) in the test dataset.
+
+    <b>Range Shift</b>: finetuning makes the model tend to predict entities that are seen as answer during the fine-tuning (cold-start problem)
+
+    To alleviate the negative impact of finetuning, the paper propose two solutions: (i) ensemble models (fine-tuning + k-shot) as k-show is better than fine-tuning for *high mismatch* scenario; (ii) mixture training (similar to solution to catastrophic forgetting): jointly fine-tune the model with two objectives: knowledge extraction task and LM objective (e.g. MLM).
+
 - [Crawling The Internal Knowledge-Base of Language Models](https://arxiv.org/pdf/2301.12810.pdf) (Cohen et al., TBD)
 
     The paper presents <b>LMCRAWL</b>, a pipeline for crawling a subgraph centering around a seed entity, from LM using in-context learning with GPT-3 model.
@@ -513,9 +532,28 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
+- [Finetuned Language Models are Zero-Shot Learners](https://arxiv.org/pdf/2109.01652.pdf) (Wei et al., ICLR 2022)
+
+    The paper shows that finetuning language models on a collection of datasets via instructions (aka. <b>Instruction tuning</b>, e.g. "Translate this sentence to French:...") can considerably improve zero-shot performance on unseen tasks. The rationale behind instruction tuning is that the format of pre-training data of a LM is not similar to the format of prompts, making  zero-shot inference hard. To bridge this gap, they introduce <b>FLAN</b>, a LaMDA-PT (137B parameters) fine-tuned on a mixture of NLP datasets expressed under natural language instructions. FLAN zero-shot(ly) outperforms others LLMs of similar number of parameters  (LaMDA-PT 137B , GPT-3 173B) on wide range of NLP tasks. 
+
+    Importantly, ablation studies shows that fine-tuning with instruction is a key factor for zero-shot performance on unseen tasks. For example, while fine-tuning LMs with translation task,
+    instead of using input-output pair *("how are you ?", "comment vas tu ?")*, it's better using *("translate this sentence to french: how are you ?", "comment vas tu ?")*.
+
+   ![](/assets/img/cheatsheet/flan.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+- [Multitask Prompted Training Enables Zero-Shot Task Generalization](https://arxiv.org/pdf/2110.08207.pdf) (Sanh et al., ICLR 2022)
+
+    Similar to FLAN, Sanh et al. introduces <b>T0</b>, a LM-adapted T5 3B (Lester et al. 2021) fine-tuned on mixture of NLP datasets via natural language instructions, to improve zero-shot performance on unseen tasks. T0 and its variants achieved similar performance w.r.t FLAN despite being much smaller.
+
+   ![](/assets/img/cheatsheet/to.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
 - [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/pdf/2201.11903.pdf) (Wei et al., Neurips 2022)
 
-   While scaling up a LM is not sufficient for improve the performance of LM on reasoning tasks, the paper presents <b>Chain-of-Thought</b> prompting to unlock the reasoning ability of large language models (yes, only large LMs, mentionned by the author) by decomposing the initial task into intermediate steps and solving each steps before outputing the final answer, just emulate the way human processes a complicated reasoning problem. Instead of finetuning or rationale-augmented training a LM which requires a larget dataset of {question, intermediate step, answer}, <b>Chain-of-Thought Prompting</b> is only performed on large language models (e.g GPT3, PALM) via in-context few-shot learning learning. 
+    While scaling up a LM is not sufficient for improve the performance of LM on reasoning tasks, the paper presents <b>Chain-of-Thought</b> prompting to unlock the reasoning ability of large language models (yes, only large LMs, mentionned by the author) by decomposing the initial task into intermediate steps and solving each steps before outputing the final answer, just emulate the way human processes a complicated reasoning problem. Instead of finetuning or rationale-augmented training a LM which requires a larget dataset of {question, intermediate step, answer}, <b>Chain-of-Thought Prompting</b> is only performed on large language models (e.g GPT3, PALM) via in-context few-shot learning learning. 
 
    An example:
 
