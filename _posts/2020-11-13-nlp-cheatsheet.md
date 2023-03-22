@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2022-12-19 10:09:00
+date: 2023-03-20 10:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -200,27 +200,9 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
-#### <b>2.3. Entity Linking & Disambiguation + Information Extraction</b>
+#### <b>2.3. Probing Knowledge from Language Model</b>
 
-<b>2021</b>
-
-- [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
-
-    Very interesting entity retriever that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
-
-    Example:
-    ```console
-    Encoder: In 1503, Leonardo began painting the Mona Lisa
-    Decoder: In 1503, [Leonardo](Leonardo da Vinci) began painting the [Mona Lisa](Mona Lisa)
-
-    where [X](Y) : X is the mention, and Y is the entity label (aka. entity identifier) that represents X.
-    ```
-
-    Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
-
-#### <b>2.4. Probing Knowledge from Language Model</b>
-
-##### <b>2.4.1 Knowledge Retriever + Language Model </b>
+##### <b>2.3.1 Knowledge Retriever + Language Model </b>
 
 <b>Overview:</b>
 
@@ -240,6 +222,43 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     ```console
     Input: "Document indexing: document_tokens" --> T5 --> Output: "docid"
     Input: "Document retrieval: query_tokens" --> T5 --> Output: "docid"
+    ```
+
+- [Atlas: Few-shot Learning with Retrieval Augmented Language Models](https://arxiv.org/pdf/2208.03299.pdf) (Izacard et al., arxiv 2022)
+
+    Medium LMs augmented with retrieval capability can be competitive with (or even outperform) LLMs in few-shot learning while being much more parameter-efficient. <b> Atlas </b> consists of a retriever and a LM that are jointly learnt with a focus on the ability to perform various knowledge intensive tasks with very few training examples. 
+
+    - Retriever: initialized from a BERT-based dual-encoder pre-trained with contrastive loss.
+
+    - LM: all tasks are casted as text-to-text. The model is initialized from the T5-1.1-lm-adapt (trained on unlabeled text only + trained with LM objective) variants.
+
+     ![](/assets/img/cheatsheet/atlas.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Before fine-tuning with few-shot examples, the retriever and the LM are jointly pretrained with a set of objectives:
+
+    - Attention Distillation (<b>ADist</b>): the cross-attention scores between the input documents and the output are distilled into the retriever to encourage the retrieval of documents of higher scores.
+
+    - End-to-end training of Multi-Document Reader and Retriever (<b>EMDR2</b>): minimize the loss (similar to REALM):
+
+        $$log \sum_{z \in Z}{ p_{LM} (x | q, z ) * p_{retriever} (z | q) }$$
+
+        where $$q$$ is the input query, $$x$$ is the output, and $$z$$ is retrieved documents, playing as latent variable.
+
+    - Perplexity Distillation (<b>PDist</b>): train the retriever to predict how much each retrieved document would improve the LM perplexity, conditioned on the query. The LM perplexity scores are normalized (via softmax) and are then distilled into the retriever to promote the documents yielding the higher LM perplexity at later stage.
+
+    - Leave-one-out Perplexity Distillation (<b>LOOP</b>): if removing one of the retrieved documents, how much it affects the prediction of the LM.
+
+    - Prefix language modelling: divide the sentence into two parts, taking first part as input and predicting the second part.
+
+    - Masked language modelling: similar to T5.
+
+    The experimentation show Perplexity Distillation and Mask language modelling to be more stable than other objectives.
+
+    As retriever's parameters are updated every training step, re-calculating the embedding and re-indexing the whole collection of documents is significantly computationally expensive (or even impossible), <b>Atlas</b> propose several efficient index update: (i) re-indexing the collection of document embedding every $$k$$ epoch; (ii) instead of re-indexing the whole collection, only perform on top-k documents return; or (iii) freeze the index of documents.
+    ```console
+    A remarkable feature of retrieval-augmented model is that their knowledge can be kept up-to-date without retraining, by simply maintaining a collection of documents.
     ```
 
 - [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
@@ -318,7 +337,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
 
 
-##### <b>2.4.2 Knowledge Extraction + Automated Knowledge Base Construction with Language Model</b>
+##### <b>2.3.2 Knowledge (Information) Extraction + Automated Knowledge Base Construction with Language Model</b>
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
@@ -489,6 +508,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
+- [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
+
+    Very interesting entity retriever that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
+
+    Example:
+    ```console
+    Encoder: In 1503, Leonardo began painting the Mona Lisa
+    Decoder: In 1503, [Leonardo](Leonardo da Vinci) began painting the [Mona Lisa](Mona Lisa)
+
+    where [X](Y) : X is the mention, and Y is the entity label (aka. entity identifier) that represents X.
+    ```
+
+    Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
+
 - [Structured Prediction as Translation Between Augmented Natural Languages](https://arxiv.org/pdf/2101.05779.pdf) (Paolini et al., ICLR 2021)
 
     Many knowledge extraction tasks such as NER, EL, Relation extraction, etc can be seen as structured prediction tasks where the output space consists of structured objects such as entities, relations. 
@@ -528,7 +561,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
      - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.
 
-##### <b>2.4.3 Prompting Methods </b>
+##### <b>2.3.3 Prompting Methods </b>
 
 <b>2022</b>
 
@@ -595,7 +628,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - May improve the robustness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
     - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
 
-#### <b>2.5. Domain Adaptation of Language Model </b>
+#### <b>2.4. Domain Adaptation of Language Model </b>
 
 <b>2022</b>
 
