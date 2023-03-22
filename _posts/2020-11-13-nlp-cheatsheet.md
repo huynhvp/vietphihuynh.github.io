@@ -208,6 +208,26 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
 Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM.
 
+<b>2023</b>
+
+- [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/pdf/2301.12652.pdf) (Shi et al., arxiv 2023)
+
+    <b>REPLUG</b> (Retrieve and Plug) takes another approach in retrieval-augmented LM where the LM is a black-box (hence, unknown parameters and impossible to retrain/finetune) and the retriever is either frozen or trainable. This characteristic makes <b>REPLUG</b> particularly flexible that it can be used with any existing LLM (yes, <b>only large LM (>100B parameters)</b>).
+
+     ![](/assets/img/cheatsheet/replug_1.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    The architecture of the retriever is almost the same for every retrieval-augmented LMs. It is based on dual-encoder to compute top-k documents for the input query in the embedding space. If the retriever is trainable, we then have <b>REPLUG LSR</b> (REPLUG with LM-Supervised Retrieval). Similarly to <b>Atlas's Perplexity Distillation</b> training objective, the retriever is trained to predict how much each retrieved document would improve the black-box LM perplexity, conditioned on the query. The LM perplexity scores are normalized (via softmax) and are then distilled into the retriever to encourage the documents yielding the higher LM perplexity.
+
+    The black-box LM takes in both the input query and every retrieved document, producing a probability distribution. These distributions are combined using an ensemble method to form the final probability distribution.    
+
+     ![](/assets/img/cheatsheet/replug_2.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    <b>REPLUG</b> can benefit rare entities.
+
 <b>2022</b>
 
 - [Transformer Memory as a Differentiable Search Index](https://arxiv.org/pdf/2202.06991.pdf) (Tay et al., Neurips 2022)
