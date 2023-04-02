@@ -17,196 +17,15 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 * TOC []
 {:toc}
 
-### <b>1. Best Practices</b>
-#### <b>1.1. Training/Fine-Tuning recipes</b>
+### <b>1. Topics</b>
 
-<b>2022</b>
+#### <b>1.1. Probing Knowledge with Language Model</b>
 
-- [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+##### <b>1.1.1 Knowledge Retriever + Language Model - Augmented Language Model </b>
 
-    The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
+<!-- <b>Overview:</b>
 
-    Some empirical findings about $$M(f)$$ and $$T(f, \tau)$$ are:
-    - Larger causal LMs memorize faster. Smaller masked LMs memorize quicker initially (lower $$\tau$$) and slower in the long run (larger $$\tau$$).
-    - The studied memorization occurs before overfitting $$\rightarrow$$ overfitting cannot explain why larger models memorize faster.
-    - Learning ability of large LMs are less sensitive to learning rate.
-    - Prepending a unique identifer to every traing samples leads to faster memorization.
-    - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
-    - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
-
-<b>2021</b>
-
-- [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
-
-    Traditional fine-tuning of a LM model for a downstream task involves modifying all the model parameters, consequently, a single set of parameters  can just work best for a single task. Inspired by prompting, <b>prefix-tuning</b> freezes the LM parameters and instead prepend to it a sequence of task-specific vectors $$P_{\theta}$$ (aka. *prefix*): $$[P_{\theta}; LM_{\phi}]$$ that represent the downstream task, we optimize solely the *prefix* $$P_{\theta}$$ using the task's data to steer the LM to the task.
-
-    Prefix-tuning brings some advantages:
-
-    - A single LM is reused across different downstream tasks since its parameters are kept intact $$\rightarrow$$ efficient storage.
-    - Only the prefix vector corresponding to the downstream task need to be optimized $$\rightarrow$$ lightweight fine-tuning: much fewer parameters w.r.t. LM. 
-    - <b>Prefix-tuning can outperform full fine-tuning in low-data setting and have better generalization.</b>
-
-    ![](/assets/img/cheatsheet/prefix_tuning.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
-
-    (source: copied from the paper)
-
-- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
-
-    Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
-
-    In addition, <b>prompt-tuning</b> is based on T5 that they found that prompt-tuning with T5 off-the-shelf as the frozen model is inefficient. T5 is pre-trained exclusively on span corruption marked with unique sentinel tokens. As prompt-tuning does not modify the model parameters, it risks to produce unnaturally sentinel tokens in the output. This issue is easily overcomed by full fine-tuning. For this reason, before performing prompt-tuning, they continue to pre-train T5 with LM objective in order for the model to produce natural text output.
-
-    Other features of prompt-tuning:
-
-    - Performance scales with model size: the larger, the better.
-    - May improve the roburstness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
-    - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
-    
-
-<b>2020</b>
-
-- [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
-
-    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (<b>domain-adaptive pretraining DAPT</b>) or task-specific unlabeled data (<b>task-adaptive pretraining TAPT</b>) can improve the performance of downstream tasks.
-
-    Some findings from a thorough analysis of domain- and task- adaptive pretraining across 4 domains and 8 downstream task involving both high- and low- resource settings:
-    - Target domain which is more dissimilar to the source domain benefits more the <b>DAPT</b>. The domain dissimilarity can be quantified by the vocabulary overlap.
-    - Combined <b>DAPT, then TAPT</b> setting achieves the best performance on all tasks.
-    - <b>TAPT</b> could be harmful when applied across tasks (i.e. pretrain the LM with unlabeled data of a task, then fine-tune it with data of another task within the same given domain can degrade the performance of later task).
-    - In low-resource scenario, augmenting the unlabeled data that aligns with the task distribution is beneficial. One data augmentation approach is to employ an external LM to encode task's data and in-domain corpus into a shared embedding space, then for each sample in the task's data, $$k$$ candidate samples are selected from the in-domain corpus using k-nearest neighbor search.
-
-<b>2019</b>
-
-- [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
-
-    Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
-
-#### <b>1.2. Data Augmentation</b>
-
-<b>2022</b> 
-
-- <b>From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)</b>
-    
-    SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
-    >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
-    
-    In zero-shot setting, we can generate some very simple samples for each classification label (e.g. 8 samples per label) to make it a few-shot learning problem. For example, in the sentiment analysis task, using template "This sentence is about {}", a positive sample for label "joy" can be "This sentence is about joy", for label "sadness" can be "This sentence is about sadness", etc.
-
-<b>2021<b>
-
-- <b>Dropout</b> [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
-
-    An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
-
-<b>2016</b>
-
-- <b> Back Translation</b> [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
-
-    Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
-
-#### <b>1.3. Text scoring function</b>
-
-The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
-
-$$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
-
-However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
-
-$$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
-
-<b>2022</b>
-
-- [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
-
-<b>2021</b>
-
-- [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
-
-    This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
-    
-    <b>Solution</b> Rather than calculating the ranking score $$score \; (y \mid x)$$  via $$p(y \mid x)$$ which make solutions $$y$$ compete each other, the <b>Pointwise Mutual Information (PMI)</b> is leveraged to evaluate the relevance between the input $$x$$ and the output $$y$$:
-
-    $$score \; (y \mid x) = \text{PMI}(x, y) = log \frac{p(x,y)}{p(x) \times p(y)} = log \frac{p (x \mid y)}{p(x)}$$
-
-    While $$p (x)$$ is constant w.r.t $$y$$ and the probability of surface form $$p (y)$$ is factored out in $$\text{PMI}(x, y)$$, the ranking of a solution $$y$$ relies solely on $$p (x \mid y)$$ that does not cause the competition between different $$y$$.
-
-<b>2020</b>
-
-- [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
-
-    The paper hypothesizes that the representation learning problem may be easier than the prediction problem. For example, two sentences *Dickens is the author of* and *Dickens wrote* will essentially have the same distribution over the next word, even if they do not know what that distribution is. Given a sequence of tokens $$x = (w_1,...,w_{t-1})$$, $$k$$ nearest neighbors $$\mathcal{N}$$ of $$x$$ is retrieved from a pre-built catalog $$\mathcal{C}$$ by comparing the sentence embedding of each sequence in Eclidean space. Each nearest neighbor $$x_i$$ of $$x$$ has a next token $$y_i$$: $$(x_i, y_i) \in \mathcal{N}$$. The distribution of the next token $$y$$ of $$x$$ can be estimated via a simple linear regression: 
-    $$p_{kNN} (y \mid x) = \sum_{(x_i, y_i) \in \mathcal{N}} softmax (\mathbb{1}_{y=y_i} exp (-d (\textsf{Emb}(x), \textsf{Emb}(x_i))))$$.
-
-    The LM distribution of a token $$y$$ $$p_{LM} (y \mid x)$$ given $$x$$ is then updated by the nearest neighbor distribution $$p_{kNN} (y \mid x)$$:
-    $$ p (y \mid x) = \lambda p_{kNN} (y \mid x) + (1-\lambda) p_{LM} (y \mid x)$$.
-
-    Several advantages of nearest neighbor LM:
-    - No additional training required.
-    - Long-tail patterns can be explicitly memorized in the pre-built catalog $$\mathcal{C}$$ instead of encoded implicitly in model parameters. New domain can be adapted to LM by creating a new catalog for the target domain dataset.
-    - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
-
-
-### <b>2. Topics</b>
-#### <b>2.1. Neural Text Generation </b>
-##### <b>2.1.1 Decoding methods </b>
-
-<b>2022</b>
-
-- [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
-
-    Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
-
-##### <b>2.1.2 Quality measures for generated Text </b> 
-
-<b>2021</b>
-
-- [MAUVE: Measuring the Gap Between Neural Text and Human Text using Divergence Frontiers](https://arxiv.org/pdf/2102.01454.pdf) (Pillutla et al., NeurIPS 2021).
-
-    Measuring the "true" closeness between the distribution of text generated by a LM and the "true" distribution of human-written text is computationally intractable. Instead, it is approximated by samples from each distribution. 
-
-   $$\textsf{MAUVE}$$ measurement metric, based on the KL divergences, quantifies two types of errors (as illustrated in the figure below):
-
-   - <b>Type I error (False Positive)</b>:  the model (Q) assigns high probability to texts that are unlikely written by human (P)
-   - <b>Type II error (False Negative)</b>:  the model (Q) can not generate texts (assign low probability) that are likely under human-written text distribution (P).
-
-    ![](/assets/img/cheatsheet/mauve.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
-
-    (source: copied from the paper)
-
-    Theoretically, the <b>Type I error</b> can be represented by the KL divergence between Q and P: <b>KL</b>(Q \| P). A text $$x$$ receives large penalty if Q($$x$$) is large but P($$x$$) is small. Similarly, the <b>Type II error</b> can be represented by the KL divergence between P and Q: <b>KL</b>(P \| Q). A text $$x$$ receives large penalty if P($$x$$) is large but Q($$x$$) is small. However, these two quantity risk to be infinite if the support of P and Q are not identical which is often the case in practice. To overcome this issue, $$\textsf{MAUVE}$$ introduces soft measures for the two errors using the mixture distribution: R$$_{\lambda}$$ = $$\lambda$$ P + $$(1-\lambda)$$ Q, $$\lambda = (0..1)$$, leading to <b>KL</b>(Q \| R$$_{\lambda}$$) as <b>soft Type I error</b> at level $$\lambda$$ and <b>KL</b>(P \| R$$_{\lambda}$$) as <b>soft Type II error</b> at level $$\lambda$$. By varying $$\lambda$$, we obtain a *divergence curve* $$ \mathcal{C}$$(P, Q) which amounts to the trade-off between <b>Type I error</b> and <b>Type II error</b>:
-
-    $$\mathcal{C}(P, Q) = \{(exp(-cKL(Q \mid R_{\lambda})), exp(-cKL(P \mid R_{\lambda}))): R_{\lambda} = \lambda P + (1-\lambda) Q, \lambda \in (0,1) \}$$ where $$c$$ is scaling factor.
-
-    Likewise the AUROC (area under the receiver operating characteristic) concept in classification problem, $$\textsf{MAUVE}$$ metric is the area under the divergence curve.
-
-    <b>How to tractably compute $$KL(Q \mid R_{\lambda})$$ and $$KL(P \mid R_{\lambda})$$</b>
-
-    $$N$$ samples $$\{x_i\}_{i=1}^N$$ are sampled from LM's distribution Q and $$M$$ samples $$\{x'_i\}_{i=1}^M$$ are sampled from human text P. Each sample $$x_i$$ is encoded by an external LM, yielding its embedding $$LM(x_i)$$. Then, $$M+N$$ embeddings are jointly quantized into $$k$$ histogram bins using $$k$$-mean clustering algorithm, for example. The two distribution P and Q are merely approximated by multinomial distribution of k constant probabilities $$p_1,..,p_k$$ where 
-    $$p_k (Q) = \frac{\sum_1^{N} \mathbb{I} (\phi(x_i) = k)}{N}$$ and $$p_k (P) = \frac{\sum_1^{M} \mathbb{I} (\phi(x'_i) = k)}{M}$$, $$\phi(x_i)$$ is the bin assignment of the sample $$x_i$$.
-
-    Through thorough experimentations, $$\textsf{MAUVE}$$ proves to meet expected behavior of a good measure for open-ended text generation:
-
-    - Generation length: as the generation length increases, the quality of generated text decreases.
-    - Model size: larger model has higher generation quality.
-    - Decoding algorithm: consistent with prevail conclusion: greedy $$\prec$$ ancestral $$\prec$$ nucleus.
-    - Embedding scheme and Quantization scheme: robust to different embedding models and quantization algorithms, yielding consistent results.
-    - High correlation with human evaluation.
-
-#### <b>2.2. Sentence Embedding </b>
-
-<b>2021</b>
-
-- [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
-
-    Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
-
-#### <b>2.3. Probing Knowledge from Language Model</b>
-
-##### <b>2.3.1 Knowledge Retriever + Language Model </b>
-
-<b>Overview:</b>
-
-Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM.
+Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM. -->
 
 <b>2023</b>
 
@@ -228,6 +47,53 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b>REPLUG</b> can benefit rare entities.
 
+- [Rethinking with Retrieval: Faithful Large Language Model Inference](https://arxiv.org/pdf/2301.00303.pdf) (He et al., arxiv 2023)
+
+    The knowledge stored in the LM's parameters may inevitable be incomplete, out-of-date or incorrect. The paper proposes <b> rethinking with retrieval (RR)</b>, a simple post-preprocessing method that uses the a diverse set of reasoning steps obtained from the <b> chain-of-thought</b> prompting to retrieve relevant knowledge from external sources, to improve the the explanation, thereby, the prediction of LLMs. This approach require no additional training or finetuning and is not limited by the input length of LLMs.
+
+    ![](/assets/img/cheatsheet/rr.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    Specifically, for each sentence in each reasoning path, a retriever (e.g. BM25) is employed to retrieve the top-K most relevant paragraph from an external knowledge source (e.g. Wikipedia). Then, each sentence is assigned three scores: 
+    - semantic similarity score: calculated by the maximum cosine similarity between the sentence embeddings of retrieved paragraphs and the sentence.
+    - entailment score and contradiction score: use a NLI model to calculate those scores assuming the most similar paragraph (according to above semantic similarity) as the premise and the sentence as the hypothesis.
+
+    The faithfulness of a reasoning path is computed using the scores of all sentences in the path. To arrive at final prediction, priority is given to the reasoning paths that exhibit higher levels of faithfulness.
+
+    <b> rethinking with retrieval (RR)</b> outperforms <b> chain-of-thought</b> prompting even when using smaller LMs.
+
+- [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., arxiv 2023)
+
+    <b>Interleaving Retrieval with Chain-of-Thought (IRCoT)</b> interleaves a knowledge retriever at each reasoning step obtained from chain-of-thought (CoT) prompting to mutually guide the retrieval by CoT and vice-versa. This strategy allows to retrieve more relevant supports for later reasoning steps in the reasoning path, thereby, enhance the answer for complex multi-step reasoning question.
+
+    ![](/assets/img/cheatsheet/ircot.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    <b>IRCoT</b> follows $$\textsf{retrieve-and-read}$$ mechanism: 
+
+    - $$\textsf{retrieve}$$ step: perform interleavingly and iteratively two sub steps until the termination criterion (e.g. the phrase "the answer is" is generated in the reasoning path) is met:
+        - CoT-guided retrieval step ("retrieve"): using the last generated CoT sentence in the reasoning path as a query to retrieve relevant support paragraph from external knowledge source.
+        - Retrieval-guided reasoning step ("reasoning"): using the question, the paragraphs collected so far and the CoT sentences generated so far to generate the next CoT sentence in the reasoning path.
+
+    - $$\textsf{read}$$ step: all the support paragraphs collected from the $$\textsf{retrieve}$$ step are appended to the CoT prompting as the context,  asking LLM to generate the answer. The prompting template can appear like:
+
+        ```console
+        Wikipedia Title: <Page Title>
+        <Paragraph Text>
+        ...
+        Wikipedia Title: <Page Title>
+        <Paragraph Text>
+
+        Q: <question>
+        A: <CoT-Sent-1> ... <CoT-Sent-n>  
+        ```
+    <b>IRCoT</b> has shown some remarkable benefits:
+    - <b>IRCoT</b> retriever outperforms (with higher recall) one-step retriever that relies solely on the question as query. 
+    -  <b>IRCoT</b> is also effective for smaller LMs (e.g. T5-Flan-large 0.7B). <b>IRCoT</b> for QA based on Flan-T5-XL (3B) even outperform GPT3 (175B) with no retriever or on-step retriever.
+    - Although <b>IRCoT</b> retriever ($$\textsf{retrieve}$$ step) can itself produce the answer from its last generated CoT sentence, the $$\textsf{read}$$ step where a separate QA reader is employed to consider all collected support paragraphs together is still necessary, since it yields much better accuracy.
+
 <b>2022</b>
 
 - [Transformer Memory as a Differentiable Search Index](https://arxiv.org/pdf/2202.06991.pdf) (Tay et al., Neurips 2022)
@@ -237,6 +103,10 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     - Document identifier representation: a document can be tagged by an unique integer, or unique $$tokenizable$$ string, or semantically structured identifiers.
     - Documents are indexed by training a Seq2Seq model to learn the mapping $$\textsf{doc_tokens} \rightarrow \textsf{docid}$$. In other word, this task makes the model memorize which document corresponds to which identifier.
     - At the same time, the model is jointly trained (under multi-task learning, similarly to T5 training style) with ($$\textsf{query, docid}$$) samples, so that at inference time, the decoder is able to generate relevant $$\textsf{docid}$$ (s) for given input query.
+
+    ![](/assets/img/cheatsheet/dsi.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
     In summary, the multi-task training of <b>DSI</b> looks like:
     ```console
@@ -320,6 +190,10 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b>Retrieved evidence fusion in decoder (*Fusion-in-Decoder*).</b>
 
+    ![](/assets/img/cheatsheet/fid.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
     To address the Open Domain Question Answering, firstly, an independent knowledge retriever is leveraged to retrieve supporting passages for the input question, then, a seq2seq model (T5) takes as input the combination of the input question and supporting passages to produce the answer. Specifically, each retrieved passage concatenated with the input question is independently encoded by the encoder and their representations are merged together before sending to the decoder, in this way, the decoder can attend over the whole set of retrieved potential evidences and rely on them to generate the answer. There are two advantages of this *fusion-in-decoder* method:
 
      - Avoid encoding all retrieved passages and the input question in one place which is very costly due to significant lengths of the passages. 
@@ -341,6 +215,10 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - $$ p_{\theta}(z \mid \hat{x}) $$ is marginalized over only top-K documents $$z$$ instead of all. Top-K relevant documents $$z$$ w.r.t. input $$\hat{x}$$ can be efficiently performed by Maximum Inner Product Search (MIPS) algorithm where the embeddings of $$z$$(s) are pre-computed and pre-indexed.
      - The <b>Emb(z)</b> are freezed for an amount of time and are only re-calculated every several hundred update step.
 
+    ![](/assets/img/cheatsheet/realm.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
     Regarding the training setting, the model is trained using masked-language modelling. They found that masking salient terms instead of masking random span could significantly improve the performance on downstream tasks.
 
 - [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
@@ -351,13 +229,17 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     The LM distribution of a token $$y$$ $$p_{LM} (y \mid x)$$ given $$x$$ is then updated by the nearest neighbor distribution $$p_{kNN} (y \mid x)$$:
     $$ p (y \mid x) = \lambda p_{kNN} (y \mid x) + (1-\lambda) p_{LM} (y \mid x)$$.
 
+    ![](/assets/img/cheatsheet/nearestlm.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
     Several advantages of nearest neighbor LM:
     - No additional training required.
     - Long-tail patterns can be explicitly memorized in the pre-built catalog $$\mathcal{C}$$ instead of encoded implicitly in model parameters. New domain can be adapted to LM by creating a new catalog for the target domain dataset.
     - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
 
 
-##### <b>2.3.2 Knowledge (Information) Extraction + Automated Knowledge Base Construction with Language Model</b>
+##### <b>1.1.2 Knowledge (Information) Extraction + Automated Knowledge Base Construction with Language Model</b>
 
 [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
@@ -581,7 +463,27 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
      - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.
 
-##### <b>2.3.3 Prompting Methods </b>
+##### <b>1.1.3 Prompting Methods </b>
+
+<b>2023</b>
+
+- [Self-Consistency improves Chain Of Thought Reasoning in Language Models](https://arxiv.org/pdf/2203.11171.pdf) (Wang et al., ICLR 2023)   
+
+    ![](/assets/img/cheatsheet/self_consistency.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    While <b>Chain of Thought (CoT)</b> prompting generates only one reasoning path to arrive at an anwser for a question via greedy decoding, <b>Self-consistency</b> instead  proposes to produce a diverse set of reasoning paths via sampling decoding methods (e.g. top-k, top-p or beamsearch), each reasoning path leads to an answer, the best answer is chosen using majority voting for example. 
+
+    The rationale behind <b>Self-consistency</b> is that there could have different ways of thinking to solve a question. As the LM is not perfect reasoner, it may produce an incorret reasoning path or make mistakes in one of the reasoning steps (even though the reasoning path is relevant). Generating multiple diverse reasoning path can increase the likelihood of having a correct reasoning process, ratherthan relying solely on a single path.
+
+    Some benifits of <b>Self-consistency</b>:
+
+    - While <b> Single CoT </b>  could sometimes hurt the performance, <b>Self-consistency</b> helps to alleviate this issue.
+
+    - Sampling decode outperforms beam search decoding in <b>Self-consistency</b>.
+
+    - <b>Self-Consistency</b> can work with prompts that contain minor mistakes.
 
 <b>2022</b>
 
@@ -660,7 +562,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - May improve the robustness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
     - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
 
-#### <b>2.4. Domain Adaptation of Language Model </b>
+#### <b>1.2. Domain Adaptation of Language Model </b>
 
 <b>2022</b>
 
@@ -730,3 +632,184 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Domain-specific vocabulary is important for NER and RE task as general-vocabulary breaks domain named-entities into sub-words.
     - Q/A: (i) BioMegatron with <b>Bio-vocab</b> finetuned on general SQUAD then on BioASQ results poor results on BioASQ. (ii) larger models tend to perform better.
     - Domain Transfer & Generalization: (i) NER: general LLM with general vocabulary if pre-trained sufficiently on domain-specific corpus can be as good as a LM pre-trained only domain corpus only with general vocabulary. (ii) Q/A: large general LM fine-tuned on BioASQ does not mean better performance. (iii) General-domain Q/A: large BioMegatron performs better than small general LM on general-domain Q/A.
+
+#### <b>1.3. Neural Text Generation </b>
+##### <b>1.3.1 Decoding methods </b>
+
+<b>2022</b>
+
+- [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
+
+    Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
+
+##### <b>1.3.2 Quality measures for generated Text </b> 
+
+<b>2021</b>
+
+- [MAUVE: Measuring the Gap Between Neural Text and Human Text using Divergence Frontiers](https://arxiv.org/pdf/2102.01454.pdf) (Pillutla et al., NeurIPS 2021).
+
+    Measuring the "true" closeness between the distribution of text generated by a LM and the "true" distribution of human-written text is computationally intractable. Instead, it is approximated by samples from each distribution. 
+
+   $$\textsf{MAUVE}$$ measurement metric, based on the KL divergences, quantifies two types of errors (as illustrated in the figure below):
+
+   - <b>Type I error (False Positive)</b>:  the model (Q) assigns high probability to texts that are unlikely written by human (P)
+   - <b>Type II error (False Negative)</b>:  the model (Q) can not generate texts (assign low probability) that are likely under human-written text distribution (P).
+
+    ![](/assets/img/cheatsheet/mauve.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Theoretically, the <b>Type I error</b> can be represented by the KL divergence between Q and P: <b>KL</b>(Q \| P). A text $$x$$ receives large penalty if Q($$x$$) is large but P($$x$$) is small. Similarly, the <b>Type II error</b> can be represented by the KL divergence between P and Q: <b>KL</b>(P \| Q). A text $$x$$ receives large penalty if P($$x$$) is large but Q($$x$$) is small. However, these two quantity risk to be infinite if the support of P and Q are not identical which is often the case in practice. To overcome this issue, $$\textsf{MAUVE}$$ introduces soft measures for the two errors using the mixture distribution: R$$_{\lambda}$$ = $$\lambda$$ P + $$(1-\lambda)$$ Q, $$\lambda = (0..1)$$, leading to <b>KL</b>(Q \| R$$_{\lambda}$$) as <b>soft Type I error</b> at level $$\lambda$$ and <b>KL</b>(P \| R$$_{\lambda}$$) as <b>soft Type II error</b> at level $$\lambda$$. By varying $$\lambda$$, we obtain a *divergence curve* $$ \mathcal{C}$$(P, Q) which amounts to the trade-off between <b>Type I error</b> and <b>Type II error</b>:
+
+    $$\mathcal{C}(P, Q) = \{(exp(-cKL(Q \mid R_{\lambda})), exp(-cKL(P \mid R_{\lambda}))): R_{\lambda} = \lambda P + (1-\lambda) Q, \lambda \in (0,1) \}$$ where $$c$$ is scaling factor.
+
+    Likewise the AUROC (area under the receiver operating characteristic) concept in classification problem, $$\textsf{MAUVE}$$ metric is the area under the divergence curve.
+
+    <b>How to tractably compute $$KL(Q \mid R_{\lambda})$$ and $$KL(P \mid R_{\lambda})$$</b>
+
+    $$N$$ samples $$\{x_i\}_{i=1}^N$$ are sampled from LM's distribution Q and $$M$$ samples $$\{x'_i\}_{i=1}^M$$ are sampled from human text P. Each sample $$x_i$$ is encoded by an external LM, yielding its embedding $$LM(x_i)$$. Then, $$M+N$$ embeddings are jointly quantized into $$k$$ histogram bins using $$k$$-mean clustering algorithm, for example. The two distribution P and Q are merely approximated by multinomial distribution of k constant probabilities $$p_1,..,p_k$$ where 
+    $$p_k (Q) = \frac{\sum_1^{N} \mathbb{I} (\phi(x_i) = k)}{N}$$ and $$p_k (P) = \frac{\sum_1^{M} \mathbb{I} (\phi(x'_i) = k)}{M}$$, $$\phi(x_i)$$ is the bin assignment of the sample $$x_i$$.
+
+    Through thorough experimentations, $$\textsf{MAUVE}$$ proves to meet expected behavior of a good measure for open-ended text generation:
+
+    - Generation length: as the generation length increases, the quality of generated text decreases.
+    - Model size: larger model has higher generation quality.
+    - Decoding algorithm: consistent with prevail conclusion: greedy $$\prec$$ ancestral $$\prec$$ nucleus.
+    - Embedding scheme and Quantization scheme: robust to different embedding models and quantization algorithms, yielding consistent results.
+    - High correlation with human evaluation.
+
+#### <b>1.4. Sentence Embedding </b>
+
+<b>2021</b>
+
+- [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
+
+    Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
+    
+### <b>2. Best Practices</b>
+#### <b>2.1. Training/Fine-Tuning recipes</b>
+
+<b>2022</b>
+
+- [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+
+    The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
+
+    Some empirical findings about $$M(f)$$ and $$T(f, \tau)$$ are:
+    - Larger causal LMs memorize faster. Smaller masked LMs memorize quicker initially (lower $$\tau$$) and slower in the long run (larger $$\tau$$).
+    - The studied memorization occurs before overfitting $$\rightarrow$$ overfitting cannot explain why larger models memorize faster.
+    - Learning ability of large LMs are less sensitive to learning rate.
+    - Prepending a unique identifer to every traing samples leads to faster memorization.
+    - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
+    - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
+
+<b>2021</b>
+
+- [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
+
+    Traditional fine-tuning of a LM model for a downstream task involves modifying all the model parameters, consequently, a single set of parameters  can just work best for a single task. Inspired by prompting, <b>prefix-tuning</b> freezes the LM parameters and instead prepend to it a sequence of task-specific vectors $$P_{\theta}$$ (aka. *prefix*): $$[P_{\theta}; LM_{\phi}]$$ that represent the downstream task, we optimize solely the *prefix* $$P_{\theta}$$ using the task's data to steer the LM to the task.
+
+    Prefix-tuning brings some advantages:
+
+    - A single LM is reused across different downstream tasks since its parameters are kept intact $$\rightarrow$$ efficient storage.
+    - Only the prefix vector corresponding to the downstream task need to be optimized $$\rightarrow$$ lightweight fine-tuning: much fewer parameters w.r.t. LM. 
+    - <b>Prefix-tuning can outperform full fine-tuning in low-data setting and have better generalization.</b>
+
+    ![](/assets/img/cheatsheet/prefix_tuning.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
+
+    Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
+
+    In addition, <b>prompt-tuning</b> is based on T5 that they found that prompt-tuning with T5 off-the-shelf as the frozen model is inefficient. T5 is pre-trained exclusively on span corruption marked with unique sentinel tokens. As prompt-tuning does not modify the model parameters, it risks to produce unnaturally sentinel tokens in the output. This issue is easily overcomed by full fine-tuning. For this reason, before performing prompt-tuning, they continue to pre-train T5 with LM objective in order for the model to produce natural text output.
+
+    Other features of prompt-tuning:
+
+    - Performance scales with model size: the larger, the better.
+    - May improve the roburstness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
+    - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
+    
+
+<b>2020</b>
+
+- [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
+
+    Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (<b>domain-adaptive pretraining DAPT</b>) or task-specific unlabeled data (<b>task-adaptive pretraining TAPT</b>) can improve the performance of downstream tasks.
+
+    Some findings from a thorough analysis of domain- and task- adaptive pretraining across 4 domains and 8 downstream task involving both high- and low- resource settings:
+    - Target domain which is more dissimilar to the source domain benefits more the <b>DAPT</b>. The domain dissimilarity can be quantified by the vocabulary overlap.
+    - Combined <b>DAPT, then TAPT</b> setting achieves the best performance on all tasks.
+    - <b>TAPT</b> could be harmful when applied across tasks (i.e. pretrain the LM with unlabeled data of a task, then fine-tune it with data of another task within the same given domain can degrade the performance of later task).
+    - In low-resource scenario, augmenting the unlabeled data that aligns with the task distribution is beneficial. One data augmentation approach is to employ an external LM to encode task's data and in-domain corpus into a shared embedding space, then for each sample in the task's data, $$k$$ candidate samples are selected from the in-domain corpus using k-nearest neighbor search.
+
+<b>2019</b>
+
+- [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
+
+    Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
+
+#### <b>2.2. Data Augmentation</b>
+
+<b>2022</b> 
+
+- <b>From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)</b>
+    
+    SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
+    >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
+    
+    In zero-shot setting, we can generate some very simple samples for each classification label (e.g. 8 samples per label) to make it a few-shot learning problem. For example, in the sentiment analysis task, using template "This sentence is about {}", a positive sample for label "joy" can be "This sentence is about joy", for label "sadness" can be "This sentence is about sadness", etc.
+
+<b>2021<b>
+
+- <b>Dropout</b> [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
+
+    An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
+
+<b>2016</b>
+
+- <b> Back Translation</b> [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
+
+    Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
+
+#### <b>2.3. Text scoring function</b>
+
+The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
+
+$$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
+
+However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
+
+$$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
+
+<b>2022</b>
+
+- [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
+
+<b>2021</b>
+
+- [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
+
+    This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
+    
+    <b>Solution</b> Rather than calculating the ranking score $$score \; (y \mid x)$$  via $$p(y \mid x)$$ which make solutions $$y$$ compete each other, the <b>Pointwise Mutual Information (PMI)</b> is leveraged to evaluate the relevance between the input $$x$$ and the output $$y$$:
+
+    $$score \; (y \mid x) = \text{PMI}(x, y) = log \frac{p(x,y)}{p(x) \times p(y)} = log \frac{p (x \mid y)}{p(x)}$$
+
+    While $$p (x)$$ is constant w.r.t $$y$$ and the probability of surface form $$p (y)$$ is factored out in $$\text{PMI}(x, y)$$, the ranking of a solution $$y$$ relies solely on $$p (x \mid y)$$ that does not cause the competition between different $$y$$.
+
+<b>2020</b>
+
+- [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
+
+    The paper hypothesizes that the representation learning problem may be easier than the prediction problem. For example, two sentences *Dickens is the author of* and *Dickens wrote* will essentially have the same distribution over the next word, even if they do not know what that distribution is. Given a sequence of tokens $$x = (w_1,...,w_{t-1})$$, $$k$$ nearest neighbors $$\mathcal{N}$$ of $$x$$ is retrieved from a pre-built catalog $$\mathcal{C}$$ by comparing the sentence embedding of each sequence in Eclidean space. Each nearest neighbor $$x_i$$ of $$x$$ has a next token $$y_i$$: $$(x_i, y_i) \in \mathcal{N}$$. The distribution of the next token $$y$$ of $$x$$ can be estimated via a simple linear regression: 
+    $$p_{kNN} (y \mid x) = \sum_{(x_i, y_i) \in \mathcal{N}} softmax (\mathbb{1}_{y=y_i} exp (-d (\textsf{Emb}(x), \textsf{Emb}(x_i))))$$.
+
+    The LM distribution of a token $$y$$ $$p_{LM} (y \mid x)$$ given $$x$$ is then updated by the nearest neighbor distribution $$p_{kNN} (y \mid x)$$:
+    $$ p (y \mid x) = \lambda p_{kNN} (y \mid x) + (1-\lambda) p_{LM} (y \mid x)$$.
+
+    Several advantages of nearest neighbor LM:
+    - No additional training required.
+    - Long-tail patterns can be explicitly memorized in the pre-built catalog $$\mathcal{C}$$ instead of encoded implicitly in model parameters. New domain can be adapted to LM by creating a new catalog for the target domain dataset.
+    - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
