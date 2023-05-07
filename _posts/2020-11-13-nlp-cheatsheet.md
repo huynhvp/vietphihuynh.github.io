@@ -689,6 +689,22 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 ### <b>2. Best Practices</b>
 #### <b>2.1. Training/Fine-Tuning recipes</b>
 
+<b>2023</b>
+
+- [Quantifying Memorization Across Neural Language Models](https://arxiv.org/pdf/2202.07646.pdf) (Carlini et al., ICLR 2023)
+
+    Definition of memorization in this paper: 
+    ```
+    A training sample s is extractable with k tokens of context from a model f if the model can produce 
+    exactly s[k:] using greedy decoding when prompted with s[:k].
+
+    ```
+    Several key observations:
+
+    - Bigger models memorize more. By comparing with a baseline model which has not seen the test data before, they conclude that the model actually memorizes data.
+    - It is easier to memorize repeated data.
+    - Longer prompt (large k) invoke more memorized data.
+
 <b>2022</b>
 
 - [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
