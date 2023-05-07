@@ -114,6 +114,19 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     Input: "Document retrieval: query_tokens" --> T5 --> Output: "docid"
     ```
 
+- [Autoregressive Search Engines: Generating Substrings as Document Identifiers](https://arxiv.org/pdf/2204.10628.pdf) (Bevilacqua et al., Neurips 2022)
+
+    Autoregressive models has emerged as the de-facto way to address the knowledge-intensive language task (KILT). This paper suggests that this kind of model also has the capability to performance the evidence retrieval with minimal intervention to the model's architecture. The whole evidence corpus is indexed using an efficient data structure ([FM index](https://www.cs.jhu.edu/~langmea/resources/lecture_notes/bwt_and_fm_index.pdf)) in the way that for a given token, we can quickly figure out all possible next tokens in the corpus. The paper introduces SEAL, an autoregressive model that can directly locate the answer as well as the document containing the answer via generation constraint on FM index, for a query. It proposes a clever scoring function combining LM's score and token's frequency in the corpus while taking into account the fact that a document can contain multiple supports.
+
+    Ablation studies reveal:
+    - SEAL can work well even with small size (~400M)
+    - Performance increase with a larger beam search, and seems to start decreasing when the beam reaches between 10 and 15.
+    - Decoding maximum length is a crucial factor, where longer output sequence is more informative than shorter one.
+
+    ![](/assets/img/cheatsheet/seal.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)   
+
 - [Atlas: Few-shot Learning with Retrieval Augmented Language Models](https://arxiv.org/pdf/2208.03299.pdf) (Izacard et al., arxiv 2022)
 
     Medium LMs augmented with retrieval capability can be competitive with (or even outperform) LLMs in few-shot learning while being much more parameter-efficient. <b> Atlas </b> consists of a retriever and a LM that are jointly learnt with a focus on the ability to perform various knowledge intensive tasks with very few training examples. 
@@ -148,7 +161,8 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     As retriever's parameters are updated every training step, re-calculating the embedding and re-indexing the whole collection of documents is significantly computationally expensive (or even impossible), <b>Atlas</b> propose several efficient index update: (i) re-indexing the collection of document embedding every $$k$$ epoch; (ii) instead of re-indexing the whole collection, only perform on top-k documents return; or (iii) freeze the index of documents.
     ```console
-    A remarkable feature of retrieval-augmented model is that their knowledge can be kept up-to-date without retraining, by simply maintaining a collection of documents.
+    A remarkable feature of retrieval-augmented model is that their knowledge can be kept up-to-date 
+    without retraining, by simply maintaining a collection of documents.
     ```
 
 - [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
