@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2023-03-20 10:09:00
+date: 2023-05-02 10:09:00
 description: 
 tags: research
 categories: NLP, AI
