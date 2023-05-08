@@ -29,7 +29,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
-- [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/pdf/2301.12652.pdf) (Shi et al., arxiv 2023)
+- ###### [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/pdf/2301.12652.pdf) (Shi et al., arxiv 2023)
 
     <b>REPLUG</b> (Retrieve and Plug) takes another approach in retrieval-augmented LM where the LM is a black-box (hence, unknown parameters and impossible to retrain/finetune) and the retriever is either frozen or trainable. This characteristic makes <b>REPLUG</b> particularly flexible that it can be used with any existing LLM (yes, <b>only large LM (>100B parameters)</b>).
 
@@ -47,7 +47,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b>REPLUG</b> can benefit rare entities.
 
-- [Rethinking with Retrieval: Faithful Large Language Model Inference](https://arxiv.org/pdf/2301.00303.pdf) (He et al., arxiv 2023)
+- ###### [Rethinking with Retrieval: Faithful Large Language Model Inference](https://arxiv.org/pdf/2301.00303.pdf) (He et al., arxiv 2023)
 
     The knowledge stored in the LM's parameters may inevitable be incomplete, out-of-date or incorrect. The paper proposes <b> rethinking with retrieval (RR)</b>, a simple post-preprocessing method that uses the a diverse set of reasoning steps obtained from the <b> chain-of-thought</b> prompting to retrieve relevant knowledge from external sources, to improve the the explanation, thereby, the prediction of LLMs. This approach require no additional training or finetuning and is not limited by the input length of LLMs.
 
@@ -63,7 +63,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b> rethinking with retrieval (RR)</b> outperforms <b> chain-of-thought</b> prompting even when using smaller LMs.
 
-- [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., arxiv 2023)
+- ###### [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., arxiv 2023)
 
     <b>Interleaving Retrieval with Chain-of-Thought (IRCoT)</b> interleaves a knowledge retriever at each reasoning step obtained from chain-of-thought (CoT) prompting to mutually guide the retrieval by CoT and vice-versa. This strategy allows to retrieve more relevant supports for later reasoning steps in the reasoning path, thereby, enhance the answer for complex multi-step reasoning question.
 
@@ -96,7 +96,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2022</b>
 
-- [Transformer Memory as a Differentiable Search Index](https://arxiv.org/pdf/2202.06991.pdf) (Tay et al., Neurips 2022)
+- ###### [Transformer Memory as a Differentiable Search Index](https://arxiv.org/pdf/2202.06991.pdf) (Tay et al., Neurips 2022)
 
     Traditional Information retrieval (IR) system involves *retrieve-then-rank* mechanism: (i) given a query, $$k$$ nearest documents are retrieved from an indexed corpus, (ii) retrieved documents are then sorted. The paper presents the <b>Differentiable Search Index (DSI)</b>, a new paradigm for learning an end-to-end search system where the *retrieve* phase and the *rank* phase are performed within a single seq2seq neural model (e.g. T5, BART). It is shown with an appropriate design for {document representation, document identifier representation, document indexing strategy, training strategy}, <b>DSI</b> can obtain significant gain over state-of-the-art baselines (dual encoder, BM25):
     - Document representation: a document is represented by its first $$L$$ tokens.
@@ -114,7 +114,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     Input: "Document retrieval: query_tokens" --> T5 --> Output: "docid"
     ```
 
-- [Autoregressive Search Engines: Generating Substrings as Document Identifiers](https://arxiv.org/pdf/2204.10628.pdf) (Bevilacqua et al., Neurips 2022)
+- ###### [Autoregressive Search Engines: Generating Substrings as Document Identifiers](https://arxiv.org/pdf/2204.10628.pdf) (Bevilacqua et al., Neurips 2022)
 
     Autoregressive models has emerged as the de-facto way to address the knowledge-intensive language task (KILT). This paper suggests that this kind of model also has the capability to performance the evidence retrieval with minimal intervention to the model's architecture. The whole evidence corpus is indexed using an efficient data structure ([FM index](https://www.cs.jhu.edu/~langmea/resources/lecture_notes/bwt_and_fm_index.pdf)) in the way that for a given token, we can quickly figure out all possible next tokens in the corpus. The paper introduces SEAL, an autoregressive model that can directly locate the answer as well as the document containing the answer via generation constraint on FM index, for a query. It proposes a clever scoring function combining LM's score and token's frequency in the corpus while taking into account the fact that a document can contain multiple supports.
 
@@ -127,7 +127,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     (source: copied from the paper)   
 
-- [Atlas: Few-shot Learning with Retrieval Augmented Language Models](https://arxiv.org/pdf/2208.03299.pdf) (Izacard et al., arxiv 2022)
+- ###### [Atlas: Few-shot Learning with Retrieval Augmented Language Models](https://arxiv.org/pdf/2208.03299.pdf) (Izacard et al., arxiv 2022)
 
     Medium LMs augmented with retrieval capability can be competitive with (or even outperform) LLMs in few-shot learning while being much more parameter-efficient. <b> Atlas </b> consists of a retriever and a LM that are jointly learnt with a focus on the ability to perform various knowledge intensive tasks with very few training examples. 
 
@@ -165,7 +165,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     without retraining, by simply maintaining a collection of documents.
     ```
 
-- [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
+- ###### [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
 
     <b>EIDER: Extracted Evidence Empowered Relation Extraction</b>
 
@@ -177,7 +177,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     - Joint training of relation extraction end evidence sentence extraction: a base encoder is employed to learn the representation of the relation from the counterparts of the head entity, tail entity and the whole document $$p(r \mid e_h, e_t, c_{h,t})$$, as well as to learn the representation of each evidence sentence $$s_n$$ given the head and tail entity $$p (s_n \mid e_h, e_t)$$. For the training, evidence sentences for each entity pair in a document can be either manually provided, or extracted using simple heuristics (e.g. a sentence containing both head and tail entities is considered as an evidence for this entity pair).
     - Fusion of evidence in Inference: the score of each candidate relation is given by two inferences: one with the prediction from the whole documents, one with the prediction from the set of extracted evidence sentences (a subset of original document). \s
 
-- [Don’t Prompt, Search! Mining-based Zero-Shot Learning with Language Models](https://arxiv.org/pdf/2210.14803.pdf) (van de Kar et al., EMNLP 2022)
+- ###### [Don’t Prompt, Search! Mining-based Zero-Shot Learning with Language Models](https://arxiv.org/pdf/2210.14803.pdf) (van de Kar et al., EMNLP 2022)
 
     $$\textsf{Generate-filter-finetune}$$<b> approach for zero-shot learning</b>
 
@@ -192,7 +192,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     Experimented on sentiment analysis, topic classification and NLI tasks, mining approach outperforms zero-shot prompting method when using the same verbalizers and comparable patterns. It can partly explain the performance of prompting method using the fact that many task-relevant examples are seen during the training which can be explicitly retrieved through simple regex mining pattern.
 
-- [SKILL: Structured Knowledge Infusion for Large Language Models](https://aclanthology.org/2022.naacl-main.113.pdf) (Moiseev et al., NAACL 2022)
+- ###### [SKILL: Structured Knowledge Infusion for Large Language Models](https://aclanthology.org/2022.naacl-main.113.pdf) (Moiseev et al., NAACL 2022)
 
     The paper introduces <b>SKILL</b> a simple way to inject knowledge from structured data, such as a KG, into a language model, that can benefit knowledge-retrieval-based downstream tasks. <b>SKILL</b> continue to pretrain LLM directly on structured data (e.g. triples in KG) with salient-term masking without synthesizing them into equivalent natural sentences (e.g. KELM) as they found that the two approaches are competitive with each other. 
 
@@ -200,7 +200,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2021</b>
 
-- [Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering](https://arxiv.org/abs/2007.01282) (Izacard et al., EACL 2021)
+- ###### [Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering](https://arxiv.org/abs/2007.01282) (Izacard et al., EACL 2021)
 
     <b>Retrieved evidence fusion in decoder (*Fusion-in-Decoder*).</b>
 
@@ -216,7 +216,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2020</b>
 
-- [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/pdf/2002.08909.pdf) (Guu et al., ICML 2020)
+- ###### [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/pdf/2002.08909.pdf) (Guu et al., ICML 2020)
 
     <b>Knowledge Retriever jointly pre-trained with LM.</b>
 
@@ -235,7 +235,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Regarding the training setting, the model is trained using masked-language modelling. They found that masking salient terms instead of masking random span could significantly improve the performance on downstream tasks.
 
-- [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
+- ###### [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
 
     The paper hypothesizes that the representation learning problem may be easier than the prediction problem. For example, two sentences *Dickens is the author of* and *Dickens wrote* will essentially have the same distribution over the next word, even if they do not know what that distribution is. Given a sequence of tokens $$x = (w_1,...,w_{t-1})$$, $$k$$ nearest neighbors $$\mathcal{N}$$ of $$x$$ is retrieved from a pre-built catalog $$\mathcal{C}$$ by comparing the sentence embedding of each sequence in Eclidean space. Each nearest neighbor $$x_i$$ of $$x$$ has a next token $$y_i$$: $$(x_i, y_i) \in \mathcal{N}$$. The distribution of the next token $$y$$ of $$x$$ can be estimated via a simple linear regression: 
     $$p_{kNN} (y \mid x) = \sum_{(x_i, y_i) \in \mathcal{N}} softmax (\mathbb{1}_{y=y_i} exp (-d (\textsf{Emb}(x), \textsf{Emb}(x_i))))$$.
@@ -264,7 +264,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
-- [Understanding Fine-tuning for Factual Knowledge Extraction from Language Models](https://arxiv.org/pdf/2301.11293.pdf) (Kazemi et al., submitted to JMLR)
+- ###### [Understanding Fine-tuning for Factual Knowledge Extraction from Language Models](https://arxiv.org/pdf/2301.11293.pdf) (Kazemi et al., submitted to JMLR)
 
     This study dives more deeply into the application of using language models to construct a knowledge graph. By investigating the behavior of LMs finetuned for factual knowledge extraction, the author argues that the finetuning process results both positive and negative impacts, depending on the frequency mismatch of entity appearance between the train data and the test data. They relates this issue to the well-known Out-of-distribution generalization in machine learning:
 
@@ -283,7 +283,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     To alleviate the negative impact of finetuning, the paper propose two solutions: (i) ensemble models (fine-tuning + k-shot) as k-show is better than fine-tuning for *high mismatch* scenario; (ii) mixture training (similar to solution to catastrophic forgetting): jointly fine-tune the model with two objectives: knowledge extraction task and LM objective (e.g. MLM).
 
-- [Crawling The Internal Knowledge-Base of Language Models](https://arxiv.org/pdf/2301.12810.pdf) (Cohen et al., TBD)
+- ###### [Crawling The Internal Knowledge-Base of Language Models](https://arxiv.org/pdf/2301.12810.pdf) (Cohen et al., TBD)
 
     The paper presents <b>LMCRAWL</b>, a pipeline for crawling a subgraph centering around a seed entity, from LM using in-context learning with GPT-3 model.
 
@@ -302,7 +302,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
-- [Unified Structure Generation for Universal Information Extraction](https://arxiv.org/pdf/2203.12277.pdf) (Lu et al., ACL 2022)
+- ###### [Unified Structure Generation for Universal Information Extraction](https://arxiv.org/pdf/2203.12277.pdf) (Lu et al., ACL 2022)
 
     <b>Universal Information Extraction (UIE)</b> is a unified text-to-structure framework for Information Extraction tasks. It models various IE tasks (NER, EL, RL, etc) within a single T5-based model, allowing different tasks to be jointly learned, to share and collaborate. To this end, <b>UIE</b> introduces two univeral templates for linearizing the heterogeneous input and the heterogeneous output and pre-training scheme to endow the model with common IE abilities (i.e. mapping text to structure, decoding structure).
 
@@ -324,7 +324,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper) 
 
-- [GenIE: Generative Information Extraction](https://aclanthology.org/2022.naacl-main.342.pdf) (Josifoski et al., NAACL 2022)
+- ###### [GenIE: Generative Information Extraction](https://aclanthology.org/2022.naacl-main.342.pdf) (Josifoski et al., NAACL 2022)
 
     Close Information Extraction (cIE) typically aims at extracting an exhaustive set of relational triplets $$(subject, relation, object)$$ from given text where $$subject/object$$ entity and $$relation$$ are constrained to come from a predefined knowledge base. Traditional cIE pipeline encompasses multiple independent sub-tasks (NER, NED, RE) which suffers from the error accumulation. <b>GenIE</b> is an end-to-end autoregressive cIE system that casts the triplet extraction as text-2text problem in which the decoder generates entities and relations token-by-token in an autoregressive fashion. They introduce special tokens \<sub\>, \<rel\>, \<obj\>, \<end_of_triplet\> to linearize the generated output. To assure that generated tokens refer to valid entity and relation, <b>GenIE</b> employs constrained beam search to guide the decoding following prefix tries built on the entity set and the relation set of the knowledge base. This makes the beam search effective for large million of entities.
 
@@ -340,7 +340,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     <b>GenIE</b> can be extended to the generation of literal object $$\rightarrow$$ similar to open Information Extraction where the object does not need to be aligned with a KB.
 
-- [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
+- ###### [EIDER: Empowering Document-level Relation Extraction with Efficient Evidence Extraction and Inference-stage Fusion](https://arxiv.org/pdf/2106.08657.pdf) (Xie et al., ACL Findings 2022)
 
     <b>EIDER: Extracted Evidence Empowered Relation Extraction</b>
 
@@ -352,7 +352,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Joint training of relation extraction end evidence sentence extraction: a base encoder is employed to learn the representation of the relation from the counterparts of the head entity, tail entity and the whole document $$p(r \mid e_h, e_t, c_{h,t})$$, as well as to learn the representation of each evidence sentence $$s_n$$ given the head and tail entity $$p (s_n \mid e_h, e_t)$$. For the training, evidence sentences for each entity pair in a document can be either manually provided, or extracted using simple heuristics (e.g. a sentence containing both head and tail entities is considered as an evidence for this entity pair).
     - Fusion of evidence in Inference: the score of each candidate relation is given by two inferences: one with the prediction from the whole documents, one with the prediction from the set of extracted evidence sentences (a subset of original document). \s
 
-- [KnowPrompt: Knowledge-aware Prompt-tuning with Synergistic Optimization for Relation Extraction](https://arxiv.org/pdf/2104.07650.pdf) (Chen et al., The WebConf 2022)
+- ###### [KnowPrompt: Knowledge-aware Prompt-tuning with Synergistic Optimization for Relation Extraction](https://arxiv.org/pdf/2104.07650.pdf) (Chen et al., The WebConf 2022)
 
     <b>KnowPrompt: prompting with knowledge constraint </b>
 
@@ -370,7 +370,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     <br>
 
-- [Rewire-then-Probe: A Contrastive Recipe for Probing Biomedical Knowledge of Pre-trained Language Models](https://arxiv.org/pdf/2110.08173.pdf) (Meng et al., ACL 2022)
+- ###### [Rewire-then-Probe: A Contrastive Recipe for Probing Biomedical Knowledge of Pre-trained Language Models](https://arxiv.org/pdf/2110.08173.pdf) (Meng et al., ACL 2022)
 
     <b>Contrastive-Probe for Knowledge probing from LM.</b>
 
@@ -389,7 +389,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - It is pretty stable in performance where training with different dataset results small deviation and similar trend.
 
 &nbsp;
-- [Do Pre-trained Models Benefit Knowledge Graph Completion? A Reliable Evaluation and a Reasonable Approach](https://aclanthology.org/2022.findings-acl.282.pdf) (Lv et al., ACL-Findings 2022)
+- ###### [Do Pre-trained Models Benefit Knowledge Graph Completion? A Reliable Evaluation and a Reasonable Approach](https://aclanthology.org/2022.findings-acl.282.pdf) (Lv et al., ACL-Findings 2022)
 
     The paper demonstrates that PLM-based KGC models are still left quite behind the SOTA KGC models (e.g. KGE models) because the evaluation benchmark is conducted under the closed-world assumption (CWA) where any knowledge that does not exist in a given KG is said to be incorrect. Indeed, PLM is known to implicitly contain more open knowledge unseen in a KG. By manually verify the veracity of Top-1 prediction of KGC models, they show that PLM-based models outperforms SOTA KGE-based models for the link prediction and the triple classification tasks.
 
@@ -399,7 +399,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Additionally, their analysis conveys two messages: <b>(i)</b> by counting number of sentences in the training that contain both the head and the tail of a triple, it indicates that PLM-based KGC still outperforms KGE-based KGC on the triples with zero co-occurrence of {head, tail} in the training set $$\rightarrow$$ they argue PLMs, apart from seeing many facts in the massive text, have the ability to reason the knowledge. <b>(i)</b> PLM-based KGC models are less sensitive to the size of training dataset where reducing the training data size decreases slightly the prediction accuracy.
    
-- [SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models](https://arxiv.org/pdf/2203.02167.pdf) (Wang et al. ACL 2022)
+- ###### [SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models](https://arxiv.org/pdf/2203.02167.pdf) (Wang et al. ACL 2022)
 
     <b>SimKGC: Promptless method for KGC based on sentence embedding</b>
 
@@ -414,7 +414,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     Lastly, the work also stresses that predicting *one-to-many, many-to-one, many-to-many* relations is more difficult.
 
 
-- [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
+- ###### [Task-specific Pre-training and Prompt Decomposition for Knowledge Graph Population with Language Models](https://lm-kbc.github.io/static/papers/paper_2.pdf) (Li et al., LM-KBC@ISWC 2022 Challenge)
 
     This work continues to pre-train BERT with task-specific data to make it familiar with the task. How ? triples *<sub, rel, obj>* are verbalized into a sentence using a prompt template of *rel*. As the task is object prediction, the object or surround words in the sentence are masked and the LM is asked to predict them. Large dataset is necessary for pre-training, hence, they leverage Wikidata for data augmentation where they generate KG triples that have same relations as provided training relations). However, they discover later that the accuracy does not clearly relate to data size but the property of relation (see below).
     - Prompt generation: they curate a set of prompts for a relation both in manual and automatic way. In manual way, they explicitly append the type of the subject into the prompt, such as "The musician [SUBJ] plays [OBJ]" for relation "PersonInstrument". In automatic way, they employ two methods from [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf). However, in contrast to [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf), this paper shows that an ensemble of automatically-generated prompts is not better than a single manual-curated one.
@@ -424,7 +424,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
+- ###### [GENRE: Autoregressive Entity Retrieval](https://arxiv.org/pdf/2010.00904.pdf) (De Cao et al., ICLR 2021).
 
     Very interesting entity retriever that casts the entity linking problem as a text-to-text problem and employs a seq2seq model (i.e. BART) to address it.
 
@@ -438,7 +438,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Importantly, they perform the inference with constrained beam search to force the decoder to generate the valid entity identifier. Specifically, at a decoding step $$t$$, the generation of the next token $$x_t$$ is conditioned on previous ones $$x_1,..., x_{t-1}$$ such that $$x_1,..., x_{t-1}, x_{t}$$ is a valid n-gram of an entity identifier.
 
-- [Structured Prediction as Translation Between Augmented Natural Languages](https://arxiv.org/pdf/2101.05779.pdf) (Paolini et al., ICLR 2021)
+- ###### [Structured Prediction as Translation Between Augmented Natural Languages](https://arxiv.org/pdf/2101.05779.pdf) (Paolini et al., ICLR 2021)
 
     Many knowledge extraction tasks such as NER, EL, Relation extraction, etc can be seen as structured prediction tasks where the output space consists of structured objects such as entities, relations. 
 
@@ -466,7 +466,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2020</b>
 
-- [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf) (Jiang et al., TACL 2020)
+- ###### [How Can We Know What Language Models Know?](https://arxiv.org/pdf/1911.12543.pdf) (Jiang et al., TACL 2020)
 
     Knowledge in LM can be probed by asking the LM fill in the blanks of prompts such as "CR7 plays for ___". This prompt-based method can only measure the lower bound of amount of knowledge contained in LM as there is no single prompt that works best for all instances of a relation (depending on what LM sees during its pre-training). To predict a missing object in a KB triple $$tpl$$: *<sub, rel, ?>*, $$tpl$$ is converted into a cloze-style prompt $$t_r$$ that semantically expresses the relation *rel* and let the LM predict the object by filling the blank in $$t_r$$. No prompt fits all, they propose two ways to generate a set of prompts for each relation $$r$$:
      - *Mining-based generation*: <b>(i)</b> collecting sentences that contain both subject and object of a given relation $$r$$, words between subject and object can be viewed as a representation of $$r$$; <b>(ii)</b> if there is no meaningful middle words, sentence is analyzed syntactically, a prompt for $$r$$ can be generated from the dependency tree.
@@ -481,7 +481,23 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
-- [Self-Consistency improves Chain Of Thought Reasoning in Language Models](https://arxiv.org/pdf/2203.11171.pdf) (Wang et al., ICLR 2023)   
+- ###### [Learning to Reason and Memorize with Self-Notes](https://arxiv.org/pdf/2305.00833.pdf) (Lanchantin et al., arxiv 2023)   
+
+    ![](/assets/img/cheatsheet/selfnotes.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).  
+
+    Unlike Chain-of-Thought or Scratchpad prompting which generates a reasoning path to arrive at answer for a question after reading the entire context/demonstrations, <b>Self-Notes</b> allows the model to create reasoning tokens (aka. take notes) at any point while reading the context. This has two advantages:
+    - Faciliate the multi-step reasoning where partial reasonsing tokens can be deviated from the context on the fly.
+    - Act as working memory for tracking the state of model computation: while traversing the context, the model can explicitly write down the current state as new tokens. If the later reasonings need this state, the model can recall it without thinking again from scratch.
+
+    <b>Self-Notes</b>  employs several special tokens {[start], [end]} to signal when to take a note and when to finish a note. Once the note ends, it is appended to the context and the model continues to process the rest of the context.
+
+    <b>Self-Notes</b> is fine-tuned with supervised dataset (training sample includes context, question, gold self-notes and answer) or unsupervised dataset (there is no gold self notes, from the context, the model learns to generate its own question and insert its answers as self-notes).
+
+    Trick: Self-Notes manually amplifies the probability of [start] token to favor the production of more notes.
+
+- ###### [Self-Consistency improves Chain Of Thought Reasoning in Language Models](https://arxiv.org/pdf/2203.11171.pdf) (Wang et al., ICLR 2023)   
 
     ![](/assets/img/cheatsheet/self_consistency.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
 
@@ -501,7 +517,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
-- [Self-Instruct: Aligning LM with Self Generated Instructions](https://arxiv.org/pdf/2212.10560.pdf) (Wang et al., arxiv 2022)
+- ###### [Self-Instruct: Aligning LM with Self Generated Instructions](https://arxiv.org/pdf/2212.10560.pdf) (Wang et al., arxiv 2022)
 
     In line with FLAN, TO, <b>Self-Instruct</b> continues to showcase the impressive ability of "instruction-tuned" LM to generalize to new tasks via zero-shot learning. FLAN, TO use instruction data manually created by human which is limited in quantity, diversity and creativity. This may impact the generality of the tuned model. Alternatively, <b>Self-Instruct</b> relies on the model itself (i.e. GPT3) to create automatically new instruction/input/output samples from a seed set of initial instruction/input/output samples through in-context learning. The new instruction data is then used to fine-tune the original model. Some post-preprocessing steps are also applied to filter low-quality data: (i) only retain new instructions that are low-overlap with existing instructions, (ii) discard new instructions that contain some specific keywords (e.g. images, graphs), (iii) discard instances that have different outputs for the same input. 
 
@@ -513,7 +529,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     P/s: <b>Self-Instruct</b> was used to generate 52K instruction-following samples ([Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html)) to fine-tune [LLaMA 7B](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/) model, resulting ChatGPT-like [Alpaca 7B](https://crfm.stanford.edu/2023/03/13/alpaca.html)
 
-- [Finetuned Language Models are Zero-Shot Learners](https://arxiv.org/pdf/2109.01652.pdf) (Wei et al., ICLR 2022)
+- ###### [Finetuned Language Models are Zero-Shot Learners](https://arxiv.org/pdf/2109.01652.pdf) (Wei et al., ICLR 2022)
 
     The paper shows that finetuning language models on a collection of datasets via instructions (aka. <b>Instruction tuning</b>, e.g. "Translate this sentence to French:...") can considerably improve zero-shot performance on unseen tasks. The rationale behind instruction tuning is that the format of pre-training data of a LM is not similar to the format of prompts, making  zero-shot inference hard. To bridge this gap, they introduce <b>FLAN</b>, a LaMDA-PT (137B parameters) fine-tuned on a mixture of NLP datasets expressed under natural language instructions. FLAN zero-shot(ly) outperforms others LLMs of similar number of parameters  (LaMDA-PT 137B , GPT-3 173B) on wide range of NLP tasks. 
 
@@ -524,7 +540,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper)  
 
-- [Multitask Prompted Training Enables Zero-Shot Task Generalization](https://arxiv.org/pdf/2110.08207.pdf) (Sanh et al., ICLR 2022)
+- ###### [Multitask Prompted Training Enables Zero-Shot Task Generalization](https://arxiv.org/pdf/2110.08207.pdf) (Sanh et al., ICLR 2022)
 
     Similar to FLAN, Sanh et al. introduces <b>T0</b>, a LM-adapted T5 3B (Lester et al. 2021) fine-tuned on mixture of NLP datasets via natural language instructions, to improve zero-shot performance on unseen tasks. T0 and its variants achieved similar performance w.r.t FLAN despite being much smaller.
 
@@ -532,7 +548,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper)  
 
-- [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/pdf/2201.11903.pdf) (Wei et al., Neurips 2022)
+- ###### [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/pdf/2201.11903.pdf) (Wei et al., Neurips 2022)
 
     While scaling up a LM is not sufficient for improve the performance of LM on reasoning tasks, the paper presents <b>Chain-of-Thought</b> prompting to unlock the reasoning ability of large language models (yes, only large LMs, mentionned by the author) by decomposing the initial task into intermediate steps and solving each steps before outputing the final answer, just emulate the way human processes a complicated reasoning problem. Instead of finetuning or rationale-augmented training a LM which requires a larget dataset of {question, intermediate step, answer}, <b>Chain-of-Thought Prompting</b> is only performed on large language models (e.g GPT3, PALM) via in-context few-shot learning learning. 
 
@@ -542,7 +558,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper)   
 
-- [Do Prompt-Based Models Really Understand the Meaning of Their Prompts?](https://arxiv.org/pdf/2109.01247.pdf) (Webson et al., NAACL 2022)
+- ###### [Do Prompt-Based Models Really Understand the Meaning of Their Prompts?](https://arxiv.org/pdf/2109.01247.pdf) (Webson et al., NAACL 2022)
 
     Under the $$k$$-shot scenerios ($$k=0..256$$) for NLI task, the paper finds that LMs learn irrelevant prompts, misleading prompts as fast as instructive prompts, and this is consistent across various models (GPT, BERT, T0, T5). This questions whether the models understand the semantics of the prompts or they are too robust to prompt semantics, making them distinguish proper instructions from pathological ones.
 
@@ -550,7 +566,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
+- ###### [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
 
     Traditional fine-tuning of a LM model for a downstream task involves modifying all the model parameters, consequently, a single set of parameters  can just work best for a single task. Inspired by prompting, <b>prefix-tuning</b> freezes the LM parameters and instead prepend to it a sequence of task-specific vectors $$P_{\theta}$$ (aka. *prefix*): $$[P_{\theta}; LM_{\phi}]$$ that represent the downstream task, we optimize solely the *prefix* $$P_{\theta}$$ using the task's data to steer the LM to the task.
 
@@ -564,7 +580,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper)
 
-- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
+- ###### [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
 
     Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
 
@@ -580,7 +596,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
-- [The Trade-offs of Domain Adaptation for Neural Language Models](https://aclanthology.org/2022.acl-long.264.pdf) (Grangier et al., ACL 2022)
+- ###### [The Trade-offs of Domain Adaptation for Neural Language Models](https://aclanthology.org/2022.acl-long.264.pdf) (Grangier et al., ACL 2022)
 
     This paper provides some evidences using concepts of machine learning theory to support past prevailing empirical practices/observations for domain adaption of LM.
 
@@ -609,7 +625,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [Adapt-and-Distill: Developing Small, Fast and Effective Pretrained Language Models for Domains](https://aclanthology.org/2021.findings-acl.40.pdf) (Yao et al., ACL Findings 2021)
+- ###### [Adapt-and-Distill: Developing Small, Fast and Effective Pretrained Language Models for Domains](https://aclanthology.org/2021.findings-acl.40.pdf) (Yao et al., ACL Findings 2021)
 
     To adapt a general domain LM to a specific domain, it is necessary to augment the original vocabulary with domain-specific subwords or terms (original vocabulary is kept intact). The paper proposes a simple method to determine domain-specific tokens to add to the vocabulary.
 
@@ -623,7 +639,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     The original vocabulary is iteratively enriched with subwords taken from domain corpus D. At the time step $$i$$, a subset of subwords with highest frequency in D is added to the vocabulary,  which helps to improve the likelihood $$P(D)$$. The procedure continues if the likelihood gain w.r.t. previous time step $$i-1$$ is higher than a threshold $$\delta$$: $$\frac{P_{i} (D) - P_{i-1} (D)}{P_{i-1} (D)} > \delta$$
 
-- [UDALM: Unsupervised Domain Adaptation through Language Modeling](https://aclanthology.org/2021.naacl-main.203.pdf) (Karouzos et al., NAACL 2021)
+- ###### [UDALM: Unsupervised Domain Adaptation through Language Modeling](https://aclanthology.org/2021.naacl-main.203.pdf) (Karouzos et al., NAACL 2021)
     
     This method adapts a general pretrained LM to the target domain distribution in a simple strategy consisting of three steps:
 
@@ -637,7 +653,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2020</b>
 
-- [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
+- ###### [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
 
     BioMegatron is a Megatron-LM pretrained on PubMed dataset and/or others general corpus for Biomedical domain. 
 
@@ -652,7 +668,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
-- [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
+- ###### [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
 
     Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
 
@@ -660,7 +676,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [MAUVE: Measuring the Gap Between Neural Text and Human Text using Divergence Frontiers](https://arxiv.org/pdf/2102.01454.pdf) (Pillutla et al., NeurIPS 2021).
+- ###### [MAUVE: Measuring the Gap Between Neural Text and Human Text using Divergence Frontiers](https://arxiv.org/pdf/2102.01454.pdf) (Pillutla et al., NeurIPS 2021).
 
     Measuring the "true" closeness between the distribution of text generated by a LM and the "true" distribution of human-written text is computationally intractable. Instead, it is approximated by samples from each distribution. 
 
@@ -696,7 +712,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
+- ###### [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
     
@@ -705,7 +721,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
-- [Quantifying Memorization Across Neural Language Models](https://arxiv.org/pdf/2202.07646.pdf) (Carlini et al., ICLR 2023)
+- ###### [Quantifying Memorization Across Neural Language Models](https://arxiv.org/pdf/2202.07646.pdf) (Carlini et al., ICLR 2023)
 
     Definition of memorization in this paper: 
     ```
@@ -721,7 +737,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
-- [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+- ###### [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
 
     The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
 
@@ -735,7 +751,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021</b>
 
-- [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
+- ###### [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
 
     Traditional fine-tuning of a LM model for a downstream task involves modifying all the model parameters, consequently, a single set of parameters  can just work best for a single task. Inspired by prompting, <b>prefix-tuning</b> freezes the LM parameters and instead prepend to it a sequence of task-specific vectors $$P_{\theta}$$ (aka. *prefix*): $$[P_{\theta}; LM_{\phi}]$$ that represent the downstream task, we optimize solely the *prefix* $$P_{\theta}$$ using the task's data to steer the LM to the task.
 
@@ -749,7 +765,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper)
 
-- [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
+- ###### [The Power of Scale for Parameter-Efficient Prompt Tuning](https://aclanthology.org/2021.emnlp-main.243.pdf) (Lester et al., EMNLP 2021)
 
     Similarly to Prefix-Tuning, <b>prompt-tuning</b> learns task-specific "soft-prompts" (embedding) prepended to task-input (prefix) to steer the LM to perform the task without changing its parameters. While Prefix-Tuning prepends prefix activations to every layers in the encoder, <b>prompt-tuning</b> simplifies this by only adding *k* tunable tokens per downstream task to the input text at the input layer (without further interventions in intermediate layers) $$\rightarrow$$ <b>prompt-tuning</b> has less parameters than Prefix-Tuning. 
 
@@ -764,7 +780,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2020</b>
 
-- [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
+- ###### [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
 
     Before fine-tuning, continue pre-training a general pretrained language model (PLM) on in-domain unlabeled data (<b>domain-adaptive pretraining DAPT</b>) or task-specific unlabeled data (<b>task-adaptive pretraining TAPT</b>) can improve the performance of downstream tasks.
 
@@ -776,7 +792,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2019</b>
 
-- [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
+- ###### [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
 
     Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
 
@@ -784,7 +800,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b> 
 
-- <b>From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)</b>
+- ###### <b>From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)</b>
     
     SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
     >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
@@ -793,13 +809,13 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021<b>
 
-- <b>Dropout</b> [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
+- ###### <b>Dropout</b> [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
 
     An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
 
 <b>2016</b>
 
-- <b> Back Translation</b> [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
+- ###### <b> Back Translation</b> [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
 
     Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
 
@@ -815,11 +831,11 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
 <b>2022</b>
 
-- [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
+- ###### [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
 
 <b>2021</b>
 
-- [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
+- ###### [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
 
     This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
     
@@ -831,7 +847,7 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 
 <b>2020</b>
 
-- [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
+- ###### [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
 
     The paper hypothesizes that the representation learning problem may be easier than the prediction problem. For example, two sentences *Dickens is the author of* and *Dickens wrote* will essentially have the same distribution over the next word, even if they do not know what that distribution is. Given a sequence of tokens $$x = (w_1,...,w_{t-1})$$, $$k$$ nearest neighbors $$\mathcal{N}$$ of $$x$$ is retrieved from a pre-built catalog $$\mathcal{C}$$ by comparing the sentence embedding of each sequence in Eclidean space. Each nearest neighbor $$x_i$$ of $$x$$ has a next token $$y_i$$: $$(x_i, y_i) \in \mathcal{N}$$. The distribution of the next token $$y$$ of $$x$$ can be estimated via a simple linear regression: 
     $$p_{kNN} (y \mid x) = \sum_{(x_i, y_i) \in \mathcal{N}} softmax (\mathbb{1}_{y=y_i} exp (-d (\textsf{Emb}(x), \textsf{Emb}(x_i))))$$.
