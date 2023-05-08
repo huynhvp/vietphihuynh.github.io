@@ -29,6 +29,26 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
+- ###### [Recitation-Augmented Language Models](https://arxiv.org/pdf/2210.01296.pdf) (Sun et al., ICLR 2023)
+
+    Leveraging the memorizing ability of large language models, the paper propose <b>RECITE</b>, a recite-and-answer strategy for close book question answering. Instead of retrieving supports from external corpus ("open book"), the model tries to recite the relevant knowledge stored in the model parameters ("close book") and then answer the question (in the similar way to chain-of-thought prompting). 
+
+    ![](/assets/img/cheatsheet/recite_1.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    They introduces 3 <b>RECITE</b> settings which are all based on in-context learning:
+    - Recite a single passage for the question, then answer the question using the recitation.
+    - Self-consistency ensemble: recite multiple passages instead of one using top-k sampling, each passage leads to an answer, the final answer is decided via majority vote.
+    - Multiple-recite-and-answer: recite multiple passages, then concatenate them and output a single answer based on the concatenation.
+    - Passage hint-based diversified recitation: solution to hallucinating wrong recitation while ensuring enough diversity of generated recitations, this method proposes to recite the "hint" first which then serves as a  guide to recite the associated passage appropriately. In Wikipedia, the hint of a section can be the concatenation of page title + section title.
+
+    ![](/assets/img/cheatsheet/recite_2.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    Ablation studies shows <b>RECITE</b> improves when number of recitations increases, and is robust to the prompt's demonstration.
+
 - ###### [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/pdf/2301.12652.pdf) (Shi et al., arxiv 2023)
 
     <b>REPLUG</b> (Retrieve and Plug) takes another approach in retrieval-augmented LM where the LM is a black-box (hence, unknown parameters and impossible to retrain/finetune) and the retriever is either frozen or trainable. This characteristic makes <b>REPLUG</b> particularly flexible that it can be used with any existing LLM (yes, <b>only large LM (>100B parameters)</b>).
