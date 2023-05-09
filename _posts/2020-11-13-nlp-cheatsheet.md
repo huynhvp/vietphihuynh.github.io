@@ -284,6 +284,14 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Large Language Model Is Not a Good Few-shot Information Extractor, but a Good Reranker for Hard Samples!](https://arxiv.org/pdf/2303.08559.pdf) (Ma et al., arxiv 2023)
+
+    Through an exhaustive evaluation on multiple information extraction tasks (NER, RE, ED), the paper argues that LLM is not an effective few-shot information extractor and still lags behind well-finetuned small LMs, given enough training data. The rationales are:
+    - Limited number of demonstrations in in-context learning: challenging when dealing with learning problems that involves many labels.
+    - Author speculates that ICL has difficulty with structured prediction.
+
+    In addition, author also found that LLM can work well on samples that seem to be hard for small LMs. This motivates them to propose a hybrid model combining both small LM and LLM. Concretely, samples for which small LM yields small scores are passed to LLM to re-evaluate.
+
 - ###### [Understanding Fine-tuning for Factual Knowledge Extraction from Language Models](https://arxiv.org/pdf/2301.11293.pdf) (Kazemi et al., submitted to JMLR)
 
     This study dives more deeply into the application of using language models to construct a knowledge graph. By investigating the behavior of LMs finetuned for factual knowledge extraction, the author argues that the finetuning process results both positive and negative impacts, depending on the frequency mismatch of entity appearance between the train data and the test data. They relates this issue to the well-known Out-of-distribution generalization in machine learning:
@@ -500,6 +508,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 ##### <b>1.1.3 Prompting Methods </b>
 
 <b>2023</b>
+
+- ###### [Selective Annotation Makes Language Models Better Few-Shot Learners](https://arxiv.org/pdf/2209.01975.pdf) (Su et al., ICLR 2023)  
 
 - ###### [Learning to Reason and Memorize with Self-Notes](https://arxiv.org/pdf/2305.00833.pdf) (Lanchantin et al., arxiv 2023)   
 
