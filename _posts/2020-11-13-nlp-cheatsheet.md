@@ -292,7 +292,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper) 
 
-    They then train a FLAN-T5 on this synthetic dataset, yielding <b>SynthIE</b>. Experiments show <b>SynthIE</b> performs much better than <b>GenIE</b> on test synthetic dataset, but much worse than GenIE on REBEL's test set. They argue REBEL is not a quality dataset for cIE task.
+    They then train a FLAN-T5 on this synthetic dataset, yielding <b>SynthIE</b>. Experiments show <b>SynthIE</b> performs much better than <b>GenIE</b> on test synthetic dataset, but much worse than GenIE on REBEL's test set. They argue REBEL's test set is a poor approximation of performance.
 
 - ###### [Large Language Model Is Not a Good Few-shot Information Extractor, but a Good Reranker for Hard Samples!](https://arxiv.org/pdf/2303.08559.pdf) (Ma et al., arxiv 2023)
 
