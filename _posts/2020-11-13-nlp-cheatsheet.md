@@ -284,6 +284,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Exploiting Asymmetry for Synthetic Training Data Generation: SynthIE and the Case of Information Extraction](https://arxiv.org/pdf/2303.04132.pdf) (Josifoski et al., arxiv 2023)
+
+    Author points out that the lack of a large, balanced, high quality training dataset has been a important obstacle for the success of close Information Extraction (cIE). Indeed, previous datasets exposes several problems: (i) skewness: rare relations/subjects/object appear only a few times. Most models perform poorly on these entities; (ii) noisy: target output does not always contain all the facts conveyed in the input. For these reasons, author proposes to generate a synthetic balanced dataset with the help of LLM. Specifically, LLM is asked to generate text describing a knowledge subgraph fed as input.
+
+    ![](/assets/img/cheatsheet/synthIE.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    They then train a FLAN-T5 on this synthetic dataset, yielding <b>SynthIE</b>. Experiments show <b>SynthIE</b> performs much better than <b>GenIE</b> on test synthetic dataset, but much worse than GenIE on REBEL's test set. They argue REBEL is not a quality dataset for cIE task.
+
 - ###### [Large Language Model Is Not a Good Few-shot Information Extractor, but a Good Reranker for Hard Samples!](https://arxiv.org/pdf/2303.08559.pdf) (Ma et al., arxiv 2023)
 
     Through an exhaustive evaluation on multiple information extraction tasks (NER, RE, ED), the paper argues that LLM is not an effective few-shot information extractor and still lags behind well-finetuned small LMs, given enough training data. The rationales are:
