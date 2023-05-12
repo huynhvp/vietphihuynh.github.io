@@ -703,8 +703,11 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Q/A: (i) BioMegatron with <b>Bio-vocab</b> finetuned on general SQUAD then on BioASQ results poor results on BioASQ. (ii) larger models tend to perform better.
     - Domain Transfer & Generalization: (i) NER: general LLM with general vocabulary if pre-trained sufficiently on domain-specific corpus can be as good as a LM pre-trained only domain corpus only with general vocabulary. (ii) Q/A: large general LM fine-tuned on BioASQ does not mean better performance. (iii) General-domain Q/A: large BioMegatron performs better than small general LM on general-domain Q/A.
 
-#### <b>1.3. Neural Text Generation </b>
-##### <b>1.3.1 Decoding methods </b>
+#### <b>1.3. Misc </b>
+
+<b>2023</b>
+
+- ###### [Emergent World Representations: Exploring a Sequence Model Trained On a Synthetic Task](https://openreview.net/pdf?id=DeG07_TcZvT) (Li et al., ICLR 2023).
 
 <b>2022</b>
 
@@ -712,7 +715,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
 
-##### <b>1.3.2 Quality measures for generated Text </b> 
 
 <b>2021</b>
 
@@ -748,14 +750,11 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Embedding scheme and Quantization scheme: robust to different embedding models and quantization algorithms, yielding consistent results.
     - High correlation with human evaluation.
 
-#### <b>1.4. Sentence Embedding </b>
-
-<b>2021</b>
-
 - ###### [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
-    
+
+
 ### <b>2. Best Practices</b>
 #### <b>2.1. Training/Fine-Tuning recipes</b>
 
