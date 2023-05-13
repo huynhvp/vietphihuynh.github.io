@@ -22,17 +22,17 @@ I recently came across an interesting paper that got accepted at ICLR 2023: [Eme
 
   ![](/assets/img/probe/othello.gif){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"} *(Source: https://github.com/SiyanH/othello-game)*
 
-  Two players, one holding black discs, one holding white discs, take turns making a move (aka. placing their colored disc) on the 8x8 board. The goal is to cover the board with the majority of their color. When a player makes a move, any opponent's disc found in between (horizontally, vertically or diagonally) the disc they just placed and any of existing discs of their color will be flipped over to become their own color. A legal move is a move that ensures at least one such flip happens. Otherwise, the game ends.
+  Two players, one holding black discs, one holding white discs, take turns making a move (aka. placing their colored disc) on the 8x8 board. The goal is to cover the board with the majority of their color. When a player makes a move, any opponent's disc found in between (horizontally, vertically or diagonally) the disc his just placed and any of existing discs of his color will be flipped over to become their own color. A legal move is a move that ensures at least one such flip happens. Otherwise, the game ends.
 
-  Author trains a casual LM to play Othello to analyze its internal representation. They choose this game as it is simple enough while still has a sufficiently large solution space (aka. where to move given the board's current state) to avoid memorization. 
+  A casual LM is trained to play Othello and its internal representation will be analyzed. Author chooses this game as it is simple enough while still has a sufficiently large solution space (aka. where to move given the board's current state) to avoid memorization. 
 
 ### <b>Teach LM to play Othello</b>
 
-The LM is fed a naive transcript recording interleaving moves of two players (e.g. [F5, C5, ...] where F, C are vertical indices, and 5 is horizontal index of the board) without game rules or additional analysis of game state, it has to figure out who play next and identify which tiles on the board are legal to move to.
+The LM is fed a naive transcript recording interleaving moves of two players without adding the game rules or additional analysis of game state (e.g. [F5, C5, ...] where F, C are vertical indices, and 5 is horizontal index of the board)). It has to figure out who play next and identify which tiles on the board are legal to move to.
 
 #### Observation 1: LM respects the game's rule.
 
-The trained respects the game rule, it can predict the next legal move with very low error rate according to the current state of the board. (Note: a legal move is not necessary an optimized move as the model is not trained to win the game).
+The trained LM respects the game rule, it can predict the next legal move with very low error rate according to the current state of the board. (Note: a legal move is not necessary an optimized move as the model is not trained to win the game).
 This is not due to the memorization as the test set is ensured not to be seen during the training.
 
 #### Observation 2: Hidden representations encoded in LM's layers represent the board's states 
@@ -55,4 +55,4 @@ Question arises: how to modify the network's activations $$x$$ such that the til
   Author argues that the intervention at only one layer $$l_s$$ is not effective, as the change made at layer $$l_s$$ will be diluted when it reaches the last layer, making the output being not affected by the change.
 - The network's activations $$x$$ is updated in gradient descent manner such that new $$x'$$ is mapped to $$B'$$ via $$p_{\theta}(x')$$ (see Observation 2). This resorts to:
 
-$$ x' = x - \alpha \frac{\partial \mathcal{L}_{CE} (p_{\theta}(x'), B')}{\partial x}$$
+$$ x' = x - \alpha \frac{\partial \mathcal{L}_{CE} (p_{\theta}(x), B')}{\partial x}$$

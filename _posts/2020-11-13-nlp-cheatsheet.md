@@ -9,7 +9,7 @@ categories: NLP, AI
 
 ---
 
-I love reading research papers, blogs, tutorials, etc, that aligns with my domains of interest. By reading and practicing, I learn not only interesting ideas, new methods that keep me up to date with the most recent trends/advances but also best practices that just make me better and better. I find it useful to write all them down (briefly) in an unified place, potentially aiming at a systematic review and insights gaining. For this goal, I am actively maintaining this blog post.
+I am actively maintaining this blog post, gathering NLP papers around information extraction, augmented language model and prompting techniques. 
 
 ---
 
@@ -17,11 +17,7 @@ I love reading research papers, blogs, tutorials, etc, that aligns with my domai
 * TOC []
 {:toc}
 
-### <b>1. Topics</b>
-
-#### <b>1.1. Probing Knowledge with Language Model</b>
-
-##### <b>1.1.1 Knowledge Retriever + Language Model - Augmented Language Model </b>
+##### <b>1. Knowledge Retrieval - Augmented Language Model </b>
 
 <!-- <b>Overview:</b>
 
@@ -273,16 +269,26 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
 
 
-##### <b>1.1.2 Knowledge (Information) Extraction + Automated Knowledge Base Construction with Language Model</b>
+##### <b>2. Information Extraction</b>
 
-[An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
+<!-- [An overview](https://www.mpi-inf.mpg.de/fileadmin/inf/d5/teaching/ss22_akbc/8_LMs_and_KBs.pdf)
 
 <b>Remarkable Challenges:</b>
 - LM is not trained to assert factual knowledge, but to predict masked tokens/next tokens. So when it is seen predicting a true fact, is it because of the knowledge it learned or just the correlation with what it learned ([educated guess](https://aclanthology.org/2021.acl-long.146/))
 
-- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything)
+- LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything) -->
 
 <b>2023</b>
+
+- ###### [Can LMs Learn New Entities from Descriptions? Challenges in Propagating Injected Knowledge](https://arxiv.org/pdf/2305.01651.pdf) (Onoe et al., ACL 2023)
+
+- ###### [DEMONSTRATE–SEARCH–PREDICT: Composing retrieval and language models for knowledge-intensive NLP](https://arxiv.org/pdf/2212.14024.pdf) (Khattab et al., arxiv 2023)
+
+- ###### [CODEIE: Large Code Generation Models are Better Few-Shot Information Extractors](https://arxiv.org/pdf/2305.05711.pdf) (Li et al., ACL 2023)
+
+- ###### [Evaluating Language Models for Knowledge Base Completion](https://arxiv.org/pdf/2303.11082.pdf) (Veseli et al., ESWC 2023)
+
+    Previous benchmarks for LM-based Knowledge Base Completion tends to be biased toward popular entities, leading to an overestimate of the completion performance of LM. This paper proposes WD-Know, a new benchmark to address this issue. It relies on Wikidata to extract facts via randomly and equally sampling entities. The new benchmark reveals that the completion accuracy of LM is not equal across relations. While LM achieves high precision and good generalization for language-related and socio-demographic relations (e.g. citizenOf, headquarteredIn), non-socio-demographic relations (e.g. producedBy) may require the fact to be present explicitly (retrieve rather than generalize).
 
 - ###### [Exploiting Asymmetry for Synthetic Training Data Generation: SynthIE and the Case of Information Extraction](https://arxiv.org/pdf/2303.04132.pdf) (Josifoski et al., arxiv 2023)
 
@@ -339,6 +345,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     (source: copied from the paper) 
 
 <b>2022</b>
+
+- ###### [Entity Cloze By Date: What LMs Know About Unseen Entities](https://www.cs.utexas.edu/~yasumasa/papers/ecbd.pdf) (Onoe et al., Finding NAACL 2022)
+
+- ###### [Large Language Models Struggle to Learn Long-Tail Knowledge](https://arxiv.org/pdf/2211.08411.pdf) (Kandpal et al., arxiv 2022)
+
+    The paper experimentally shows that the performance of LM on entity-centric knowledge-intensive task (e.g. question-answering) depends strongly in the co-occurrence of \{question entity, anwser entity\} in the training documents. Specifically, questions related to entities of low frequency result significant low accuracy. They argue this is not due to the questions being "harder", which causes the drop in the performance, as human performs very well for those questions.
+
+    ![](/assets/img/cheatsheet/longtail.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
 
 - ###### [Unified Structure Generation for Universal Information Extraction](https://arxiv.org/pdf/2203.12277.pdf) (Lu et al., ACL 2022)
 
@@ -515,7 +531,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
      - Blank in cloze-style prompt: how does LM know if ___ is single-token and multi-tokens (this work defaults single token).
      - Domain and Range of a relation are ignored: a relation can appear under many different situations. A prompt is suitable for a situation but could turn out to be strange for other situations.
 
-##### <b>1.1.3 Prompting Methods </b>
+##### <b>3. Prompting Methods </b>
 
 <b>2023</b>
 
@@ -632,7 +648,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - May improve the robustness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
     - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
 
-#### <b>1.2. Domain Adaptation of Language Model </b>
+#### <b>4. Misc </b>
 
 <b>2022</b>
 
@@ -703,13 +719,17 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Q/A: (i) BioMegatron with <b>Bio-vocab</b> finetuned on general SQUAD then on BioASQ results poor results on BioASQ. (ii) larger models tend to perform better.
     - Domain Transfer & Generalization: (i) NER: general LLM with general vocabulary if pre-trained sufficiently on domain-specific corpus can be as good as a LM pre-trained only domain corpus only with general vocabulary. (ii) Q/A: large general LM fine-tuned on BioASQ does not mean better performance. (iii) General-domain Q/A: large BioMegatron performs better than small general LM on general-domain Q/A.
 
-#### <b>1.3. Misc </b>
-
 <b>2023</b>
 
 - ###### [Emergent World Representations: Exploring a Sequence Model Trained On a Synthetic Task](https://openreview.net/pdf?id=DeG07_TcZvT) (Li et al., ICLR 2023).
 
+    refer to [blog](/blog/2023/representation-probe)
+
 <b>2022</b>
+
+- ###### [Understanding Dataset Difficulty with V-Usable Information](https://proceedings.mlr.press/v162/ethayarajh22a/ethayarajh22a.pdf) (Ethayarajh et al., ICML 2022).
+
+    refer to [blog](/blog/2022/dataset-difficulty)
 
 - ###### [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
 
@@ -754,9 +774,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
-
-### <b>2. Best Practices</b>
-#### <b>2.1. Training/Fine-Tuning recipes</b>
 
 <b>2023</b>
 
@@ -835,11 +852,9 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
 
-#### <b>2.2. Data Augmentation</b>
-
 <b>2022</b> 
 
-- ###### <b>From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)</b>
+- ###### From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)
     
     SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
     >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
@@ -848,25 +863,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2021<b>
 
-- ###### <b>Dropout</b> [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
+- ###### Dropout [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
 
     An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
 
 <b>2016</b>
 
-- ###### <b> Back Translation</b> [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
+- ###### Back Translation [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
 
     Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
 
-#### <b>2.3. Text scoring function</b>
-
-The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
-
-$$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
-
-However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
-
-$$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
 
 <b>2022</b>
 
@@ -875,6 +881,14 @@ $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log 
 <b>2021</b>
 
 - ###### [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
+
+    The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
+
+    $$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
+
+    However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
+
+    $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
 
     This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
     
