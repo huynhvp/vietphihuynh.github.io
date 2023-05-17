@@ -286,6 +286,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [CODEIE: Large Code Generation Models are Better Few-Shot Information Extractors](https://arxiv.org/pdf/2305.05711.pdf) (Li et al., ACL 2023)
 
+    Code language model (i.e. model trained on code, among other things) has been discovered that it has better capability to deal with the generation of structured output (e.g. graph, rdf triplet, dictionary...), as code has also structure. Natural-text LM needs to serialize the structured output as plain text, which is very different from what it saw during the pretraining, making the inference difficult.
+
+    ![](/assets/img/cheatsheet/codeie.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    This paper employs a code-LLM (i.e. OpenAI's Codex) to perform few-shot information extraction (NER and RE). The prompting templates for two tasks are described in the figure above. The results show that:
+    - Code-style prompt is better than plain-text prompt 
+    - CodeLM has better few-shot performance (even with plain-text prompt) on information extraction tasks than text-LM.
+    - Code-style prompt with CodeLM yields lower structural error rate. In other words, it can generate the output with correct format.
+    <br/><br/>  
+
 - ###### [Evaluating Language Models for Knowledge Base Completion](https://arxiv.org/pdf/2303.11082.pdf) (Veseli et al., ESWC 2023)
 
     Previous benchmarks for LM-based Knowledge Base Completion tends to be biased toward popular entities, leading to an overestimate of the completion performance of LM. This paper proposes WD-Know, a new benchmark to address this issue. It relies on Wikidata to extract facts via randomly and equally sampling entities. The new benchmark reveals that the completion accuracy of LM is not equal across relations. While LM achieves high precision and good generalization for language-related and socio-demographic relations (e.g. citizenOf, headquarteredIn), non-socio-demographic relations (e.g. producedBy) may require the fact to be present explicitly (retrieve rather than generalize).
@@ -650,7 +662,43 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 #### <b>4. Misc </b>
 
+<b>2023</b>
+
+- ###### [Binding Language Models in Symbolic Languages](https://arxiv.org/pdf/2210.02875.pdf) (Cheng et al., ICLR 2023)
+
+- ###### [Emergent World Representations: Exploring a Sequence Model Trained On a Synthetic Task](https://openreview.net/pdf?id=DeG07_TcZvT) (Li et al., ICLR 2023).
+
+    refer to [blog](/blog/2023/representation-probe)
+
+- ###### [Quantifying Memorization Across Neural Language Models](https://arxiv.org/pdf/2202.07646.pdf) (Carlini et al., ICLR 2023)
+
+    Definition of memorization in this paper: 
+    ```
+    A training sample s is extractable with k tokens of context from a model f if the model can produce 
+    exactly s[k:] using greedy decoding when prompted with s[:k].
+
+    ```
+    Several key observations:
+
+    - Bigger models memorize more. By comparing with a baseline model which has not seen the test data before, they conclude that the model actually memorizes data.
+    - It is easier to memorize repeated data.
+    - Longer prompt (large k) invoke more memorized data.
+
 <b>2022</b>
+
+- ###### [Language Models of Code are Few-Shot Commonsense Learners](https://aclanthology.org/2022.emnlp-main.90.pdf) (Madaan et al., EMNLP 2022).
+
+- ###### [Fast Model Editing at Scale](https://arxiv.org/pdf/2110.11309.pdf) (Mitchell et al., ICLR 2022).
+
+- ###### [Locating and Editing Factual Associations in GPT](https://arxiv.org/pdf/2202.05262.pdf) (Meng et al., Neurips 2022).
+
+- ###### [Understanding Dataset Difficulty with V-Usable Information](https://proceedings.mlr.press/v162/ethayarajh22a/ethayarajh22a.pdf) (Ethayarajh et al., ICML 2022).
+
+    refer to [blog](/blog/2022/dataset-difficulty)
+
+- ###### [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
+
+    Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
 
 - ###### [The Trade-offs of Domain Adaptation for Neural Language Models](https://aclanthology.org/2022.acl-long.264.pdf) (Grangier et al., ACL 2022)
 
@@ -677,7 +725,27 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     <b>3. Fine-Tuning & Multitask Learning</b>
 
     Pre-training a LM on a large out-of-domain corpus $$D$$ then fine-tuning it on a small in-domain corpus $$T$$ implicitly involves the trade-off between empirical losses over $$T$$ and $$D$$. This trade-off is controlled by the number of fine-tuning steps $$n_{ft}$$: $$ \parallel \theta_{ft} - \theta_D  \parallel_2 \;\leqslant \lambda n_{ft} g_{max} $$ where $$\lambda$$ is maximum learning rate, $$g_{max}$$ is upper bound of update norm. More fine-tuning steps $$n_{ft}$$, larger possible distance between $$\theta_{ft}$$ and $$\theta_D$$ is, meaning that $$\theta_{ft}$$ could be no longer optimal for $$D$$ where $$\mathcal{L}(\theta_{ft}; D)$$ may be far from the optimum $$\mathcal{L}(\theta_{D}; D)$$. For this reason, fine-tuning is also considered as a regularization technique.
+
+- ###### [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+
+    The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
+
+    Some empirical findings about $$M(f)$$ and $$T(f, \tau)$$ are:
+    - Larger causal LMs memorize faster. Smaller masked LMs memorize quicker initially (lower $$\tau$$) and slower in the long run (larger $$\tau$$).
+    - The studied memorization occurs before overfitting $$\rightarrow$$ overfitting cannot explain why larger models memorize faster.
+    - Learning ability of large LMs are less sensitive to learning rate.
+    - Prepending a unique identifer to every traing samples leads to faster memorization.
+    - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
+    - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
+
+- ###### From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)
     
+    SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
+    >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
+    
+    In zero-shot setting, we can generate some very simple samples for each classification label (e.g. 8 samples per label) to make it a few-shot learning problem. For example, in the sentiment analysis task, using template "This sentence is about {}", a positive sample for label "joy" can be "This sentence is about joy", for label "sadness" can be "This sentence is about sadness", etc.
+
+- ###### [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
 
 <b>2021</b>
 
@@ -706,37 +774,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
         $$Loss = \lambda Loss_{classification \; task} + (1-\lambda) Loss_{MLM \; task}$$.
 
         During this process, the samples from two tasks are interleaved in a batch and are fed to the BERT encoder. The value of $$\lambda$$ is determined by the proportion of samples of the classification task (i) in the batch. 
-
-<b>2020</b>
-
-- ###### [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
-
-    BioMegatron is a Megatron-LM pretrained on PubMed dataset and/or others general corpus for Biomedical domain. 
-
-    The paper studies the impact of several factors on the performance of both general LM and domain-adapted LM on 3 applications: NER, RE and Q/A in Biomedical domain.
-
-    - Domain-specific vocabulary is important for NER and RE task as general-vocabulary breaks domain named-entities into sub-words.
-    - Q/A: (i) BioMegatron with <b>Bio-vocab</b> finetuned on general SQUAD then on BioASQ results poor results on BioASQ. (ii) larger models tend to perform better.
-    - Domain Transfer & Generalization: (i) NER: general LLM with general vocabulary if pre-trained sufficiently on domain-specific corpus can be as good as a LM pre-trained only domain corpus only with general vocabulary. (ii) Q/A: large general LM fine-tuned on BioASQ does not mean better performance. (iii) General-domain Q/A: large BioMegatron performs better than small general LM on general-domain Q/A.
-
-<b>2023</b>
-
-- ###### [Emergent World Representations: Exploring a Sequence Model Trained On a Synthetic Task](https://openreview.net/pdf?id=DeG07_TcZvT) (Li et al., ICLR 2023).
-
-    refer to [blog](/blog/2023/representation-probe)
-
-<b>2022</b>
-
-- ###### [Understanding Dataset Difficulty with V-Usable Information](https://proceedings.mlr.press/v162/ethayarajh22a/ethayarajh22a.pdf) (Ethayarajh et al., ICML 2022).
-
-    refer to [blog](/blog/2022/dataset-difficulty)
-
-- ###### [A Contrastive Framework for Neural Text Generation](https://arxiv.org/pdf/2202.06417.pdf) (Su et al., NeurIPS 2022).
-
-    Aiming at avoiding repetition patterns while maintaining semantic coherence in generated text, <b>constrastive search</b> introduces a *degeneration penalty* into the decoding objective. This *degeneration penalty* compares the cosine similarity between a token at current decoding step and all generated tokens at previous decoding steps. The closer the token is to precedent decoded text (more likely leading to repetition), the larger the penalty it receives.
-
-
-<b>2021</b>
 
 - ###### [MAUVE: Measuring the Gap Between Neural Text and Human Text using Divergence Frontiers](https://arxiv.org/pdf/2102.01454.pdf) (Pillutla et al., NeurIPS 2021).
 
@@ -774,38 +811,27 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
 
+- ###### Dropout [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
 
-<b>2023</b>
+    An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
 
-- ###### [Quantifying Memorization Across Neural Language Models](https://arxiv.org/pdf/2202.07646.pdf) (Carlini et al., ICLR 2023)
+- ###### [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
 
-    Definition of memorization in this paper: 
-    ```
-    A training sample s is extractable with k tokens of context from a model f if the model can produce 
-    exactly s[k:] using greedy decoding when prompted with s[:k].
+    The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
 
-    ```
-    Several key observations:
+    $$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
 
-    - Bigger models memorize more. By comparing with a baseline model which has not seen the test data before, they conclude that the model actually memorizes data.
-    - It is easier to memorize repeated data.
-    - Longer prompt (large k) invoke more memorized data.
+    However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
 
-<b>2022</b>
+    $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
 
-- ###### [Memorization Without Overfitting: Analyzing the Training Dynamics of Large Language Models](https://arxiv.org/pdf/2205.10770.pdf) (Tirumala et al., Neurips 2022)
+    This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
+    
+    <b>Solution</b> Rather than calculating the ranking score $$score \; (y \mid x)$$  via $$p(y \mid x)$$ which make solutions $$y$$ compete each other, the <b>Pointwise Mutual Information (PMI)</b> is leveraged to evaluate the relevance between the input $$x$$ and the output $$y$$:
 
-    The paper presents a large-scale study of the dynamics of memorization over LM training. The metric *exact memorization* $$M(f)$$ of a LM $$f$$  is defined as the proportion of times the LM $$f$$ predicts the gold token for the masked token in training dataset. Given a threshold $$\tau$$, $$T(f, \tau)$$ is the minimal number of times (i.e. training epoches) the model $$f$$ needs to see each training sample in order to satisfy $$M(f) \geq \tau$$.
+    $$score \; (y \mid x) = \text{PMI}(x, y) = log \frac{p(x,y)}{p(x) \times p(y)} = log \frac{p (x \mid y)}{p(x)}$$
 
-    Some empirical findings about $$M(f)$$ and $$T(f, \tau)$$ are:
-    - Larger causal LMs memorize faster. Smaller masked LMs memorize quicker initially (lower $$\tau$$) and slower in the long run (larger $$\tau$$).
-    - The studied memorization occurs before overfitting $$\rightarrow$$ overfitting cannot explain why larger models memorize faster.
-    - Learning ability of large LMs are less sensitive to learning rate.
-    - Prepending a unique identifer to every traing samples leads to faster memorization.
-    - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
-    - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
-
-<b>2021</b>
+    While $$p (x)$$ is constant w.r.t $$y$$ and the probability of surface form $$p (y)$$ is factored out in $$\text{PMI}(x, y)$$, the ranking of a solution $$y$$ relies solely on $$p (x \mid y)$$ that does not cause the competition between different $$y$$.
 
 - ###### [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://aclanthology.org/2021.acl-long.353.pdf) (Li et al., ACL 2021)
 
@@ -832,9 +858,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Performance scales with model size: the larger, the better.
     - May improve the roburstness to domain shifts: outperform in-domain fine-tuning on out-of-domain datasets.
     - Efficient prompt ensemble: better than single prompt and parameter-efficient as the core LM is freezed and shared.
-    
 
 <b>2020</b>
+
+- ###### [BioMegatron: Larger Biomedical Domain Language Model](https://aclanthology.org/2020.emnlp-main.379.pdf) (Shin et al., EMNLP 2020)
+
+    BioMegatron is a Megatron-LM pretrained on PubMed dataset and/or others general corpus for Biomedical domain. 
+
+    The paper studies the impact of several factors on the performance of both general LM and domain-adapted LM on 3 applications: NER, RE and Q/A in Biomedical domain.
+
+    - Domain-specific vocabulary is important for NER and RE task as general-vocabulary breaks domain named-entities into sub-words.
+    - Q/A: (i) BioMegatron with <b>Bio-vocab</b> finetuned on general SQUAD then on BioASQ results poor results on BioASQ. (ii) larger models tend to perform better.
+    - Domain Transfer & Generalization: (i) NER: general LLM with general vocabulary if pre-trained sufficiently on domain-specific corpus can be as good as a LM pre-trained only domain corpus only with general vocabulary. (ii) Q/A: large general LM fine-tuned on BioASQ does not mean better performance. (iii) General-domain Q/A: large BioMegatron performs better than small general LM on general-domain Q/A.
 
 - ###### [Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://aclanthology.org/2020.acl-main.740) (Gururangan et al., ACL 2020): 
 
@@ -845,60 +880,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Combined <b>DAPT, then TAPT</b> setting achieves the best performance on all tasks.
     - <b>TAPT</b> could be harmful when applied across tasks (i.e. pretrain the LM with unlabeled data of a task, then fine-tune it with data of another task within the same given domain can degrade the performance of later task).
     - In low-resource scenario, augmenting the unlabeled data that aligns with the task distribution is beneficial. One data augmentation approach is to employ an external LM to encode task's data and in-domain corpus into a shared embedding space, then for each sample in the task's data, $$k$$ candidate samples are selected from the in-domain corpus using k-nearest neighbor search.
-
-<b>2019</b>
-
-- ###### [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
-
-    Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
-
-<b>2022</b> 
-
-- ###### From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)
-    
-    SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
-    >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
-    
-    In zero-shot setting, we can generate some very simple samples for each classification label (e.g. 8 samples per label) to make it a few-shot learning problem. For example, in the sentiment analysis task, using template "This sentence is about {}", a positive sample for label "joy" can be "This sentence is about joy", for label "sadness" can be "This sentence is about sadness", etc.
-
-<b>2021<b>
-
-- ###### Dropout [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
-
-    An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
-
-<b>2016</b>
-
-- ###### Back Translation [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
-
-    Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
-
-
-<b>2022</b>
-
-- ###### [Improving Language Models by Retrieving from Trillions of Token](https://proceedings.mlr.press/v162/borgeaud22a/borgeaud22a.pdf) (Borgeaud et al., ICML 2022)
-
-<b>2021</b>
-
-- ###### [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
-
-    The likelihood of a text $$y=y_1, y_2,...,y_n$$ (where $$y_i$$ is a token in the vocabulary) of length $$n$$ given an input text $$x$$,  is given by a LM:
-
-    $$p(y \mid x) = \prod_{i=1}^{n} p(y_i \mid x, y_{i-1}...y_1)$$
-
-    However, in the context of scoring function, the likelihood $$p(y \mid x)$$ is not widely used to compare the text $$y$$ with other texts $$y'$$ given $$x$$. Instead, the *length-normalized* log-likelihood has been standard for this end. 
-
-    $$score \; (y \mid x) = \frac{log \; p(y \mid x)}{n} = \frac{\sum_{i=1}^{n} log \; p(y_i \mid x, y_{i-1}...y_1) }{n}$$
-
-    This paper investigates an very interesting problem of text scoring function used to determine a prediction $$y$$ for an input $$x$$ with LM: <b> surface form competition </b>. Specifically, given $$x$$, there could be many relevant $$y$$(s) that differ from their surface forms but share the same underlying concept in the context of $$x$$. For example, if $$x$$ is "Which is the richest country in the world", then $$y$$ could be "USA", "United States", "U.S.A" or even "U.S of A". All those answers should receive high score, however, since they come from the same finite probability mass function $$p(y \mid x)$$, they compete each other for how much probability they could get. Due to the different level of popularity of each answer $$y$$ in the training corpus, the model tends to allocate much more probability mass to popular "United States" or "USA", which consequently decrease the amount for rare "U.S of A".
-    
-    <b>Solution</b> Rather than calculating the ranking score $$score \; (y \mid x)$$  via $$p(y \mid x)$$ which make solutions $$y$$ compete each other, the <b>Pointwise Mutual Information (PMI)</b> is leveraged to evaluate the relevance between the input $$x$$ and the output $$y$$:
-
-    $$score \; (y \mid x) = \text{PMI}(x, y) = log \frac{p(x,y)}{p(x) \times p(y)} = log \frac{p (x \mid y)}{p(x)}$$
-
-    While $$p (x)$$ is constant w.r.t $$y$$ and the probability of surface form $$p (y)$$ is factored out in $$\text{PMI}(x, y)$$, the ranking of a solution $$y$$ relies solely on $$p (x \mid y)$$ that does not cause the competition between different $$y$$.
-
-<b>2020</b>
 
 - ###### [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
 
@@ -912,3 +893,17 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - No additional training required.
     - Long-tail patterns can be explicitly memorized in the pre-built catalog $$\mathcal{C}$$ instead of encoded implicitly in model parameters. New domain can be adapted to LM by creating a new catalog for the target domain dataset.
     - $$k$$ nearest neighbor search in the embedding space of word sequences can be efficiently done using FAISS index.
+
+<b>2019</b>
+
+- ###### [When does label smoothing help?.](https://arxiv.org/abs/1906.02629) (Müller et al., NeurIPS 2019).
+
+    Optimizing cross entropy loss with hard targets (i.e. one-hot encoding labels) can make the model predict a training sample too confidently where the logit predicted for true label is very large comparing with ones predicted for other labels, as a consequence, the softmax function will generate probabilities with huge gap (e.g. 0.99 for target label and ~0.0 for other labels). To alleviate this issue, one solution is to increase the *temperature T* to smooth out soft-max probabilities. Another solution is: instead of training with one-hot encoded label (e.g. [1, 0, 0]), we use soft label (e.g. [0.9, 0.05, 0.05]) by re-weighing labels with a small added value playing as noise. <b>Note:</b> we shoud not distill knowledge from a teacher model which is trained with label smoothing since it cause accuracy degradation. 
+
+<b>2016</b>
+
+- ###### Back Translation [Improving Neural Machine Translation Models with Monolingual Data](https://aclanthology.org/P16-1009) (Sennrich et al., ACL 2016) 
+
+    Given a text in a known language, we translate it into some other languages and then translate it back to the original language. This will generate synthetic texts that syntactically differ from the input text but have similar semantics. For example, the English sentence "I love watching move" is translated into French: "J'aime regarder un film" then mapped back to English: "I like to watch a movie".
+
+
