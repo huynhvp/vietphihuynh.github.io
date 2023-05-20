@@ -664,6 +664,19 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [CodeT5+: Open Code Large Language Models for Code Understanding and Generation](https://arxiv.org/pdf/2305.07922.pdf) (Wang et al., arxiv 2023)
+
+    <b>CodeT5+</b>, an enhanced version of code language model CodeT5. Through a mixture of pre-training objectives as well as using both unimodal (only code) and bimodal (code-text) corpora, the encoder and decoder have strong representation capability that mitigate the pretrain-finetune discrepancy. Specifically, the pre-training objectives are:
+    - Span Denoising: similar to T5
+    - Causal language modeling: (i) generate the second part of a code function given the first part, (ii) generate the whole code function given a special token [CLM]
+    - Text-Code Contrastive Learning: to align the representation space of code and text, the encoder is trained with contrastive learning where positive code-text pairs are pulled together and negative ones are pulled apart. [CLS] is appended to the input sequence (code or text) and regarded as the representation of the input.
+    - Text-Code Matching: the encoder takes in a text, the decoder takes in a code, a special token [EOS] is appended to the end of the code and its embedding is used to train a binary classifier, predicting whether the text matches (or unmatches) the code 
+    - Text-Code Causal LM: the encoder takes a text (resp. a code) and the decoder generates the corresponding the code (reps. text).
+    - Instruction tuning: to  align the model with natural language instructions.
+
+    With the intuition that the generation in the decoder may have a higher degree of complexity than the encoding in the encoder, <b>CodeT5+</b> employs "shallow encoder and deep decoder" architecture. Furthermore, for an efficient pretraining, only the encoder's layers and cross-attention layers are trainable, while the decoder is freezed.
+
+
 - ###### [Binding Language Models in Symbolic Languages](https://arxiv.org/pdf/2210.02875.pdf) (Cheng et al., ICLR 2023)
 
 - ###### [Emergent World Representations: Exploring a Sequence Model Trained On a Synthetic Task](https://openreview.net/pdf?id=DeG07_TcZvT) (Li et al., ICLR 2023).
