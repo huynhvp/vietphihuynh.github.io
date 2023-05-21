@@ -282,6 +282,24 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Can LMs Learn New Entities from Descriptions? Challenges in Propagating Injected Knowledge](https://arxiv.org/pdf/2305.01651.pdf) (Onoe et al., ACL 2023)
 
+    This work investigates whether LM can add a new entity through entity's description, propagate this information and performance inference on the new entity. 
+
+    ![](/assets/img/cheatsheet/new_entity.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Different from works on injecting facts into LM, where the inference is usually based on the paraphrasing version of injected facts (e.g. upper part of the image above), this work involves higher level of inference complexity, which requires the model learn/propagate new entities from their definitions, and evaluate diverse facts around the new entities. A few examples can be found in the table below:
+
+    ![](/assets/img/cheatsheet/new_entity_2.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)      
+
+    Evaluation metrics for the inference on injected entities: 
+    - Update success: accuracy or perplexity (i.e updated model should have lower perplexity on facts related to new entities)
+    - Specificity: the entity injection should not impact the existing facts that do not relate to new entities. Or, the perplexity on those facts should not be increased.
+
+    <b>Findings:</b> (i) full fine-tuning approach can work effectively on controlled benchmark (LM does not predict an answer for a probe, but instead choose an answer from a set of candidates) , but it comes at the code of increasing the specificity.; (ii) finetuning for longer does not necessarily propagate the entity's information into the model; (iii) for more realistic benchmark which require higher level of reasoning/inference, none of model editting techniques improve the update success while keeping specificity stable. Furthermore, author found that such techniques only work when there is lexical overlap between the target inference and the definition of injected entity (e.g. answer span contained in the definition).
+
 - ###### [DEMONSTRATE–SEARCH–PREDICT: Composing retrieval and language models for knowledge-intensive NLP](https://arxiv.org/pdf/2212.14024.pdf) (Khattab et al., arxiv 2023)
 
 - ###### [CODEIE: Large Code Generation Models are Better Few-Shot Information Extractors](https://arxiv.org/pdf/2305.05711.pdf) (Li et al., ACL 2023)
