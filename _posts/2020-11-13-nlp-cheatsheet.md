@@ -565,6 +565,26 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Symbol Tuning Improves In-Context Learning In Language Models](https://arxiv.org/pdf/2305.08298.pdf) (Wei et al., arxiv 2023)  
+
+    The paper relies on the intuitions related to in-context learning (ICL) for classification-type tasks:
+    - The model is not forced to learn to reason from provided demonstrations as it can sometimes understand the task by just reading the instruction and natural language labels.
+    - When the model can not rely on the instructions (e.g. empty instruction) or relevant natural language labels (e.g. random label) to figure out the task, it has to reason from and learn the input-label mapping to understand the task, as described in the image below:
+
+    ![](/assets/img/cheatsheet/symbol_tuning.png){:style="width: 30%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    Author proposes <b>Symbol Tuning</b>, a simple fine-tuning that forces the model to learn the input-label mapping in the demonstrations, by removing the instruction and replacing the natural language labels by random (semantically-unrelated) ones. By this way, the model could be endowed with better in-context learning.
+
+    Findings are:
+    - Symbol-tuning shows strong potential to improve the model performance when tasks are not clear, relevant labels are unavailable and require learning from demonstrations.
+    - Symbol-tuning may degrade the performance of smaller LM (8B) on tasks where task instructions and relevant labels are available. One solution to this is to mix instruction-tuning and symbol-tuning data during the tuning. The proportion of two components is not important.
+    - Symbol-tuning is efficient as it requires fewer steps to achieve stable performance.
+    - Symbol-tuned models can override what it has learnt before via flipped labels (e.g. 0 --> True, 1 --> False instead of 1 --> True, 0 --> False as usual). Indeed, symbol tuning forces the model to read the {input, flipped label} pairs in the demonstration, which should make it rely less on prior knowledge that may counter the flipped labels.
+
+    <br>
+
 - ###### [Selective Annotation Makes Language Models Better Few-Shot Learners](https://arxiv.org/pdf/2209.01975.pdf) (Su et al., ICLR 2023)  
 
 - ###### [Learning to Reason and Memorize with Self-Notes](https://arxiv.org/pdf/2305.00833.pdf) (Lanchantin et al., arxiv 2023)   
