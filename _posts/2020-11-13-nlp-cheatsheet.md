@@ -25,6 +25,8 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
+- ###### [How Does Generative Retrieval Scale to Millions of Passages?](https://arxiv.org/pdf/2305.11841.pdf) (Pradeep∗ et al., arxiv 2023)
+
 - ###### [Recitation-Augmented Language Models](https://arxiv.org/pdf/2210.01296.pdf) (Sun et al., ICLR 2023)
 
     Leveraging the memorizing ability of large language models, the paper propose <b>RECITE</b>, a recite-and-answer strategy for close book question answering. Instead of retrieving supports from external corpus ("open book"), the model tries to recite the relevant knowledge stored in the model parameters ("close book") and then answer the question (in the similar way to chain-of-thought prompting). 
@@ -280,6 +282,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Methods for Measuring, Updating, and Visualizing Factual Beliefs in Language Models](https://aclanthology.org/2023.eacl-main.199.pdf) (Hase et al., EACL 2023)
+
 - ###### [Can LMs Learn New Entities from Descriptions? Challenges in Propagating Injected Knowledge](https://arxiv.org/pdf/2305.01651.pdf) (Onoe et al., ACL 2023)
 
     This work investigates whether LM can add a new entity through entity's description, propagate this information and performance inference on the new entity. 
@@ -377,6 +381,19 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 <b>2022</b>
 
 - ###### [Entity Cloze By Date: What LMs Know About Unseen Entities](https://www.cs.utexas.edu/~yasumasa/papers/ecbd.pdf) (Onoe et al., Finding NAACL 2022)
+
+    The paper introduces ECBD dataset, containing new entities that are did not exist when the LMs were pretrained, together with cloze sentences in which the entity mentions are found.
+
+    ![](/assets/img/cheatsheet/ecbd.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    The masked spans in cloze sentences are chosen that likely relates to the new entities. For each cloze sentence (ORIGINAL), three variants are generated:
+    - NO ENT: replaces the entity mention span by mention of another entity that is seen during pre-training.
+    - RANDOM DEFINITION: prepend the definition of a random entity to ORIGINAL.
+    - DEFINITION: prepend the definition of the gold entity to ORIGINAL.
+
+    By measuring the perplexity on 4 categories of cloze sentence, author suggest that injecting additional information (i.e. entity definition) can help the LM guess better (lower perplexity) the masked spans related to new entities.
 
 - ###### [Large Language Models Struggle to Learn Long-Tail Knowledge](https://arxiv.org/pdf/2211.08411.pdf) (Kandpal et al., arxiv 2022)
 
@@ -701,6 +718,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 #### <b>4. Misc </b>
 
 <b>2023</b>
+
+- ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
 
 - ###### [CodeT5+: Open Code Large Language Models for Code Understanding and Generation](https://arxiv.org/pdf/2305.07922.pdf) (Wang et al., arxiv 2023)
 
