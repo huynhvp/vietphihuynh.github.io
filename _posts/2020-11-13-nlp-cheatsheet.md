@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2023-05-02 10:09:00
+date: 2023-06-02 10:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -26,6 +26,13 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 <b>2023</b>
 
 - ###### [How Does Generative Retrieval Scale to Millions of Passages?](https://arxiv.org/pdf/2305.11841.pdf) (Pradeep∗ et al., arxiv 2023)
+
+    Differential search index (DSI) has emerged as a novel generative retrieval, deviating from common retrieve-then-rerank paradigm. While working effectively on small corpus ( O(100k) documents ), this paper has pointed that the performance of DSI when scaling to large corpus ( O(1M) documents ) is significantly degraded. Several observations:
+    - Synthetic queries for the fine-tuning of retrieval phase are important, as it helps to reduce the coverage gap: indexing phase sees the whole corpus while this is not the case for retrieval phase.
+    - In case of MSMarco, indexing phase does not yield gain.
+    - In case of MSMarco, using Naive IDs as Document Identifiers has strongest performance among {Atomic ID, Naive ID, Semantic ID}. However, scaling LM from T5-XL (3B) to T5-XXL (11B) causes performance drop.
+    
+    Note: the paper consider only MS-Marco as large corpus, which may cause a bias in the evaluation.
 
 - ###### [Recitation-Augmented Language Models](https://arxiv.org/pdf/2210.01296.pdf) (Sun et al., ICLR 2023)
 
@@ -302,7 +309,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Update success: accuracy or perplexity (i.e updated model should have lower perplexity on facts related to new entities)
     - Specificity: the entity injection should not impact the existing facts that do not relate to new entities. Or, the perplexity on those facts should not be increased.
 
-    <b>Findings:</b> (i) full fine-tuning approach can work effectively on controlled benchmark (LM does not predict an answer for a probe, but instead choose an answer from a set of candidates) , but it comes at the code of increasing the specificity.; (ii) finetuning for longer does not necessarily propagate the entity's information into the model; (iii) for more realistic benchmark which require higher level of reasoning/inference, none of model editting techniques improve the update success while keeping specificity stable. Furthermore, author found that such techniques only work when there is lexical overlap between the target inference and the definition of injected entity (e.g. answer span contained in the definition).
+    <b>Findings:</b> (i) full fine-tuning approach can work effectively on controlled benchmark (LM does not predict an answer for a probe, but instead choose an answer from a set of candidates) , but it comes at the cost of increasing the specificity.; (ii) finetuning for longer does not necessarily propagate the entity's information into the model; (iii) for more realistic benchmark which require higher level of reasoning/inference, none of model editting techniques improve the update success while keeping specificity stable. Furthermore, author found that such techniques only work when there is lexical overlap between the target inference and the definition of injected entity (e.g. answer span contained in the definition).
 
 - ###### [DEMONSTRATE–SEARCH–PREDICT: Composing retrieval and language models for knowledge-intensive NLP](https://arxiv.org/pdf/2212.14024.pdf) (Khattab et al., arxiv 2023)
 
