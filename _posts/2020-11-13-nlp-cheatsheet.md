@@ -393,7 +393,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - RANDOM DEFINITION: prepend the definition of a random entity to ORIGINAL.
     - DEFINITION: prepend the definition of the gold entity to ORIGINAL.
 
-    By measuring the perplexity on 4 categories of cloze sentence, author suggest that injecting additional information (i.e. entity definition) can help the LM guess better (lower perplexity) the masked spans related to new entities.
+    By measuring the perplexity on 4 categories of cloze sentence, author suggest that injecting additional information (i.e. entity definition) can help the LM guess better (perplexity order: DEFINITION < ORIGINAL~RANDOM DEFINITION < NO ENT) the masked spans related to new entities.
 
 - ###### [Large Language Models Struggle to Learn Long-Tail Knowledge](https://arxiv.org/pdf/2211.08411.pdf) (Kandpal et al., arxiv 2022)
 
@@ -758,6 +758,24 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Language Models of Code are Few-Shot Commonsense Learners](https://aclanthology.org/2022.emnlp-main.90.pdf) (Madaan et al., EMNLP 2022).
 
+    <b>CoCoGen</b> shows that Code-LLMs outperforms natural-LLMs for structured data-related tasks or structured commonsense reasoning tasks such as graph generation, graph reasoning.
+
+    ![](/assets/img/cheatsheet/cocogen.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    The intuition is that it is easier and more informative to convert structured data into code rather than serializing it into plain-text. Consequently, this helps to narrow the gap between fine-tuning data and pre-training data in Code-LLMs.
+
+    Through experiments on script generation task (PROSCRIPT: generate a graph [nodes, edges] given a goal or predict the edge set given the goal and the node set) and entity state tracking task (PROPARA: predict the state of an entity after an action), <b>CoCoGen</b> achieve several remarks:
+    - Few-shot Code-LLMs outperform few-shot NL-LLMs of similar size or fine-tuned-LLMs in all semantic and structural metrics.
+    - Impressive performance of Code-LLms in edge-genration task suggest that Code-LLMs are highly capable of capturing structure.
+    - Code-LLMs reasons better than NL-LLMs, via tracking better the state of entitiy after a series of actions.
+    - Both code-like prompts and Code-LLMs are important for the performance improvement of structured-related task.
+    - Prompts that are more similar to the conventions of typical code may benefit more gains.
+    - Automatic metrics proposed in CoCoGen (i.e. semantic and structural metrics correlates) with human evaluation.
+
+    <br>
+
 - ###### [Fast Model Editing at Scale](https://arxiv.org/pdf/2110.11309.pdf) (Mitchell et al., ICLR 2022).
 
 - ###### [Locating and Editing Factual Associations in GPT](https://arxiv.org/pdf/2202.05262.pdf) (Meng et al., Neurips 2022).
@@ -808,7 +826,9 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - LMs memorize nouns, proper nouns, numeral values earlier than adjectives, verbs.
     - The forgetting curve has a lower bound and this value increases as the model become bigger $$\rightarrow$$ large models forget less.
 
-- ###### From zero-shot to few-shot Text Classification with [SetFit](https://arxiv.org/pdf/2209.11055.pdf)
+    <br>
+
+- ###### [From zero-shot to few-shot Text Classification with SetFit](https://arxiv.org/pdf/2209.11055.pdf) (Tunstall et al., ENLSP at Neurips 2022)
     
     SetFit is a few-shot text classifier (e.g. sentiment analysis) based on [Sentence Transformer](https://arxiv.org/abs/1908.10084). Speaking of its performance,
     >  With only 8 labeled examples per class on the Customer Reviews (CR) sentiment dataset, SetFit$$_{MPNET}$$ (110M parameters) is competitive with fine-tuning RoBERTa Large (355M parameters) on the full training set of 3k examples 🤯. (Source: https://huggingface.co/blog/setfit)
@@ -876,6 +896,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Decoding algorithm: consistent with prevail conclusion: greedy $$\prec$$ ancestral $$\prec$$ nucleus.
     - Embedding scheme and Quantization scheme: robust to different embedding models and quantization algorithms, yielding consistent results.
     - High correlation with human evaluation.
+
+    <br>
 
 - ###### [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
 
@@ -950,6 +972,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - Combined <b>DAPT, then TAPT</b> setting achieves the best performance on all tasks.
     - <b>TAPT</b> could be harmful when applied across tasks (i.e. pretrain the LM with unlabeled data of a task, then fine-tune it with data of another task within the same given domain can degrade the performance of later task).
     - In low-resource scenario, augmenting the unlabeled data that aligns with the task distribution is beneficial. One data augmentation approach is to employ an external LM to encode task's data and in-domain corpus into a shared embedding space, then for each sample in the task's data, $$k$$ candidate samples are selected from the in-domain corpus using k-nearest neighbor search.
+
+    <br>
 
 - ###### [Generalization through Memorization: Nearest Neighbor Language Models](https://arxiv.org/pdf/1911.00172.pdf) (Khandelwal et al., ICLR 2020):
 
