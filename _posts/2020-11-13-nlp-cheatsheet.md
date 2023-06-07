@@ -289,6 +289,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Flexible Grammar-Based Constrained Decoding for Language Models](https://arxiv.org/pdf/2305.13971.pdf) (Geng et al., arxiv 2023)
+
 - ###### [Methods for Measuring, Updating, and Visualizing Factual Beliefs in Language Models](https://aclanthology.org/2023.eacl-main.199.pdf) (Hase et al., EACL 2023)
 
 - ###### [Can LMs Learn New Entities from Descriptions? Challenges in Propagating Injected Knowledge](https://arxiv.org/pdf/2305.01651.pdf) (Onoe et al., ACL 2023)
@@ -589,6 +591,24 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
+
+    It is challenging to perform in-context learning with LLMs for the prediction of highly structured languages (e.g. semantic parsing or domain-specific language (DSL)). Effectively, DSLs are unlikely frequently seen during pretraining of LLM and it is not adequate for the model to uncover the complex task specification/requirement within a few demonstrations. 
+
+    This paper introduces <b>grammar prompting</b>, which augments in-context demonstrations with domain-specific constraint, expressed under [Backus–Naur Form (BNF) context-free grammar](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form). BNF is a metasyntax notation provding a symbolic way to define the syntax of a language (e.g. see <b>G[y]</b> as a minimal BNF grammar specialized for a calendar DSL of which <b>y</b> is an example).
+
+    ![](/assets/img/cheatsheet/grammar.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    While an instance of a DSL language like <b>y</b> is rare in the pre-training, author argues that the metalanguage used to describe the DSL language like BNF <b>G[y]</b> is, to some extent, more often. Consequently, like Chain-of-Thought prompting, <b>grammar prompting</b> suggests performing several intermediate reasoning step (i.e. generate automatically <b>G[y]</b>) before arriving at the final prediction (i.e. decoding <b>G[y]</b> to get <b>y</b>).
+
+    During in-context learning, author discovers that <b>providing the full grammar G</b> to the demonstrations is not effective. They proposes instead a minimal grammar G' $$\subset$$ G which is enough to constraint the generation of the corresponding demonstrations. 
+
+    The generation of <b>G'</b> is constrained by *metalanguage* (the grammar of G') and the generation of <b>y</b> is constrained by G' (the grammar of y). Instead of verifying the validity of generated token at each decoding step, <b>grammar prompting</b> first predicts the whole output (without constraint). If the output is legal, it is returned. Otherwise, an incremental parser is used to extract the longest valid prefix from the output. The prediction is continued from this prefix.
+
+    Tested on semantic parsing task, <b>grammar prompting</b> outperforms standard prompting without constrained decoding or with decoding constrained on full grammar G. However, it still lags behind the prompting with decoding constrained on the gold G' (not predicted G' as in <b>grammar prompting</b>), indicating room for future improvements.
+
 - ###### [Symbol Tuning Improves In-Context Learning In Language Models](https://arxiv.org/pdf/2305.08298.pdf) (Wei et al., arxiv 2023)  
 
     The paper relies on the intuitions related to in-context learning (ICL) for classification-type tasks:
@@ -725,8 +745,6 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 #### <b>4. Misc </b>
 
 <b>2023</b>
-
-- ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
 
 - ###### [CodeT5+: Open Code Large Language Models for Code Understanding and Generation](https://arxiv.org/pdf/2305.07922.pdf) (Wang et al., arxiv 2023)
 
