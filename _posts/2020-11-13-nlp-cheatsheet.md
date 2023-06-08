@@ -289,6 +289,22 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., arxiv 2023)
+
+    LM can perform well with KG-based one-hop Q/A thanks to its ability to memorize injected triples. However, for two-hop Q/A, the model finds difficult to combine separate triples that supports the question to arrive at the correct answer. This paper improves the two-hop Q/A by exposing the model to two-hop predicate paths explicitly. This is done through several tuning based on T5, resulting <b>KNowledge-Integrated T5 (KNIT5)</b>:
+    - Knowledge Integration: given a triple (s,p,o), model is tuned to predict o given s and p.
+    - Two-hop Knowledge Integration: given two triples (s1, p1, o1) and (o1, p2, o2), model is prefix tuned to predict o2 given s1, p1, o1, p2.
+    - Either of the two prefix tuning methods below is considered
+        - <b>Parse-the-Hop</b>: consists of two steps: (i) given input question, model is tuned to parse the question into a two-hop path (s1, p1, o1, p2); (ii) model then predict the answer o2 given (s1, p1, o1, p2).
+        - <b>MixHop</b>: jointly tune the two steps.
+
+    ![](/assets/img/cheatsheet/multi_hop.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    The above training paradigm shows to improve substantially the 2-hop capabilities of LMs, but mostly in large LMs. (e.g. T5-XXL).
+
+
 - ###### [Flexible Grammar-Based Constrained Decoding for Language Models](https://arxiv.org/pdf/2305.13971.pdf) (Geng et al., arxiv 2023)
 
 - ###### [Methods for Measuring, Updating, and Visualizing Factual Beliefs in Language Models](https://aclanthology.org/2023.eacl-main.199.pdf) (Hase et al., EACL 2023)
