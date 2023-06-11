@@ -607,6 +607,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
+
 - ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
 
     It is challenging to perform in-context learning with LLMs for the prediction of highly structured languages (e.g. semantic parsing or domain-specific language (DSL)). Effectively, DSLs are unlikely frequently seen during pretraining of LLM and it is not adequate for the model to uncover the complex task specification/requirement within a few demonstrations. 
@@ -761,6 +763,40 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 #### <b>4. Misc </b>
 
 <b>2023</b>
+
+- ###### [Can Language Models Solve Graph Problems in Natural Language?](https://arxiv.org/pdf/2305.10037.pdf) (Wang et al., arxiv 2023)
+
+    LLMs are more and more adopted for tasks involving graphical structures. *can LLMs reason with graphs?*. The paper introduces the Natural Language Graph (NLGraph) benchmark including 29370 problems encompassing 8 graph reasoning tasks of different complexity. The graph in each problem is generated with controlled complexity level: number of edges, nodes, paths.
+
+    ![](/assets/img/cheatsheet/nlgraph.png){:style="width: 65%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Observations:
+    - LLms have prilimiary ability to handle simple graph reasoning task like connectivity, cycle and shorted path task. However, they tend to rely on, to some extent, the spurious correlation (e.g. node frequency vs. node connectivity) to make prediction.
+    - In-Context Learning with demonstrations underperforms zero-shot learning for complex structured reasoning tasks: hamilton path, bipartie graph matching.
+    - Two prompting methods are proposed to improve the graph reasoning: (i) build-a-Graph prompting:  append the instructionn: "Let’s construct a graph with the nodes and edges
+first" to the task description; (ii) algorithmic prompting: append the description of an algorithm that could be employed to reason the graph, such as depth-first-search for the shortest path task.
+
+    Above all, the performance of LLM for complex graph structured task remains unsolved.
+
+- ###### [Selection-Inference: Exploiting Large Language Models for Interpretable Logical Reasoning](https://openreview.net/pdf?id=3Pf3Wg6o-A4) (Creswell et al., ICLR 2023)
+
+- ###### [Trusting Your Evidence: Hallucinate Less with Context-aware Decoding](https://arxiv.org/pdf/2305.14739.pdf) (Shi et al., arxiv 2023)
+
+    LMs sometiems do not pay enough attention to the context given to it and over-rely on prior knowledge it learned in the pretraining. This could be an issue in case there is factual contradict between the prior knowledge and the context.
+
+    ![](/assets/img/cheatsheet/trust.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    This paper proposes <b>context-aware decoding</b> that integrates into the original output distribution with the pointwise mutual information (PMI) between the context $$c$$ and the output $$y$$ factoring out the contribution of prior knowledge:
+
+    $$y_t \sim softmax[(1+\alpha) \,  logit_{\theta} (y | c, x) - \alpha \, logit_{\theta} (y | x)]$$
+
+    where large $$\alpha$$ means more attention to the context $$c$$. ($$\alpha$$ is empirically determined at 0.5)
+
+    <b>context-aware decoding</b> consistenly improve the performance of various LLMs (e.g. LLaMa, FLAN, OPT) on summarization tasks and knowledge conflict related task such as MemoTrap.
 
 - ###### [CodeT5+: Open Code Large Language Models for Code Understanding and Generation](https://arxiv.org/pdf/2305.07922.pdf) (Wang et al., arxiv 2023)
 
