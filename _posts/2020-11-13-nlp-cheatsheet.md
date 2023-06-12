@@ -405,6 +405,37 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2022</b>
 
+- ###### [GREASELM: Graph Reasoning Enhanced Language Models for Question Answering](https://openreview.net/pdf?id=41e9o6cQPj) (Zhang et al., ICLR 2022)
+
+    The paper presents <b>GREASELM</b>, a Graph Reasoning Enhanced LM for improving multiple choice QA.
+    Differing from previous works, <b>GREASELM</b> fuses encoded representations of LM (used to encode QA context) and GNN (used to encode the KG that contains entities appearing in QA context) across <b>multiple network layers</b>. The information propagates from LM to GNN, and vice versa via two proxies: *interaction token* $$w_{int}$$ appended to QA context and *interaction node* $$e_{int}$$ appended to entity graph.
+
+    ![](/assets/img/cheatsheet/greaselm.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    <b>GREASELM</b> consists of three components stacked vertically:
+    - LM representation: an uni-modal encoder of N layers encodes the QA context and the prefix *interaction token* $$w_{int}$$.
+    - Graph representation and Cross-modal Fuser of M layers:
+        - An entity linker is employed to extract KG entities from QA context from which a small KG $$\mathcal{G}$$ is constructuted.
+        - The embeddings of entity nodes and proxy *interactive node* $$e_{int}$$ are calculated by graph attention network.
+        - LM leverages the reasoning skills of GNN by fusing, at every layer, the representations of tokens and nodes through two proxies $$w_{int}$$ and $$e_{int}$$:
+
+        $$[\textbf{h}_{int}^{(l)},\textbf{e}_{int}^{(l)}] = MInt([\hat{\textbf{h}}_{int}^{(l)},\hat{\textbf{e}}_{int}^{(l)}])$$ 
+
+        where ($$\hat{\textbf{h}}_{int}^{(l)},\hat{\textbf{e}}_{int}^{(l)}$$) and $$(\textbf{h}_{int}^{(l)},\textbf{e}_{int}^{(l)})$$ are embeddings of ($$w_{int}$$, $$e_{int}$$) before and after fusion. $$Mint$$ is a two-layer MLP.
+    - For multi-choice QA, the score of an answer is computed by another MLP taking in $$(\textbf{h}_{int}^{(N+M)},\textbf{e}_{int}^{(M)}, g)$$ where $$g$$ is attention-weighted embedding of graph entities.
+
+    <b>GREASELM</b> demonstrates better performance than previous KG-enhanced LM for CommonsenseQA, OpenbookQA, MedQA-USMLE.
+
+    Ablation shows :
+    - <b>GREASELM</b>'s improvement  questions that require complex reasoning: negation, hedging term's presence.
+    - Attention visualization makes sense.
+    ![](/assets/img/cheatsheet/greaselm_abla.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+
 - ###### [Entity Cloze By Date: What LMs Know About Unseen Entities](https://www.cs.utexas.edu/~yasumasa/papers/ecbd.pdf) (Onoe et al., Finding NAACL 2022)
 
     The paper introduces ECBD dataset, containing new entities that are did not exist when the LMs were pretrained, together with cloze sentences in which the entity mentions are found.
