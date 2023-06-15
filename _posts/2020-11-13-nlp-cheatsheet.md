@@ -795,6 +795,22 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Improving Representational Continuity with Supervised Continued Pretraining](https://arxiv.org/pdf/2302.13289.pdf) (Sun et al., arxiv 2023) + [Fine-tuning can distort pretrained features and underperform out-of-distribution](https://openreview.net/pdf?id=UYneFzXSJWh) (Kumar et al., ICLR 2022)
+
+    The paper title says it all. In the pretraining-then-finetuning paradigm, if the pre-trained features are good and the distribution shift between the fine-tuning data (in-domain) and the testing data (out-domain OOD) for downstream task is large, then fine-tuning outperforms (resp. underperforms) linear probing (only update the last linear layer) on in-domain test data (resp. OOD test data).
+
+    ![](/assets/img/cheatsheet/lp_ft.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    Author employs a toy example ($$output = w_{*} x$$) to illustrate this issue.
+
+    ![](/assets/img/cheatsheet/lp_ft_2.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    $$B_0$$ is the pretrained feature. $$w$$ is learned weights mapping input $$x$$ to output $$y$$. For fine-tuning, both $$B_0$$ and head layer $$v$$ needs to be updated. Assuming the subspace spanning in-domain data (horizontal axis $$x_1$$) is orthogonal to the subspace spanning OOD data (vertical axis $$x_2$$), then fine-tuning with in-domain data only modifies $$B_{x_1}$$ while $$B_{x_2}$$ keeps unchanged (vector in red color). They say pretrained features are distorted. Consequently, fine-tuning pushes the learned $$w_ft$$ far away from the true $$w_{*}$$ despite that $$w_ft$$ still yields good performance on in-domain data, but worse performance on out-domain data.
+
+    To mitigate this distribution shift, author proposes a simple strategy: linear probing then fine-tuning. Linear probing is performed first to get a better initialization of the head layer, then, the whole model parameters are updated with fine-tuning.
+
+    This paradigm is also beneficial for continual learning to help the model forget less the old tasks. Specifically, for each new task, the head layer is updated first by linear probing while others layers are freezed. Then, the fine-tuning updates all layer's parameters.
+
 - ###### [Can Language Models Solve Graph Problems in Natural Language?](https://arxiv.org/pdf/2305.10037.pdf) (Wang et al., arxiv 2023)
 
     LLMs are more and more adopted for tasks involving graphical structures. *can LLMs reason with graphs?*. The paper introduces the Natural Language Graph (NLGraph) benchmark including 29370 problems encompassing 8 graph reasoning tasks of different complexity. The graph in each problem is generated with controlled complexity level: number of edges, nodes, paths.
