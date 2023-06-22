@@ -9,7 +9,7 @@ categories: NLP, AI
 
 ---
 
-I am actively maintaining this blog post, gathering NLP papers around information extraction, augmented language model and prompting techniques. 
+I am actively maintaining this blog post, gathering NLP papers around information extraction, structured data-related downstream applications, augmented language models and prompting techniques. 
 
 ---
 
@@ -24,6 +24,21 @@ I am actively maintaining this blog post, gathering NLP papers around informatio
 Knowledge retriever aims at retrieving support passage (documents) that can help to explain the knowledge probed from LM. -->
 
 <b>2023</b>
+
+- ###### [Pre-computed memory or on-the-fly encoding? A hybrid approach to retrieval augmentation makes the most of your compute](https://arxiv.org/pdf/2301.10448.pdf) (de Jong, ICML 2023)
+
+    <b>LUMEN</b> is a retrieval-augmented LM that neutralizes the pros/cons of Fusion-in-Decoder LM (*on-the-fly-encoding*) and memory-augmented LM (*pre-computed memory*):
+    - Fusion-in-Decoder (FiD) encodes the retrieved passages on-the-fly together with the input $$Enc(input, passage_i)$$. Hence, it is expensive if number of retrieved passages is large.
+    - Memory-augmented pre-computes the embedding of passages, without taking the input into account, $$Enc(passage_i)$$. Hence, the representation of each passage is input-agnostic. This method is more efficient than FiD but less powerful.
+
+    <b>LUMEN</b> trade-off both methods by employing a frozen large encoder to pre-compute the embeddings for the passages and a live (aka. parameters will be fine-tuned) question-encoder to encode the question. Then, another live encoder but with smaller number of parameters will update the representation of a passage conditioned on the input. Finally, the decoder performs cross-attention over \{input, retrieved passage\} pairs to select the most relevant one, just like in FiD. As the live encoder in LUME is much smaller than FiD, LUME is more efficient accordingly.
+
+    ![](/assets/img/cheatsheet/lumen.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    Experiments demonstrates the LUME's performance is very close to FiD while being much cheaper.
+
 
 - ###### [How Does Generative Retrieval Scale to Millions of Passages?](https://arxiv.org/pdf/2305.11841.pdf) (Pradeep∗ et al., arxiv 2023)
 
@@ -288,6 +303,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 - LM Probability is not a proof of veracity but rather relates to the likelihood of a token over others during the pre-training $$\rightarrow$$ LM should know its limit when answering something (e.g. chose to answer "Unknown" or "No" instead of attempting to say anything) -->
 
 <b>2023</b>
+
+- ###### [Unifying Molecular and Textual Representations via Multi-task Language Modelling](https://arxiv.org/pdf/2301.12586.pdf) (Christofidellis et al., ICML 2023)
 
 - ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., arxiv 2023)
 

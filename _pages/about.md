@@ -8,9 +8,7 @@ profile:
   align: right
   image: prof_pic.jpg
   image_circular: true # crops the image to make it circular
-  address: >
-    <p>Techn Hom 3, Orange Labs</p>
-    <p>90000 Belfort, FRANCE</p>
+  address: Orange Labs, France
 
 news: true  # includes a list of news items
 selected_papers: false # includes a list of papers marked as "selected={true}"
@@ -19,7 +17,7 @@ social: true  # includes social icons at the bottom of the page
 
 I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.orange.com/fr/). 
 
-- My research interest lies at the intersection of <b>Natural Language Processing (NLP)</b> and <b>Semantic Web (Knowledge Graph)</b>. I am particularly interested in studying transformer-based language models, prompt engineering and their applications in semantic search, automated knowledge base construction, structured / unstructured data annotation.
+- My research interest lies at the intersection of <b>Natural Language Processing (NLP)</b> and <b>Semantic Web (Knowledge Graph)</b>. I am particularly interested in studying transformer-based language models, prompt engineering and their applications in semantic search, information retrieval, knowledge extraction, structured / unstructured data annotation.
 
 - Also being a backend engineer, I develop APIs to make my works accessible. I am a learner of microservices architecture.
 
