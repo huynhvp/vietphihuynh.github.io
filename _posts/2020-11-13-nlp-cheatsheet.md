@@ -25,6 +25,24 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
+- ###### [GLIMMER: generalized late-interaction memory reranker](https://arxiv.org/pdf/2306.10231.pdf) (de Jong, arxiv 2023)
+
+    LUMEN (see [here](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#pre-computed-memory-or-on-the-fly-encoding-a-hybrid-approach-to-retrieval-augmentation-makes-the-most-of-your-compute-de-jong-icml-2023)) is a quality-compute trade-off solution for retrieval-augmented LM. <b>GLIMMER</b> is built on LUME with several improvements:
+    - The memory encoder is fine-tuned, instead of being frozen.
+    - Live fine-tuned encoder is divided into two parts: 
+        - First *N* layers (Live-A) is used to re-rank retrieved passages conditioned on the input question. Top-k relevant passages are kept and passed to last *M* encoder layers.
+        - Last *M* layers (Live-B) updates the representation of each {question input, retrieved passage} and sends them to the decoder, similarly to LUME's live encoder.
+
+    ![](/assets/img/cheatsheet/glimmer.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    Both memory encoder, live encoders and deocer are fine-tuned end-to-end with multi-task learning to endow components better generalization capability. The training loss is inspired Atlas's PDist (see [atlas](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#atlas-few-shot-learning-with-retrieval-augmented-language-models-izacard-et-al-arxiv-2022)): promote the passages that lower the generation's perplexity to be ranked higher.
+
+    $$\mathcal{L_{pdist}} = KL (p^{rank} \; | \; p^{LM})$$ 
+    where $$p^{rank} \varpropto exp(score(passage_k, \; question)/\tau)$$ 
+    and $$p^{LM} \varpropto exp(log \; p_{LM} (answer \; | \; passage_k, \; question)/\tau)$$
+
 - ###### [Pre-computed memory or on-the-fly encoding? A hybrid approach to retrieval augmentation makes the most of your compute](https://arxiv.org/pdf/2301.10448.pdf) (de Jong, ICML 2023)
 
     <b>LUMEN</b> is a retrieval-augmented LM that neutralizes the pros/cons of Fusion-in-Decoder LM (*on-the-fly-encoding*) and memory-augmented LM (*pre-computed memory*):
@@ -812,17 +830,23 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Faith and Fate: Limits of Transformers on Compositionality](https://arxiv.org/pdf/2305.18654.pdf) (Dziri et al., arxiv 2023)
+
 - ###### [Improving Representational Continuity with Supervised Continued Pretraining](https://arxiv.org/pdf/2302.13289.pdf) (Sun et al., arxiv 2023) + [Fine-tuning can distort pretrained features and underperform out-of-distribution](https://openreview.net/pdf?id=UYneFzXSJWh) (Kumar et al., ICLR 2022)
 
     The paper title says it all. In the pretraining-then-finetuning paradigm, if the pre-trained features are good and the distribution shift between the fine-tuning data (in-domain) and the testing data (out-domain OOD) for downstream task is large, then fine-tuning outperforms (resp. underperforms) linear probing (only update the last linear layer) on in-domain test data (resp. OOD test data).
 
     ![](/assets/img/cheatsheet/lp_ft.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
 
+    (source: copied from the paper).
+
     Author employs a toy example ($$output = w_{*} x$$) to illustrate this issue.
 
     ![](/assets/img/cheatsheet/lp_ft_2.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
 
-    $$B_0$$ is the pretrained feature. $$w$$ is learned weights mapping input $$x$$ to output $$y$$. For fine-tuning, both $$B_0$$ and head layer $$v$$ needs to be updated. Assuming the subspace spanning in-domain data (horizontal axis $$x_1$$) is orthogonal to the subspace spanning OOD data (vertical axis $$x_2$$), then fine-tuning with in-domain data only modifies $$B_{x_1}$$ while $$B_{x_2}$$ keeps unchanged (vector in red color). They say pretrained features are distorted. Consequently, fine-tuning pushes the learned $$w_ft$$ far away from the true $$w_{*}$$ despite that $$w_ft$$ still yields good performance on in-domain data, but worse performance on out-domain data.
+    (source: copied from the paper).
+
+    $$B_0$$ is the pretrained feature. $$w$$ is learned weights mapping input $$x$$ to output $$y$$. For fine-tuning, both $$B_0$$ and head layer $$v$$ needs to be updated. Assuming the subspace spanning in-domain data (horizontal axis $$x_1$$) is orthogonal to the subspace spanning OOD data (vertical axis $$x_2$$), then fine-tuning with in-domain data only modifies $$B_{x_1}$$ while $$B_{x_2}$$ keeps unchanged (vector in red color). They say pretrained features are distorted. Consequently, fine-tuning pushes the learned $$w_{ft}$$ far away from the true $$w_{*}$$ despite that $$w_{ft}$$ still yields good performance on in-domain data, but worse performance on out-domain data.
 
     To mitigate this distribution shift, author proposes a simple strategy: linear probing then fine-tuning. Linear probing is performed first to get a better initialization of the head layer, then, the whole model parameters are updated with fine-tuning.
 
