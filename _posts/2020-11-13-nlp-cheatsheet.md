@@ -322,6 +322,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [GPT-RE: In-context Learning for Relation Extraction using Large Language Models](https://arxiv.org/pdf/2305.02105.pdf) (Wan et al., arxiv 2023)
+
 - ###### [Unifying Molecular and Textual Representations via Multi-task Language Modelling](https://arxiv.org/pdf/2301.12586.pdf) (Christofidellis et al., ICML 2023)
 
 - ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., arxiv 2023)
@@ -832,6 +834,30 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Faith and Fate: Limits of Transformers on Compositionality](https://arxiv.org/pdf/2305.18654.pdf) (Dziri et al., arxiv 2023)
 
+    Transformers, on the one hand, can perform impressively on complex task. On the other hand, it can fail suprisingly on trivial tasks. This paper attemps to understand whether this paradox is incidental or substantial limitations of transformer. They investigates three *compositional tasks* including multi-digit multiplication and dynamic programming. A *compositional task* can be decomposed into multiple sub-tasks which can be representad as a computation graph and requires cohenrent step-by-step reasoning to arrive at the correct answer. An example of multi-digit multiplication is illustrated as below:
+    ![](/assets/img/cheatsheet/faith_1.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    Author quantifies the performance of transformer as a function of:
+    - <b>reasoning depth</b>: the length of the longest path from answer node to input node.
+    - <b>reasoning width</b>: (TBD: *unclear for me* at the time of writing)
+    - <b>relative Information Gain</b>: quantify the (normalized) gain of input nodes contributed to output nodes.
+
+    Considering multi-digit multiplication tasks, the paper shows several empirical evidences on the limit of Transformer:
+    - All settings (zero-shot, in-contexts with and without scratchpad, full finetuning) yield poor OOD generalization (i.e. model trained on {1,2,3}-digit multiplication and tested on {4,5}-digit multiplication which requires wider and deeper computation graph. Full fine-tuning is better than other settings.
+
+    ![](/assets/img/cheatsheet/faith_2.png){:style="width: 70%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    - Relative information gains reveal that several (spurious) correlations between input and output (e.g. first digit of output highly correlates with first digit of input) are learned. Hence, to some extent, the input is mapped directly to the output without actually executing the multi-hop reasoning over the computation graph.
+
+    - Even though a full computation graph in test set is unseen in training set, its subgraphs do appear in the training set. Consequently, the model can memorize or matches patterns, helping it make correct predictions. However, this does not imply that model has learned a generalized reasoning capabilitities.
+
+    - A large propotion of error is propagation error and restoration error, suggesting: (i) model can perform correct single-step intermediate reasoning, but fail to compose the whole reasoning pipeline, (ii) due to memorization, output can have precise value but the computation steps are incorrect.
+ 
+
 - ###### [Improving Representational Continuity with Supervised Continued Pretraining](https://arxiv.org/pdf/2302.13289.pdf) (Sun et al., arxiv 2023) + [Fine-tuning can distort pretrained features and underperform out-of-distribution](https://openreview.net/pdf?id=UYneFzXSJWh) (Kumar et al., ICLR 2022)
 
     The paper title says it all. In the pretraining-then-finetuning paradigm, if the pre-trained features are good and the distribution shift between the fine-tuning data (in-domain) and the testing data (out-domain OOD) for downstream task is large, then fine-tuning outperforms (resp. underperforms) linear probing (only update the last linear layer) on in-domain test data (resp. OOD test data).
@@ -1066,11 +1092,19 @@ first" to the task description; (ii) algorithmic prompting: append the descripti
 
 - ###### [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021).
 
-    Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. Two take-away messages: (i) dropout as data augmentation for text, (ii) contrastive learning helps to evenly distribute learned representations in the embedding space (*isotropy*).
+    Contrastive learning is employed to learn the sentence embedding with a single encoder in unsupervised manner. They use dropout for the generation of positive samples. Specifically, an input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training. 
+    
+    ![](/assets/img/cheatsheet/sim_cse.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
 
-- ###### Dropout [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://aclanthology.org/2021.emnlp-main.552) (Gao et al., EMNLP 2021)
+    (source: copied from the paper)
 
-    An input sentence is fed to the LM *twice* with two different dropout masks that will generate a positive pair of sentence representations for the training.
+    Two take-away messages: 
+    - dropout as data augmentation for text. Defaut dropout (0.1) from Transformer works best.
+    - contrastive learning + dropout helps to evenly distribute learned representations in the embedding space (*isotropy* or *uniformity*) and align better embeddings of positive sentence pairs (*alignment*).
+
+    ![](/assets/img/cheatsheet/sim_cse_2.png){:style="width: 30%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
 - ###### [Surface Form Competition: Why the Highest Probability Answer Isn’t Always Right](https://arxiv.org/pdf/2104.08315.pdf) (Holtzman et al., EMNLP 2021)
 
