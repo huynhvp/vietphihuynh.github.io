@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2023-06-13 10:09:00
+date: 2023-06-30 10:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -323,6 +323,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 <b>2023</b>
 
 - ###### [GPT-RE: In-context Learning for Relation Extraction using Large Language Models](https://arxiv.org/pdf/2305.02105.pdf) (Wan et al., arxiv 2023)
+
+- ###### [Universal Information Extraction as Unified Semantic Matching](https://arxiv.org/pdf/2301.03282.pdf) (Lou et al., AAAI 2023)
+
+- ###### [InstructUIE: Multi-task Instruction Tuning for Unified Information Extraction](https://arxiv.org/pdf/2304.08085.pdf) (Wang et al., arxiv 2023)
+
+    ![](/assets/img/cheatsheet/instructuie.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    <b>InstructUIE</b> gathers 32 public datasets covering three IE tasks: NER, RE, EE and transform each sample in each dataset into text-2-text-with-instruction format (see figure above). They then fine-tune a FLAN-T5 11B on those datasets. <b>InstructUIE</b> demonstrates better performance than [UIE](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#unified-structure-generation-for-universal-information-extraction-lu-et-al-acl-2022) and USM on in-domain test set and than GPT-3-davinci or ChatGPT (for RE task) on out-of-domain test set.
 
 - ###### [Unifying Molecular and Textual Representations via Multi-task Language Modelling](https://arxiv.org/pdf/2301.12586.pdf) (Christofidellis et al., ICML 2023)
 
@@ -832,6 +842,11 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Beyond Scale: the Diversity Coefficient as a Data Quality Metric Demonstrates LLMs are Pre-trained on Formally Diverse Data](https://arxiv.org/pdf/2306.13840.pdf) (Lee et al., ICML 2023)
+
+- ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., arxiv 2023)
+
+
 - ###### [Faith and Fate: Limits of Transformers on Compositionality](https://arxiv.org/pdf/2305.18654.pdf) (Dziri et al., arxiv 2023)
 
     Transformers, on the one hand, can perform impressively on complex task. On the other hand, it can fail suprisingly on trivial tasks. This paper attemps to understand whether this paradox is incidental or substantial limitations of transformer. They investigates three *compositional tasks* including multi-digit multiplication and dynamic programming. A *compositional task* can be decomposed into multiple sub-tasks which can be representad as a computation graph and requires cohenrent step-by-step reasoning to arrive at the correct answer. An example of multi-digit multiplication is illustrated as below:
@@ -913,6 +928,10 @@ first" to the task description; (ii) algorithmic prompting: append the descripti
     <b>context-aware decoding</b> consistenly improve the performance of various LLMs (e.g. LLaMa, FLAN, OPT) on summarization tasks and knowledge conflict related task such as MemoTrap.
 
 - ###### [CodeT5+: Open Code Large Language Models for Code Understanding and Generation](https://arxiv.org/pdf/2305.07922.pdf) (Wang et al., arxiv 2023)
+
+    ![](/assets/img/cheatsheet/codet5p.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
     <b>CodeT5+</b>, an enhanced version of code language model CodeT5. Through a mixture of pre-training objectives as well as using both unimodal (only code) and bimodal (code-text) corpora, the encoder and decoder have strong representation capability that mitigate the pretrain-finetune discrepancy. Specifically, the pre-training objectives are:
     - Span Denoising: similar to T5
