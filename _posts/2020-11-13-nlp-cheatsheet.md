@@ -870,6 +870,16 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., arxiv 2023)
 
+    Similar to [HELM](https://crfm.stanford.edu/helm/latest/) benchmark, this paper introduces a holistic benchmark to evaluate the generation quality of autoregressive LLMs via automatic metrics. The benchmark collects data-to-text and text-to-text datasets (27 in total).
+
+    Observations:
+    - Few-shot learning falls behind full finetuning. However, multiple tasks have finetuning performance saturated, suggesting there is no clear trend when scaling the models.
+    - Finetuned decoder-only LLM can match encoder-decoder LLM when scaling to large size.
+    - Overlap-based metrics is not suitable for evaluating few-shot learning as it is sensitive to generation length and LLMs struggle to predict output length properly given the demonstrations in the context.
+    - The model ranking can still be reliable when considering a small random subset of the test set (to mitigate the computational cost while performing inference with LLMs). Specifically, (1) randomly sampling *n* samples and recording the scores of models on those samples, then ranking them based on the scores; (2) perform Wilcoxon Rank Sum test on every pair of models to assess if two models yeilds the same ranking according to a *p*-value; (3) repeate (1) and (2) *k* times and count number of times that any pair of models results inditinguisable ranking (according to step (2)).
+
+    <br>
+
 - ###### [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/pdf/2307.03172.pdf) (Nelson et al., arxiv 2023)
 
     This work empirically analyzes how well LLMs use longer context through two tasks: open-domain QA and key-value retrieval (i.e. the context contains a dictionary of {UUID_key: UUID_value} and model is asked to return the value of a specific key).
