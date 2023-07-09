@@ -846,6 +846,17 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., arxiv 2023)
 
+- ###### [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/pdf/2307.03172.pdf) (Nelson et al., arxiv 2023)
+
+    This work empirically analyzes how well LLMs use longer context through two tasks: open-domain QA and key-value retrieval (i.e. the context contains a dictionary of {UUID_key: UUID_value} and model is asked to return the value of a specific key).
+
+    They observe an U-shaped performance curve  as a function of the position of relevant information in the context. In other words, the models perform best when relevant information is located at the beginning or the end of the context. Even for  key-value retrieval task, if requested key is in the middle of the dictionary, several models still struggle to get the correct value. Additionally, model performance substaintially decreases as input contexts grow longer. 
+
+    ![](/assets/img/cheatsheet/lost_in_mid.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    Ablation study suggests that encoder-decoder models may exploit better the longer context due to their bidirectional encoders. Placing the query ahead of the context or using instruction-tuning still exhibits the U-trend performance. Finally, for open-domain QA, it is still questioning whether using more context leads to sigificant improvement. Indeed, the performance undergoes a  statureation zone as the context grows.
 
 - ###### [Faith and Fate: Limits of Transformers on Compositionality](https://arxiv.org/pdf/2305.18654.pdf) (Dziri et al., arxiv 2023)
 
