@@ -25,6 +25,14 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
+- ###### [Meta-training with Demonstration Retrieval for Efficient Few-shot Learning](https://arxiv.org/pdf/2307.00119.pdf) (Mueller, arxiv 2023)
+
+    ![](/assets/img/cheatsheet/meta_retrieval.png){:style="width: 35%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+
+
 - ###### [GLIMMER: generalized late-interaction memory reranker](https://arxiv.org/pdf/2306.10231.pdf) (de Jong, arxiv 2023)
 
     LUMEN (see [here](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#pre-computed-memory-or-on-the-fly-encoding-a-hybrid-approach-to-retrieval-augmentation-makes-the-most-of-your-compute-de-jong-icml-2023)) is a quality-compute trade-off solution for retrieval-augmented LM. <b>GLIMMER</b> is built on LUME with several improvements:
@@ -685,6 +693,10 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Multitask Prompt Tuning enables Parameter-Efficient Transfer Learning](https://arxiv.org/pdf/2303.02861.pdf) (Wang et al., ICLR 2023)
+
+    
+
 - ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
 
 - ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
@@ -762,6 +774,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     - <b>Self-Consistency</b> can work with prompts that contain minor mistakes.
 
 <b>2022</b>
+
+- ###### [MetaICL: Learning to Learn In Context](https://aclanthology.org/2022.naacl-main.201.pdf) (Min et al., NAACL 2022)
+
+    <b>MetaICL</b> is a meta-training framework where the model is fine-tuned with in-context demonstrations on a large set of training tasks. MetaICL improves in-context learning for new unseen task at inference time.
+
+    ![](/assets/img/cheatsheet/meta_icl.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper). 
+
+    MetaICL is meta-trained on a collection of > 30 tasks including text classification, QA, NLI, etc. The input context for each task has 4-32 demonstrations. MetaICL demonstrates significant gains for low-resource tasks or tasks whose data distribution is different from training data (unseen domain). It matches or sometimes outperforms models fine-tuned on target data. Furthermore, fine-tuning a meta-trained model on target data achieves the best performance. 
+
+    Ablation study suggests MetaICL tends to saturate when number of demonstrations reaches 16 and more diverse meta-training tasks results in better performance.
 
 - ###### [Self-Instruct: Aligning LM with Self Generated Instructions](https://arxiv.org/pdf/2212.10560.pdf) (Wang et al., arxiv 2022)
 
