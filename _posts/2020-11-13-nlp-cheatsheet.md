@@ -25,13 +25,22 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
-- ###### [Meta-training with Demonstration Retrieval for Efficient Few-shot Learning](https://arxiv.org/pdf/2307.00119.pdf) (Mueller, arxiv 2023)
+- ###### [Meta-training with Demonstration Retrieval for Efficient Few-shot Learning](https://arxiv.org/pdf/2307.00119.pdf) (Mueller, Finding ACL 2023)
+
+    Inspired by [MetaICL](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#metaicl-learning-to-learn-in-context-min-et-al-naacl-2022), this paper proposes few-shot meta learning *with demonstration retrieval* that leverages multi-task learning on a large variety of tasks, endowing <b>small language models</b> with better ability to generalize across different tasks and domains. The meta-training is conducted by employing a freezed dense passage retriever (i.e. RAG) to retrieve *k* demonstrations $$z$$ for an input $$x$$. Each demonstration $$z$$ is then concatenated with input $$x$$ and is fed into a BART-large model. The model is trained to predict the output $$y$$ marginalizing over *k* retrieved demonstrations:
+
+    $$p (y|x) \approx \prod_{i}^{N} \sum_{k}^{K} \; p_{retriever} (z_k | x) \; p_{PLM} (y | x, z_k, y_{1:i-1}) $$
 
     ![](/assets/img/cheatsheet/meta_retrieval.png){:style="width: 35%; display:block; margin-left:auto; margin-right:auto"}
 
     (source: copied from the paper).
 
-
+    To adapt BART to various tasks without architectural modification, input and output are standardized according to an unified template:
+    ```
+    Encoder: "question: ... \n answer: [MASK] \n context: \n"
+    Decoder: "question: ... \n answer: ..."
+    ```
+    Author argues this template aligns with BART's pre-training objective (generate both question and answer). The results stress the importance of external knowledge bank to the few-shot performance of meta-learned model. 
 
 - ###### [GLIMMER: generalized late-interaction memory reranker](https://arxiv.org/pdf/2306.10231.pdf) (de Jong, arxiv 2023)
 
