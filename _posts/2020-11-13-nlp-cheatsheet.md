@@ -877,6 +877,21 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Beyond Scale: the Diversity Coefficient as a Data Quality Metric Demonstrates LLMs are Pre-trained on Formally Diverse Data](https://arxiv.org/pdf/2306.13840.pdf) (Lee et al., ICML 2023)
 
+- ###### [Evaluating and Enhancing Structural Understanding Capabilities of Large Language Models on Tables via Input Designs](https://arxiv.org/pdf/2305.13062.pdf) (Sui et al., arxiv 2023)
+
+    This work introduces Structural Understanding Capabilities (<b>SUC</b>) benchmark to assess whether LLMs can truly understand structured tabular data. The benchmark includes 5 tasks: table partition (detect the location of table in the context), table size detection, merged cell detection, cell lookup (return the mention given its row/column index), column&row retrieval (return the column values given its index). They discovered that LLMs have some basic understading of structural tabular data, but are still far from being good.
+
+    Experimented with GPT-3 family, results demonstrate that:
+    - Use markup language such as HTML rather than NL to represent table gives significant gain.
+    - In-context learning with one demonstration outperforms zero-shot, suggestings that model needs examplars to understand the structural information.
+    - Additional information (e.g. table formation explaination) shoud be placed ahead the table in the context
+    - Adding table format explaination to the context (e.g. "Each table cell is defined by a <td> and a </td> tag" ) is generally helpful.
+    - Self-augmented prompting (see figure below): similarly to CoT, before tackling the target task, several intermediate steps are performed to elicit the structural knowledge learned by LLMs during pretraining, such as asking LLM to identify critical elements in the table. 
+
+    ![](/assets/img/cheatsheet/tab_prompt.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
 - ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., arxiv 2023)
 
     Similar to [HELM](https://crfm.stanford.edu/helm/latest/) benchmark, this paper introduces a holistic benchmark to evaluate the generation quality of autoregressive LLMs via automatic metrics. The benchmark collects data-to-text and text-to-text datasets (27 in total).
