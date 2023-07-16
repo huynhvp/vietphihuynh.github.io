@@ -138,7 +138,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b> rethinking with retrieval (RR)</b> outperforms <b> chain-of-thought</b> prompting even when using smaller LMs.
 
-- ###### [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., arxiv 2023)
+- ###### [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., ACL 2023)
 
     <b>Interleaving Retrieval with Chain-of-Thought (IRCoT)</b> interleaves a knowledge retriever at each reasoning step obtained from chain-of-thought (CoT) prompting to mutually guide the retrieval by CoT and vice-versa. This strategy allows to retrieve more relevant supports for later reasoning steps in the reasoning path, thereby, enhance the answer for complex multi-step reasoning question.
 
@@ -353,7 +353,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Unifying Molecular and Textual Representations via Multi-task Language Modelling](https://arxiv.org/pdf/2301.12586.pdf) (Christofidellis et al., ICML 2023)
 
-- ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., arxiv 2023)
+- ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., Findings ACL 2023)
 
     LM can perform well with KG-based one-hop Q/A thanks to its ability to memorize injected triples. However, for two-hop Q/A, the model finds difficult to combine separate triples that supports the question to arrive at the correct answer. This paper improves the two-hop Q/A by exposing the model to two-hop predicate paths explicitly. This is done through several tuning based on T5, resulting <b>KNowledge-Integrated T5 (KNIT5)</b>:
     - Knowledge Integration: given a triple (s,p,o), model is tuned to predict o given s and p.
@@ -702,11 +702,34 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
+
 - ###### [Multitask Prompt Tuning enables Parameter-Efficient Transfer Learning](https://arxiv.org/pdf/2303.02861.pdf) (Wang et al., ICLR 2023)
 
-    
+    In the context of efficient multi-task learning, learning a single prompts for all training tasks, then adaptive fine-tuning it for downstream task may not be optimal as it fails to leverage the commonalities while minizing the interference among training tasks. To enable efficient knowledge sharing across tasks, this paper introduces <b>multitask prompt tuning (MPT)</b>. 
 
-- ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
+    ![](/assets/img/cheatsheet/multitask_prompt.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Specifically, the prompt $$P_k$$ for $$k$$-th task is a composition of two components:
+
+    $$P_k = P^* \circ (u_k \otimes v_k^T )$$
+
+    where $$P^*$$ is shared among tasks and $$W_k = (u_k \otimes v_k^T )$$ is low-rank task-specific prompt for $$k$$-th task.
+
+    Learning the above prompt decomposition from multiple training tasks may cause the shared prompt $$P^*$$ overfit to the large tasks. To mitigate this issue, <b>(MPT)</b> employs three loss functions:
+    - For $$k$$-th source task, teacher prompt $$P_k^{teacher}$$ is obtained via conventional prompt tuning (independent of other tasks). Then, $$P_k$$ is optimzed to match with $$P_k^{teacher}$$:
+
+    $$\mathcal{L}_{logits} = \sum_{k-th \; task}  \sum_{sample \; (x, y)}  KL[ P(y | x; \theta, P_k^{teacher} ) || P(y | x; \theta, P_k ) ]$$
+
+    - Hidden states of teacher model ($$P_k^{teacher}$$) and student model ($$P_k$$)  shoule match.
+
+    $$\mathcal{L}_{hidden} =  \sum_{k-th \; task}  \sum_{sample \; (x_i, y_i)} (H_{k,i} - H_{k,i}^{teacher})^2$$
+
+    - Total loss:
+
+    $$\mathcal{L}_{total} = \mathcal{L}_{PLM} + \mathcal{L}_{hidden} + \mathcal{L}_{logits}$$
 
 - ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
 
