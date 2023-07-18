@@ -899,6 +899,31 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 <b>2023</b>
 
 - ###### [Ranking and Tuning Pre-trained Models: A New Paradigm for Exploiting Model Hubs](https://www.jmlr.org/papers/volume23/21-1251/21-1251.pdf) (You et al., JMLR 2023) + [LogME: Practical Assessment of Pre-trained Models for Transfer Learning](http://proceedings.mlr.press/v139/you21b.html) (You et al., ICML 2021)
+    Given the deluge of available pre-tranined models $$\{\phi_m\}_{m=1}^{M}$$, it is challenging to pick the model that can yeild the best transfer learning on target down-stream dataset $$\mathcal{D} = \{(x_i, y_i)\}_{i=1}^n$$. 
+
+    ![](/assets/img/cheatsheet/logme_1.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Formally, each pretrain-model $$\{\phi_m\}$$ fine-tuned on $$\mathcal{D}$$ has ground-truth transfer performance $$T_m$$ (e.g. accuracy, MAP, MSE, etc). As computing all $$T_m$$ for all models is prohibitively expensive as $$M$$ grows, it is more relevant to have a score $$S_m$$ for model $$\{\phi_m\}$$ without fine-tuning it on $$\mathcal{D}$$ in such a way that $$S_m$$ should well correlate with $$T_m$$. Thereby, the ranking of pre-trained model w.r.t. $$\mathcal{D}$$ can be based on $$S_m$$, instead of $$T_m$$. The correlation between $$S_m$$ and $$T_m$$ is measured by Kendall's $$\tau$$ coefficient:
+
+    $$\tau = \frac{2}{M(M-1)} \sum_{1 <=i < j <= M} sign(T_i - T_j) sign(S_i - S_j)$$
+
+    The larger $$\tau$$, the better the ranking of $$\{\phi_m\}_{m=1}^{M}$$ models.
+
+    $$S_m$$ is computed as the probability $$p(y \vert F)$$ where $$y \in R^n $$ is the label vector of $$n$$ (i.e. scalar label) samples, $$F = \{ f_i = \phi_m(x_i) \}_{i=1}^n \in R^{n \times D}$$ is feature vectors extracted by $$\phi_m$$. Common solution to estimate $$p(y \vert F$$ is to train a regression model $$w$$ (similar to apply a linear layer on top of neural model for transfer learning) on $$(F, y)$$ maximizing the likelihood $$p(y \vert F, w)$$. However, this approach has shown to be prone to over-fitting. Alternatively, these papers propose <b>LogME</b> which marginalizes $$p(y \vert F, w)$$ over all values of $$w$$: $$p(y \vert F)  = \int p(w) \times p (y \vert F, w)$$. To make it tractable, both prior $$p(w)$$ and likelihod $$p(y \vert F, w)$$ are assumed to have normal distribution parameterized by $$\alpha$$ and $$\beta$$: $$p(w) = \mathcal{N} (0, \alpha^{-1}I)$$, $$p (y_i \vert f_i, w) = \mathcal{N}(y_i \vert w^Tf_i, \beta^-1)$$. 
+
+    $$\alpha$$ and $$\beta$$ are estimated by an iterative algorithm (see section 4.2)
+
+    ![](/assets/img/cheatsheet/logme_2.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Experimented on GLUE benchmark with 8 popular pre-trained LMs, the result shows that $$S_m$$ represented by <b>LogME</b> well correlates with ground-truth fine-tuned accuracy $$T_m$$.
+
+    ![](/assets/img/cheatsheet/logme_3.png){:style="width: 80%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
 - ###### [On Exploring the Reasoning Capability of Large Language Models with Knowledge Graphs](https://coda.io/@sigir/gen-ir/accepted-papers-17) (Lo et al., GenIR@SIGIR 2023)
 
