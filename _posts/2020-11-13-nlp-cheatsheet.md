@@ -339,6 +339,8 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [How to Unleash the Power of Large Language Models for Few-shot Relation Extraction?](https://aclanthology.org/2023.sustainlp-1.13.pdf) (Xu et al., SustaiNLP@ACL 2023)
+
 - ###### [GPT-RE: In-context Learning for Relation Extraction using Large Language Models](https://arxiv.org/pdf/2305.02105.pdf) (Wan et al., arxiv 2023)
 
 - ###### [Universal Information Extraction as Unified Semantic Matching](https://arxiv.org/pdf/2301.03282.pdf) (Lou et al., AAAI 2023)
@@ -701,6 +703,23 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 ##### <b>3. Prompting Methods </b>
 
 <b>2023</b>
+
+- ###### [How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources](https://arxiv.org/pdf/2306.04751.pdf) (Wang et al., arxiv 2023) + [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/pdf/2301.13688.pdf) (Longpre et al., ICML 2023) 
+
+    <b>Flan Collection</b> and <b>TuLu</b> are two large, holistic collection of different instruction-tuning datasets in few-shot, zero-shot, chain-of-though styles. They have demonstrated that training with such mixed prompt and multi tasks settings help models (i.e. T5, LLaMa) generalize better unseen domains and uncover new skills.
+
+    ![](/assets/img/cheatsheet/tulu.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    Several findings:
+    - There is no best instruction collection for all tasks.
+    - Base model used to instruct-tune is important (i.e. LLaMa > OPT, Pthia across sizes).
+    - Smaller models may benefit more from instruction tuning.
+    - Models fined-tuned on traditional NLP instruction datasets (e.g. CoT, FLAN, SuperNI) perform poorly on open-ended generation.
+    - In addition to benchmark-based evaluation, model-based evaluation (e.g. using GPT-4 to score the predictions) is necessary for the evalation of open-ended generation task. However, model-based evaluation should not be the sole metric as bias may occur when GPT-4 based evaluation prefers long and diverse generations.
+    
+    <br>
 
 - ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
 
