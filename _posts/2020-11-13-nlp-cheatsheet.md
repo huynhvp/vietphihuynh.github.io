@@ -723,6 +723,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
 
+    <b>Least-to-Most</b> few-shot prompting helps improve the solving capacity of reasoning problems that are harder than provided demonstrations (*easy-to-hard generalization*) by breaking down the problem into a series of subproblems and sequentially solving subproblems. The difference between <b>Least-to-Most</b> and <b>CoT</b> may be that <b>CoT</b> does not explicitly use command decomposition (e.g. "how long does each trip take ?") and demonstrations in <b>Least-to-Most</b> are often subproblems of the target problem (i.e. recursive programming).
+
+    ![](/assets/img/cheatsheet/least-to-most.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Several findings:
+
+    - Generalize better to the length longer than those in the demonstrations.
+    - Better math reasoning for complex problems (i.g. those require many solving steps)
+    - Decomposition prompts don't generalize well across different domains. A specific domain needs a specific decomposition template.
+
+    <br>
+
 - ###### [Multitask Prompt Tuning enables Parameter-Efficient Transfer Learning](https://arxiv.org/pdf/2303.02861.pdf) (Wang et al., ICLR 2023)
 
     In the context of efficient multi-task learning, learning a single prompts for all training tasks, then adaptive fine-tuning it for downstream task may not be optimal as it fails to leverage the commonalities while minizing the interference among training tasks. To enable efficient knowledge sharing across tasks, this paper introduces <b>multitask prompt tuning (MPT)</b>. 
