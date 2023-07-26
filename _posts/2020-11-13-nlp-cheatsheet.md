@@ -345,6 +345,25 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Universal Information Extraction as Unified Semantic Matching](https://arxiv.org/pdf/2301.03282.pdf) (Lou et al., AAAI 2023)
 
+- ###### [Retrieval-Enhanced Generative Model for Large-Scale Knowledge Graph Completion](https://dl.acm.org/doi/pdf/10.1145/3539618.3592052) (Yu et al., SIGIR 2023)
+
+    <b>ReSKGC</b> is a retrieval-augmented generative model for KG completion. It consists of two steps:
+    - retrieval: the KG's triplets and input tripet with to-be-predicted object (s, p, ?) is linearized into text (see figure below). Then, the input is used to retrieve $k$ relevant KG's linearized triplets using non-parametric retriever BM25.
+    - fusion-in-decoder (FiD): a FiD is employed to encode efficiently the concatenation of retrieved passages and the input, whereby generate the missing object in the triplet (s, p, ?). <b>ReSKGC</b> attains the new sota performance on Wikidata5M and WikiKG90Mv2 benchmarks.
+
+    ![](/assets/img/cheatsheet/reskgc.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+
+- ###### [Knowledge Base Completion for Long-Tail Entities](https://arxiv.org/pdf/2306.17472.pdf) (Chen et al., arxiv 2023)
+
+    <b>MALT</b> is a dataset for KB completion that focuses on long-tail entities and is extracted from Wikidata. Long-tail entities are defined as being involved in less than 14 triples in KG. The dataset contains 3 entity types (i.e. business, musicComposition and human) and 8 associated predicates such as foundedBy, placeOfBirth.
+
+    ![](/assets/img/cheatsheet/malt.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
 - ###### [InstructUIE: Multi-task Instruction Tuning for Unified Information Extraction](https://arxiv.org/pdf/2304.08085.pdf) (Wang et al., arxiv 2023)
 
     ![](/assets/img/cheatsheet/instructuie.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
@@ -959,6 +978,14 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     (source: copied from the paper)
 
 - ###### [On Exploring the Reasoning Capability of Large Language Models with Knowledge Graphs](https://coda.io/@sigir/gen-ir/accepted-papers-17) (Lo et al., GenIR@SIGIR 2023)
+
+    The paper investigates the zero-shot performance of LLMs (particularly text-davinci-003, ChatGPT and GPT4) in infering missing entities/relations in KG or predicting a predicate path between two given entities. Specifically, they seek to see whether LLMs are capable of recalling their internal knowledge graph that supposed to be learnt during the pre-training and reason with it to solve the tasks. 
+
+    Results: while text-davinci-003, ChatGPT struggles, GPT-4 shows pretty impressive accuracy for 1-hop entity/relation prediction, and especially for multi-hop relation (predicate path) prediction given the context document without instruction/task decomposition (see below).
+
+    ![](/assets/img/cheatsheet/chilo.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
 - ###### [Towards Robust and Efficient Continual Language Learning](https://arxiv.org/pdf/2307.05741.pdf) (Fisch et al., arxiv 2023)
 
