@@ -1203,6 +1203,16 @@ first" to the task description; (ii) algorithmic prompting: append the descripti
 
 <b>2022</b>
 
+- ###### [Efficient Training of Language Models to Fill in the Middle](https://arxiv.org/pdf/2207.14255.pdf) (Bavarian et al., arxiv 2022).
+
+    Casual decoder-only LLMs (AR) are overwhelming thanks to their superiority in open-ended text generation, in-context learning and pre-training computational efficiency. Unlike encoder-only or encoder-decoder models, AR models are pre-tranined in left-to-right fashion, hindering them from infilling tasks that needs to condition on both prefix and suffix. This paper proposes <b>Fill in the Midle (FIM)</b> pretraining for AR models that improve its infilling capability without compromising its left-to-right generative capability. It is performed by simply breaking the training sample into three pieces, seperated by sentinel token, then concatenate them and feed into the model:
+
+    $$\textsf{document} \rightarrow \textsf{[PRE] Enc(prefix) [SUF] Enc(suffix)} [MID] Enc(middle) [EOT]$$ (PSM style) or  $$\textsf{document} \rightarrow \textsf{[SUF] Enc(suffix) [PRE] Enc(prefix)} [MID] Enc(middle) [EOT]$$ (SPM style). Token [EOT] is important as it marks a sucessful join of middle span to the suffix/prefix. <b>Fill in the Midle (FIM)</b> is particularly useful for code domain, in applications such as docstring or function argument generation, where the model need to look before and after the point of generation.
+
+    ![](/assets/img/cheatsheet/fim.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
 - ###### [Language Models of Code are Few-Shot Commonsense Learners](https://aclanthology.org/2022.emnlp-main.90.pdf) (Madaan et al., EMNLP 2022).
 
     <b>CoCoGen</b> shows that Code-LLMs outperforms natural-LLMs for structured data-related tasks or structured commonsense reasoning tasks such as graph generation, graph reasoning.
