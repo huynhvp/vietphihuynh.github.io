@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2023-06-30 10:09:00
+date: 2023-07-29 00:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -9,7 +9,7 @@ categories: NLP, AI
 
 ---
 
-I am actively maintaining this blog post, gathering NLP papers around information extraction, structured data-related downstream applications, augmented language models and prompting techniques. 
+I am actively maintaining this blog post, gathering NLP papers around large language models, information extraction, structured data-related downstream applications, augmented language models and prompting techniques. 
 
 ---
 
@@ -344,6 +344,25 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 - ###### [GPT-RE: In-context Learning for Relation Extraction using Large Language Models](https://arxiv.org/pdf/2305.02105.pdf) (Wan et al., arxiv 2023)
 
 - ###### [Universal Information Extraction as Unified Semantic Matching](https://arxiv.org/pdf/2301.03282.pdf) (Lou et al., AAAI 2023)
+
+- ###### [StructGPT: A General Framework for Large Language Model to Reason over Structured Data](https://arxiv.org/pdf/2305.09645.pdf) (Jiang et al., arxiv 2023)
+
+- ###### [NEUROSTRUCTURAL DECODING: Neural Text Generation with Structural Constraints](https://aclanthology.org/2023.acl-long.528.pdf) (Bastan et al., ACL 2023)
+    <b>NeuroStructural Decoding</b> is a new beam-search based decoding scheme in generative LLMs that guides the model to follow given structural constraints when generate the output.
+
+    ![](/assets/img/cheatsheet/neuro_structural.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Structural constraints considered in this work are classified into three types:
+    - Unary Constraint: constraints the role of a single word in generated text such as *D = (ball, obj)*: the word *ball* should appear as an object of some verb.
+    - Binary Constraint: constraints the relation between two words such as *D = (team, subj, run)*: the word *team* should be the subject of the word *run*.
+    - Triplet Constraint: a triplet, such as *D = (team, run, field)* should appear in the generated text.
+
+    At each decoding step, the score of a token is modified as: $$P_{\theta} (y | x) - \lambda \sum_{i=1}^{k} ( 1 - C_i)$$ 
+    where the second term pernalizes the token that does not satisfies a clause $$i$$ consisting of disjunctive constraints ($$C_i = 0$$), if sastified, $$C_i = 1$$.
+
+    To effectively search for relevant tokens in a beam at each decoding step, <b>NeuroStructural Decoding</b> tracks the states of each clause, whereby prune the paths that irreversibly violate a constraint or group paths that share irreversiby satisfied clauses. To evaluate whether partially generated text holds a syntactic constraint, it needs a syntactic parser that is capable of parsing incomplete sentence. To this end, author continues to train a dependency parser on incomplete sentence to improve its performance on such pattern.
 
 - ###### [Retrieval-Enhanced Generative Model for Large-Scale Knowledge Graph Completion](https://dl.acm.org/doi/pdf/10.1145/3539618.3592052) (Yu et al., SIGIR 2023)
 
@@ -950,6 +969,10 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Same Pre-training Loss, Better Downstream: Implicit Bias Matters for Language Models](https://proceedings.mlr.press/v202/liu23ao/liu23ao.pdf) (Liu et al., ICML 2023)
+
+- ###### [DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining](https://arxiv.org/pdf/2305.10429.pdf) (Xie et al., arxiv 2023)
+
 - ###### [Ranking and Tuning Pre-trained Models: A New Paradigm for Exploiting Model Hubs](https://www.jmlr.org/papers/volume23/21-1251/21-1251.pdf) (You et al., JMLR 2023) + [LogME: Practical Assessment of Pre-trained Models for Transfer Learning](http://proceedings.mlr.press/v139/you21b.html) (You et al., ICML 2021)
     Given the deluge of available pre-tranined models $$\{\phi_m\}_{m=1}^{M}$$, it is challenging to pick the model that can yeild the best transfer learning on target down-stream dataset $$\mathcal{D} = \{(x_i, y_i)\}_{i=1}^n$$. 
 
@@ -988,6 +1011,19 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
     (source: copied from the paper)
 
 - ###### [Towards Robust and Efficient Continual Language Learning](https://arxiv.org/pdf/2307.05741.pdf) (Fisch et al., arxiv 2023)
+
+    Given the availability of numerous model checkpoints fine-tuned on different previous task $$\{t_1,.., t_n\}$$, this paper introduces an approach to learn a checkpoint selector that help to pick the most relevant checkpoint of a previous task $$t_i$$ as base model to fine-tune the new task $$t_{n+1}$$ if exist, otherwise, it's better to start off with the pretrained model rather than with a random checkpoint that could yield negative impact.
+
+    ![](/assets/img/cheatsheet/cont_learning.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    The checkpoint selector is a simple binary gradient boosted decision tree (GBDT) applied on the features $$\phi(t_i, t_{n+1})$$ between previous task $$t_i$$ and target task $$t_{n+1}$$ to determine whether model's parameters fine-tuned for $$t_i$$ is a good initialization for $$t_{n+1}$$. Specifically, features include:
+    - task metadata: 1 if $$t_i$$ and $$t_{n+1}$$ belongs to the same pre-defined task family, 0 otherwise.
+    - relative performance: relative 0-shot and 5-shot performance of model fine-tuned on $$t_i$$, then $$t_{n+1}$$ w.r.t. model fine-tuned uniquely on $$t_{n+1}$$.
+    - gradient-update similarity: similarity between average magnitude of weight change of model fine-tuned on $$t_i$$, then $$t_{n+1}$$ and model fine-tuned uniquely on $$t_{n+1}$$.
+
+    <br>
 
 - ###### [Beyond Scale: the Diversity Coefficient as a Data Quality Metric Demonstrates LLMs are Pre-trained on Formally Diverse Data](https://arxiv.org/pdf/2306.13840.pdf) (Lee et al., ICML 2023)
 
