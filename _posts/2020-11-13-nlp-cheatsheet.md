@@ -347,6 +347,24 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [StructGPT: A General Framework for Large Language Model to Reason over Structured Data](https://arxiv.org/pdf/2305.09645.pdf) (Jiang et al., arxiv 2023)
 
+- ###### [GPT4Graph: Can Large Language Models Understand Graph Structured Data? An Empirical Evaluation and Benchmarking](https://arxiv.org/pdf/2305.15066.pdf) (Guo et al., arxiv 2023)
+
+    The paper presents a graph understanding benchmark to evaluate the capability (0-shot and 1-shot) of LLM (i.e. InstructGPT3,5) in comprenhending graph data. The benchmarking tasks are classified into 2 categories: structure understanding and semantic understanding, as below: 
+
+    ![](/assets/img/cheatsheet/gpt4graph_2.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    Several findings:
+    - Input design (e.g. order of graph and question, format explaination) has a significant impact.
+    - Role prompting is beneficial: explicitly ask the model to summarize the graph, then use it as new context, combine with initial prompt for the target task.
+
+    ![](/assets/img/cheatsheet/gpt4graph_1.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    <br>
+
 - ###### [NEUROSTRUCTURAL DECODING: Neural Text Generation with Structural Constraints](https://aclanthology.org/2023.acl-long.528.pdf) (Bastan et al., ACL 2023)
     <b>NeuroStructural Decoding</b> is a new beam-search based decoding scheme in generative LLMs that guides the model to follow given structural constraints when generate the output.
 
@@ -969,9 +987,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Task-Specific Skill Localization in Fine-tuned Language Models](https://openreview.net/pdf?id=Rgnaj43Pk0) (Panigrahi et al., ICML 2023)
+
 - ###### [Same Pre-training Loss, Better Downstream: Implicit Bias Matters for Language Models](https://proceedings.mlr.press/v202/liu23ao/liu23ao.pdf) (Liu et al., ICML 2023)
 
 - ###### [DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining](https://arxiv.org/pdf/2305.10429.pdf) (Xie et al., arxiv 2023)
+
+- ###### [Can Foundation Models Wrangle Your Data?](https://arxiv.org/pdf/2205.09911.pdf) (Narayan et al., VLDB 2023)
+
+    The paper investigates the capability of generative LLMs (i.e. GPT3) on data wrangling tasks: entity matching, data imputation, error detection:
+    - Generative LLM benefits unifed framework for multi-task learning (task-agnostic architecture).
+    - Select a subset of entity's attribute for entity matching is non-trivial.
+    - Performance is sensible to prompt formatting (even with minor modification in prompt) and demonstrations.
+
+    <br>
 
 - ###### [Ranking and Tuning Pre-trained Models: A New Paradigm for Exploiting Model Hubs](https://www.jmlr.org/papers/volume23/21-1251/21-1251.pdf) (You et al., JMLR 2023) + [LogME: Practical Assessment of Pre-trained Models for Transfer Learning](http://proceedings.mlr.press/v139/you21b.html) (You et al., ICML 2021)
     Given the deluge of available pre-tranined models $$\{\phi_m\}_{m=1}^{M}$$, it is challenging to pick the model that can yeild the best transfer learning on target down-stream dataset $$\mathcal{D} = \{(x_i, y_i)\}_{i=1}^n$$. 
