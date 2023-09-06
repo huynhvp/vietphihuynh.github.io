@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cheat Sheet of NLP Practitioner
-date: 2023-06-30 10:09:00
+date: 2023-07-29 00:09:00
 description: 
 tags: research
 categories: NLP, AI
@@ -9,7 +9,7 @@ categories: NLP, AI
 
 ---
 
-I am actively maintaining this blog post, gathering NLP papers around information extraction, structured data-related downstream applications, augmented language models and prompting techniques. 
+I am actively maintaining this blog post, gathering NLP papers around large language models, information extraction, structured data-related downstream applications, augmented language models and prompting techniques. 
 
 ---
 
@@ -75,7 +75,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
     Experiments demonstrates the LUME's performance is very close to FiD while being much cheaper.
 
 
-- ###### [How Does Generative Retrieval Scale to Millions of Passages?](https://arxiv.org/pdf/2305.11841.pdf) (Pradeep∗ et al., arxiv 2023)
+- ###### [How Does Generative Retrieval Scale to Millions of Passages?](https://arxiv.org/pdf/2305.11841.pdf) (Pradeep∗ et al., GenIR@SIGIR 2023)
 
     Differential search index (DSI) has emerged as a novel generative retrieval, deviating from common retrieve-then-rerank paradigm. While working effectively on small corpus ( O(100k) documents ), this paper has pointed that the performance of DSI when scaling to large corpus ( O(1M) documents ) is significantly degraded. Several observations:
     - Synthetic queries for the fine-tuning of retrieval phase are important, as it helps to reduce the coverage gap: indexing phase sees the whole corpus while this is not the case for retrieval phase.
@@ -138,7 +138,7 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
     <b> rethinking with retrieval (RR)</b> outperforms <b> chain-of-thought</b> prompting even when using smaller LMs.
 
-- ###### [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., arxiv 2023)
+- ###### [Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions](https://arxiv.org/pdf/2212.10509.pdf) (Trivedi et al., ACL 2023)
 
     <b>Interleaving Retrieval with Chain-of-Thought (IRCoT)</b> interleaves a knowledge retriever at each reasoning step obtained from chain-of-thought (CoT) prompting to mutually guide the retrieval by CoT and vice-versa. This strategy allows to retrieve more relevant supports for later reasoning steps in the reasoning path, thereby, enhance the answer for complex multi-step reasoning question.
 
@@ -339,9 +339,67 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [How to Unleash the Power of Large Language Models for Few-shot Relation Extraction?](https://aclanthology.org/2023.sustainlp-1.13.pdf) (Xu et al., SustaiNLP@ACL 2023)
+
 - ###### [GPT-RE: In-context Learning for Relation Extraction using Large Language Models](https://arxiv.org/pdf/2305.02105.pdf) (Wan et al., arxiv 2023)
 
 - ###### [Universal Information Extraction as Unified Semantic Matching](https://arxiv.org/pdf/2301.03282.pdf) (Lou et al., AAAI 2023)
+
+- ###### [StructGPT: A General Framework for Large Language Model to Reason over Structured Data](https://arxiv.org/pdf/2305.09645.pdf) (Jiang et al., arxiv 2023)
+
+- ###### [GPT4Graph: Can Large Language Models Understand Graph Structured Data? An Empirical Evaluation and Benchmarking](https://arxiv.org/pdf/2305.15066.pdf) (Guo et al., arxiv 2023)
+
+    The paper presents a graph understanding benchmark to evaluate the capability (0-shot and 1-shot) of LLM (i.e. InstructGPT3,5) in comprenhending graph data. The benchmarking tasks are classified into 2 categories: structure understanding and semantic understanding, as below: 
+
+    ![](/assets/img/cheatsheet/gpt4graph_2.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    Several findings:
+    - Input design (e.g. order of graph and question, format explaination) has a significant impact.
+    - Role prompting is beneficial: explicitly ask the model to summarize the graph, then use it as new context, combine with initial prompt for the target task.
+
+    ![](/assets/img/cheatsheet/gpt4graph_1.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    <br>
+
+- ###### [NEUROSTRUCTURAL DECODING: Neural Text Generation with Structural Constraints](https://aclanthology.org/2023.acl-long.528.pdf) (Bastan et al., ACL 2023)
+    <b>NeuroStructural Decoding</b> is a new beam-search based decoding scheme in generative LLMs that guides the model to follow given structural constraints when generate the output.
+
+    ![](/assets/img/cheatsheet/neuro_structural.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Structural constraints considered in this work are classified into three types:
+    - Unary Constraint: constraints the role of a single word in generated text such as *D = (ball, obj)*: the word *ball* should appear as an object of some verb.
+    - Binary Constraint: constraints the relation between two words such as *D = (team, subj, run)*: the word *team* should be the subject of the word *run*.
+    - Triplet Constraint: a triplet, such as *D = (team, run, field)* should appear in the generated text.
+
+    At each decoding step, the score of a token is modified as: $$P_{\theta} (y | x) - \lambda \sum_{i=1}^{k} ( 1 - C_i)$$ 
+    where the second term pernalizes the token that does not satisfies a clause $$i$$ consisting of disjunctive constraints ($$C_i = 0$$), if sastified, $$C_i = 1$$.
+
+    To effectively search for relevant tokens in a beam at each decoding step, <b>NeuroStructural Decoding</b> tracks the states of each clause, whereby prune the paths that irreversibly violate a constraint or group paths that share irreversiby satisfied clauses. To evaluate whether partially generated text holds a syntactic constraint, it needs a syntactic parser that is capable of parsing incomplete sentence. To this end, author continues to train a dependency parser on incomplete sentence to improve its performance on such pattern.
+
+- ###### [Retrieval-Enhanced Generative Model for Large-Scale Knowledge Graph Completion](https://dl.acm.org/doi/pdf/10.1145/3539618.3592052) (Yu et al., SIGIR 2023)
+
+    <b>ReSKGC</b> is a retrieval-augmented generative model for KG completion. It consists of two steps:
+    - retrieval: the KG's triplets and input tripet with to-be-predicted object (s, p, ?) is linearized into text (see figure below). Then, the input is used to retrieve $k$ relevant KG's linearized triplets using non-parametric retriever BM25.
+    - fusion-in-decoder (FiD): a FiD is employed to encode efficiently the concatenation of retrieved passages and the input, whereby generate the missing object in the triplet (s, p, ?). <b>ReSKGC</b> attains the new sota performance on Wikidata5M and WikiKG90Mv2 benchmarks.
+
+    ![](/assets/img/cheatsheet/reskgc.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+
+- ###### [Knowledge Base Completion for Long-Tail Entities](https://arxiv.org/pdf/2306.17472.pdf) (Chen et al., arxiv 2023)
+
+    <b>MALT</b> is a dataset for KB completion that focuses on long-tail entities and is extracted from Wikidata. Long-tail entities are defined as being involved in less than 14 triples in KG. The dataset contains 3 entity types (i.e. business, musicComposition and human) and 8 associated predicates such as foundedBy, placeOfBirth.
+
+    ![](/assets/img/cheatsheet/malt.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
 
 - ###### [InstructUIE: Multi-task Instruction Tuning for Unified Information Extraction](https://arxiv.org/pdf/2304.08085.pdf) (Wang et al., arxiv 2023)
 
@@ -353,7 +411,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [Unifying Molecular and Textual Representations via Multi-task Language Modelling](https://arxiv.org/pdf/2301.12586.pdf) (Christofidellis et al., ICML 2023)
 
-- ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., arxiv 2023)
+- ###### [Triggering Multi-Hop Reasoning for Question Answering in Language Models using Soft Prompts and Random Walks](https://arxiv.org/pdf/2306.04009.pdf) (Misra et al., Findings ACL 2023)
 
     LM can perform well with KG-based one-hop Q/A thanks to its ability to memorize injected triples. However, for two-hop Q/A, the model finds difficult to combine separate triples that supports the question to arrive at the correct answer. This paper improves the two-hop Q/A by exposing the model to two-hop predicate paths explicitly. This is done through several tuning based on T5, resulting <b>KNowledge-Integrated T5 (KNIT5)</b>:
     - Knowledge Integration: given a triple (s,p,o), model is tuned to predict o given s and p.
@@ -702,11 +760,65 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
-- ###### [Multitask Prompt Tuning enables Parameter-Efficient Transfer Learning](https://arxiv.org/pdf/2303.02861.pdf) (Wang et al., ICLR 2023)
+- ###### [How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources](https://arxiv.org/pdf/2306.04751.pdf) (Wang et al., arxiv 2023) + [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/pdf/2301.13688.pdf) (Longpre et al., ICML 2023) 
 
+    <b>Flan Collection</b> and <b>TuLu</b> are two large, holistic collection of different instruction-tuning datasets in few-shot, zero-shot, chain-of-though styles. They have demonstrated that training with such mixed prompt and multi tasks settings help models (i.e. T5, LLaMa) generalize better unseen domains and uncover new skills.
+
+    ![](/assets/img/cheatsheet/tulu.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper) 
+
+    Several findings:
+    - There is no best instruction collection for all tasks.
+    - Base model used to instruct-tune is important (i.e. LLaMa > OPT, Pthia across sizes).
+    - Smaller models may benefit more from instruction tuning.
+    - Models fined-tuned on traditional NLP instruction datasets (e.g. CoT, FLAN, SuperNI) perform poorly on open-ended generation.
+    - In addition to benchmark-based evaluation, model-based evaluation (e.g. using GPT-4 to score the predictions) is necessary for the evalation of open-ended generation task. However, model-based evaluation should not be the sole metric as bias may occur when GPT-4 based evaluation prefers long and diverse generations.
     
+    <br>
 
 - ###### [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://openreview.net/forum?id=WZH7099tgfM) (Zhou et al., ICLR 2023)
+
+    <b>Least-to-Most</b> few-shot prompting helps improve the solving capacity of reasoning problems that are harder than provided demonstrations (*easy-to-hard generalization*) by breaking down the problem into a series of subproblems and sequentially solving subproblems. The difference between <b>Least-to-Most</b> and <b>CoT</b> may be that <b>CoT</b> does not explicitly use command decomposition (e.g. "how long does each trip take ?") and demonstrations in <b>Least-to-Most</b> are often subproblems of the target problem (i.e. recursive programming).
+
+    ![](/assets/img/cheatsheet/least-to-most.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Several findings:
+
+    - Generalize better to the length longer than those in the demonstrations.
+    - Better math reasoning for complex problems (i.g. those require many solving steps)
+    - Decomposition prompts don't generalize well across different domains. A specific domain needs a specific decomposition template.
+
+    <br>
+
+- ###### [Multitask Prompt Tuning enables Parameter-Efficient Transfer Learning](https://arxiv.org/pdf/2303.02861.pdf) (Wang et al., ICLR 2023)
+
+    In the context of efficient multi-task learning, learning a single prompts for all training tasks, then adaptive fine-tuning it for downstream task may not be optimal as it fails to leverage the commonalities while minizing the interference among training tasks. To enable efficient knowledge sharing across tasks, this paper introduces <b>multitask prompt tuning (MPT)</b>. 
+
+    ![](/assets/img/cheatsheet/multitask_prompt.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
+    Specifically, the prompt $$P_k$$ for $$k$$-th task is a composition of two components:
+
+    $$P_k = P^* \circ (u_k \otimes v_k^T )$$
+
+    where $$P^*$$ is shared among tasks and $$W_k = (u_k \otimes v_k^T )$$ is low-rank task-specific prompt for $$k$$-th task.
+
+    Learning the above prompt decomposition from multiple training tasks may cause the shared prompt $$P^*$$ overfit to the large tasks. To mitigate this issue, <b>(MPT)</b> employs three loss functions:
+    - For $$k$$-th source task, teacher prompt $$P_k^{teacher}$$ is obtained via conventional prompt tuning (independent of other tasks). Then, $$P_k$$ is optimzed to match with $$P_k^{teacher}$$:
+
+    $$\mathcal{L}_{logits} = \sum_{k-th \; task}  \sum_{sample \; (x, y)}  KL[ P(y | x; \theta, P_k^{teacher} ) || P(y | x; \theta, P_k ) ]$$
+
+    - Hidden states of teacher model ($$P_k^{teacher}$$) and student model ($$P_k$$)  shoule match.
+
+    $$\mathcal{L}_{hidden} =  \sum_{k-th \; task}  \sum_{sample \; (x_i, y_i)} (H_{k,i} - H_{k,i}^{teacher})^2$$
+
+    - Total loss:
+
+    $$\mathcal{L}_{total} = \mathcal{L}_{PLM} + \mathcal{L}_{hidden} + \mathcal{L}_{logits}$$
 
 - ###### [Grammar Prompting for Domain-Specific Language Generation with Large Language Models](https://arxiv.org/pdf/2305.19234.pdf) (Wang et al., arxiv 2023)
 
@@ -875,7 +987,92 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Task-Specific Skill Localization in Fine-tuned Language Models](https://openreview.net/pdf?id=Rgnaj43Pk0) (Panigrahi et al., ICML 2023)
+
+- ###### [Same Pre-training Loss, Better Downstream: Implicit Bias Matters for Language Models](https://proceedings.mlr.press/v202/liu23ao/liu23ao.pdf) (Liu et al., ICML 2023)
+
+- ###### [DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining](https://arxiv.org/pdf/2305.10429.pdf) (Xie et al., arxiv 2023)
+
+- ###### [Can Foundation Models Wrangle Your Data?](https://arxiv.org/pdf/2205.09911.pdf) (Narayan et al., VLDB 2023)
+
+    The paper investigates the capability of generative LLMs (i.e. GPT3) on data wrangling tasks: entity matching, data imputation, error detection:
+    - Generative LLM benefits unifed framework for multi-task learning (task-agnostic architecture).
+    - Select a subset of entity's attribute for entity matching is non-trivial.
+    - Performance is sensible to prompt formatting (even with minor modification in prompt) and demonstrations.
+
+    <br>
+
+- ###### [Ranking and Tuning Pre-trained Models: A New Paradigm for Exploiting Model Hubs](https://www.jmlr.org/papers/volume23/21-1251/21-1251.pdf) (You et al., JMLR 2023) + [LogME: Practical Assessment of Pre-trained Models for Transfer Learning](http://proceedings.mlr.press/v139/you21b.html) (You et al., ICML 2021)
+    Given the deluge of available pre-tranined models $$\{\phi_m\}_{m=1}^{M}$$, it is challenging to pick the model that can yeild the best transfer learning on target down-stream dataset $$\mathcal{D} = \{(x_i, y_i)\}_{i=1}^n$$. 
+
+    ![](/assets/img/cheatsheet/logme_1.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Formally, each pretrain-model $$\{\phi_m\}$$ fine-tuned on $$\mathcal{D}$$ has ground-truth transfer performance $$T_m$$ (e.g. accuracy, MAP, MSE, etc). As computing all $$T_m$$ for all models is prohibitively expensive as $$M$$ grows, it is more relevant to have a score $$S_m$$ for model $$\{\phi_m\}$$ without fine-tuning it on $$\mathcal{D}$$ in such a way that $$S_m$$ should well correlate with $$T_m$$. Thereby, the ranking of pre-trained model w.r.t. $$\mathcal{D}$$ can be based on $$S_m$$, instead of $$T_m$$. The correlation between $$S_m$$ and $$T_m$$ is measured by Kendall's $$\tau$$ coefficient:
+
+    $$\tau = \frac{2}{M(M-1)} \sum_{1 <=i < j <= M} sign(T_i - T_j) sign(S_i - S_j)$$
+
+    The larger $$\tau$$, the better the ranking of $$\{\phi_m\}_{m=1}^{M}$$ models.
+
+    $$S_m$$ is computed as the probability $$p(y \vert F)$$ where $$y \in R^n $$ is the label vector of $$n$$ (i.e. scalar label) samples, $$F = \{ f_i = \phi_m(x_i) \}_{i=1}^n \in R^{n \times D}$$ is feature vectors extracted by $$\phi_m$$. Common solution to estimate $$p(y \vert F$$ is to train a regression model $$w$$ (similar to apply a linear layer on top of neural model for transfer learning) on $$(F, y)$$ maximizing the likelihood $$p(y \vert F, w)$$. However, this approach has shown to be prone to over-fitting. Alternatively, these papers propose <b>LogME</b> which marginalizes $$p(y \vert F, w)$$ over all values of $$w$$: $$p(y \vert F)  = \int p(w) \times p (y \vert F, w)$$. To make it tractable, both prior $$p(w)$$ and likelihod $$p(y \vert F, w)$$ are assumed to have normal distribution parameterized by $$\alpha$$ and $$\beta$$: $$p(w) = \mathcal{N} (0, \alpha^{-1}I)$$, $$p (y_i \vert f_i, w) = \mathcal{N}(y_i \vert w^Tf_i, \beta^-1)$$. 
+
+    $$\alpha$$ and $$\beta$$ are estimated by an iterative algorithm (see section 4.2)
+
+    ![](/assets/img/cheatsheet/logme_2.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    Experimented on GLUE benchmark with 8 popular pre-trained LMs, the result shows that $$S_m$$ represented by <b>LogME</b> well correlates with ground-truth fine-tuned accuracy $$T_m$$.
+
+    ![](/assets/img/cheatsheet/logme_3.png){:style="width: 80%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+- ###### [On Exploring the Reasoning Capability of Large Language Models with Knowledge Graphs](https://coda.io/@sigir/gen-ir/accepted-papers-17) (Lo et al., GenIR@SIGIR 2023)
+
+    The paper investigates the zero-shot performance of LLMs (particularly text-davinci-003, ChatGPT and GPT4) in infering missing entities/relations in KG or predicting a predicate path between two given entities. Specifically, they seek to see whether LLMs are capable of recalling their internal knowledge graph that supposed to be learnt during the pre-training and reason with it to solve the tasks. 
+
+    Results: while text-davinci-003, ChatGPT struggles, GPT-4 shows pretty impressive accuracy for 1-hop entity/relation prediction, and especially for multi-hop relation (predicate path) prediction given the context document without instruction/task decomposition (see below).
+
+    ![](/assets/img/cheatsheet/chilo.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+- ###### [Towards Robust and Efficient Continual Language Learning](https://arxiv.org/pdf/2307.05741.pdf) (Fisch et al., arxiv 2023)
+
+    Given the availability of numerous model checkpoints fine-tuned on different previous task $$\{t_1,.., t_n\}$$, this paper introduces an approach to learn a checkpoint selector that help to pick the most relevant checkpoint of a previous task $$t_i$$ as base model to fine-tune the new task $$t_{n+1}$$ if exist, otherwise, it's better to start off with the pretrained model rather than with a random checkpoint that could yield negative impact.
+
+    ![](/assets/img/cheatsheet/cont_learning.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
+
+    The checkpoint selector is a simple binary gradient boosted decision tree (GBDT) applied on the features $$\phi(t_i, t_{n+1})$$ between previous task $$t_i$$ and target task $$t_{n+1}$$ to determine whether model's parameters fine-tuned for $$t_i$$ is a good initialization for $$t_{n+1}$$. Specifically, features include:
+    - task metadata: 1 if $$t_i$$ and $$t_{n+1}$$ belongs to the same pre-defined task family, 0 otherwise.
+    - relative performance: relative 0-shot and 5-shot performance of model fine-tuned on $$t_i$$, then $$t_{n+1}$$ w.r.t. model fine-tuned uniquely on $$t_{n+1}$$.
+    - gradient-update similarity: similarity between average magnitude of weight change of model fine-tuned on $$t_i$$, then $$t_{n+1}$$ and model fine-tuned uniquely on $$t_{n+1}$$.
+
+    <br>
+
 - ###### [Beyond Scale: the Diversity Coefficient as a Data Quality Metric Demonstrates LLMs are Pre-trained on Formally Diverse Data](https://arxiv.org/pdf/2306.13840.pdf) (Lee et al., ICML 2023)
+
+- ###### [Textbooks Are All You Need](https://arxiv.org/pdf/2305.13062.pdf) (Gunsasekar et al., arxiv 2023)
+    The paper introduces <b>pi-1</b>, a 1B decoder-only LLM trained of high-quality code book that competes with many much larger sized models. The recipe for success comes from the careful selection of data for training and fine-tuning. Author inspects the popular datasets used to train sota Code-LLMs (e.g. The Stack) and discovers several drawbacks that may hindle model from effective learning:
+    - Many codes are not self-contained.  They depend on extenal moduls or files.
+    - Many codes do not contain meaningful semantics, but trivial texts.
+    - Many codes are not well documents, making them difficult to learn from.
+    - Skewed distribution of topics/concepts in the dataset. 
+
+    From those intuitions, authors propose to select and generate a much smaller but higher quality corpus:
+    -  A *filter code-language* dataset (6B tokens) filterd from The Stack and StackOverflow. How the filterd is built ? First, GPT-4 is used to annotae ~100K code-examples with two labels: high education value and low educational value. Then, a random forest classifier is trained on the embeddings retrieved from a pretrained codegen model of those 100K examples to predict the label.
+    - A *synthetic textbook* dataset consists of <1B tokens, generated by GPT-3.5. The diversity of generated text book is controlled by constraining the topics and target audiences in the prompt.
+    - A smal *synthetic Python exercises* dataset of ~180M tokens is used to further fine-tune the model, playing the same role as instruction-tuning, making model better align with natural language instructions.
+
+    The last fine-tuning step is proved to be important, that leads to subtaintial improvement in generalizing to new tasks. Indeed, the fine-tuned model is capable of distilling easier seen tasks from pretraining (e.g. calling external libraries more logically). An example is illustrated below (phi-1 and phi-1-small are models fine-tuned with *synthetic Python exercises* while phi-1-base is not.)
+
+    ![](/assets/img/cheatsheet/phi-1.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper).
 
 - ###### [Evaluating and Enhancing Structural Understanding Capabilities of Large Language Models on Tables via Input Designs](https://arxiv.org/pdf/2305.13062.pdf) (Sui et al., arxiv 2023)
 
@@ -892,7 +1089,7 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     (source: copied from the paper).
 
-- ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., arxiv 2023)
+- ###### [Benchmarking Large Language Model Capabilities for Conditional Generation](https://arxiv.org/pdf/2306.16793.pdf) (Joshua et al., ACL 2023)
 
     Similar to [HELM](https://crfm.stanford.edu/helm/latest/) benchmark, this paper introduces a holistic benchmark to evaluate the generation quality of autoregressive LLMs via automatic metrics. The benchmark collects data-to-text and text-to-text datasets (27 in total).
 
@@ -1034,6 +1231,16 @@ first" to the task description; (ii) algorithmic prompting: append the descripti
     - Longer prompt (large k) invoke more memorized data.
 
 <b>2022</b>
+
+- ###### [Efficient Training of Language Models to Fill in the Middle](https://arxiv.org/pdf/2207.14255.pdf) (Bavarian et al., arxiv 2022).
+
+    Casual decoder-only LLMs (AR) are overwhelming thanks to their superiority in open-ended text generation, in-context learning and pre-training computational efficiency. Unlike encoder-only or encoder-decoder models, AR models are pre-tranined in left-to-right fashion, hindering them from infilling tasks that needs to condition on both prefix and suffix. This paper proposes <b>Fill in the Midle (FIM)</b> pretraining for AR models that improve its infilling capability without compromising its left-to-right generative capability. It is performed by simply breaking the training sample into three pieces, seperated by sentinel token, then concatenate them and feed into the model:
+
+    $$\textsf{document} \rightarrow \textsf{[PRE] Enc(prefix) [SUF] Enc(suffix)} [MID] Enc(middle) [EOT]$$ (PSM style) or  $$\textsf{document} \rightarrow \textsf{[SUF] Enc(suffix) [PRE] Enc(prefix)} [MID] Enc(middle) [EOT]$$ (SPM style). Token [EOT] is important as it marks a sucessful join of middle span to the suffix/prefix. <b>Fill in the Midle (FIM)</b> is particularly useful for code domain, in applications such as docstring or function argument generation, where the model need to look before and after the point of generation.
+
+    ![](/assets/img/cheatsheet/fim.png){:style="width: 40%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
 
 - ###### [Language Models of Code are Few-Shot Commonsense Learners](https://aclanthology.org/2022.emnlp-main.90.pdf) (Madaan et al., EMNLP 2022).
 
