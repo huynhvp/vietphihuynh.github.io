@@ -4,7 +4,7 @@ title: Recap of The Very Large Database (VLDB) Conference 2023
 date: 2023-09-01 10:09:00
 description: 
 tags: research
-categories: nlp, database
+categories: NLP, Database
 ---
 
 ---
