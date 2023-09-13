@@ -760,6 +760,20 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 <b>2023</b>
 
+- ###### [Large Language Models as Optimizers](https://arxiv.org/pdf/2309.03409.pdf) (Yang, arxiv 2023)
+
+    (a) ![](/assets/img/cheatsheet/opro_1.png){:style="width: 40%"} (b) ![](/assets/img/cheatsheet/opro_2.png){:style="width: 40%"}
+
+    (source: copied from the paper) 
+
+    Prompting engineering is a non-trivial task as many works show that semantically similar instructions may cause significantly different accuracies. <b>OPRO</b> is a gradient-free LLM-based optimizer for searching instructions that maximizes the accuracy of given task within a few training samples. The optimization process consists of two (distinct or identical) models: *scorer-LLM* and *optimizer-LLM* and performs iteratively 2 steps:
+    - Given *N* instructions generated at step *t*,  the *scorer-LLM* run the inference over the training samples. Top-k instruction yeilding the best accuracies are retrained.
+    - At step *t+1*, top-k instructions, along with its scores are then appended into the context containing a few training samples as demonstrations and a meta-instruction such as "write the new instruction that is different from the old ones and has a score as high as possible*. The optimizer-LLM* is then prompted to generate *N* instruction via sampling. 
+
+    At each step, *optimizer-LLM* generates *N* instructions instead of a single instruction to improve the optimization stability as generated instruction can be very sensile to the demonstrations in the context.
+
+    In addition, sorting *N* instructions in ascending order and appending *top-k* ones into the context perfoms better and converges faster.
+
 - ###### [How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources](https://arxiv.org/pdf/2306.04751.pdf) (Wang et al., arxiv 2023) + [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/pdf/2301.13688.pdf) (Longpre et al., ICML 2023) 
 
     <b>Flan Collection</b> and <b>TuLu</b> are two large, holistic collection of different instruction-tuning datasets in few-shot, zero-shot, chain-of-though styles. They have demonstrated that training with such mixed prompt and multi tasks settings help models (i.e. T5, LLaMa) generalize better unseen domains and uncover new skills.
