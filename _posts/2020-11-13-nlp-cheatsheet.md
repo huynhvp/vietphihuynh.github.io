@@ -1028,6 +1028,18 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
     After filtering, remaining API calls (together with its results) are merged into the original dataset, resulting tool-augmented dataset, used to teach LM how and when to call external APIs.
 
+- ###### [React: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/pdf/2210.03629.pdf) (Yao et al., ICLR 2023)
+
+    ![](/assets/img/cheatsheet/react.png){:style="width: 50%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)
+
+    <b>React</b> is a prompting method that combine Chain-of-thought (<b>Re</b> in React stands for Reasoning) and interfacing with external-API (<b>act</b> in React stands for action) to reduce the hallucination as well as to improve interpretability and trustworthiness of LLMs. The external API considered in this work is Wikipedia API, supporting 3 actions: (i) <b>search[entity]</b> return the first 5 sentences of the entity's wiki page; (ii) <b>lookup[string]</b> return the sentence containg the string; (iii) <b>finish[entity]</b>  finishes the task and return the answer. It should be noted that the first two actions are based on simple exact matching.
+
+    <b>React</b> outperforms CoT on Fever task and slightly lags behind CoT on HotpotQA task. With much fewer demonstrations (3-5 samples), <b>React</b> + CoT + Self-consistency (SC) performs best across tasks and reach the CoT-SC (with 21 samples) performance.
+
+    In addition, on HotpotQA task, <b>React</b> does not work well with smaller pretrained-model (i.e. PaLM-8/62B). However, it gives the best performance with the fine-tuned PaLM-8/62B, even compared with the larger freezed PaLM-540b.
+
 - ###### [Binding Language Models in Symbolic Languages](https://arxiv.org/pdf/2210.02875.pdf) (Cheng et al., ICLR 2023)
 
 #### <b>5. Misc </b>
