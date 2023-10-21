@@ -25,6 +25,13 @@ Knowledge retriever aims at retrieving support passage (documents) that can help
 
 <b>2023</b>
 
+- ###### [Retrieval Meets Long Context Large Language Models](https://arxiv.org/pdf/2310.03025.pdf) (Xu, arxiv 2023)
+
+    The paper demonstrates the benefit of passage retrieval for both short and long context language model on 7 close book QA datasets. Several observations ares:
+    - Retrieval is especially useful for 4K-context LLM as the context provided for each question in 7 tasks usually exceeds 4K tokens.
+    - With the same retrieval passages, 16K-context LLMs exploits the passages more effectively than 4K-context LLMs, leading to better performance. Authors speculate this is because 4K-context suffers from "lost in the middle" issue while retrieval passages are only at the beginning part of 16K-context LLM.
+    - Retrieval is useful for both long and short-context LLMs (i.e. outperform the without-retrieval counterpart)
+
 - ###### [Meta-training with Demonstration Retrieval for Efficient Few-shot Learning](https://arxiv.org/pdf/2307.00119.pdf) (Mueller, Finding ACL 2023)
 
     Inspired by [MetaICL](https://huynhvp.github.io/blog/2023/nlp-cheatsheet/#metaicl-learning-to-learn-in-context-min-et-al-naacl-2022), this paper proposes few-shot meta learning *with demonstration retrieval* that leverages multi-task learning on a large variety of tasks, endowing <b>small language models</b> with better ability to generalize across different tasks and domains. The meta-training is conducted by employing a freezed dense passage retriever (i.e. RAG) to retrieve *k* demonstrations $$z$$ for an input $$x$$. Each demonstration $$z$$ is then concatenated with input $$x$$ and is fed into a BART-large model. The model is trained to predict the output $$y$$ marginalizing over *k* retrieved demonstrations:
@@ -1051,6 +1058,10 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 - ###### [Same Pre-training Loss, Better Downstream: Implicit Bias Matters for Language Models](https://proceedings.mlr.press/v202/liu23ao/liu23ao.pdf) (Liu et al., ICML 2023)
 
 - ###### [DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining](https://arxiv.org/pdf/2305.10429.pdf) (Xie et al., arxiv 2023)
+
+- ###### [Language Models represent Space and Time](2310.02207) (Gurnee et al., arxiv 2023)
+
+    In line with [Emergent World Representations - Exploring a Sequence Model Trained on a Synthetic Task](https://huynhvp.github.io/blog/2023/representation-probe/), this paper discovers that LLMs learn latent representations that are relevant to the input fed to it. Specifically, when feeding the names of locations in the world (e.g. cities, countries) into LLM, the spatial information (i.e. longitude and lattitude) of the locations are encoded in internal neurons. In other words, the coordianates of locations can be linearly recovered from the activations of the mid-to-late layers of LLMs. 
 
 - ###### [Can Foundation Models Wrangle Your Data?](https://arxiv.org/pdf/2205.09911.pdf) (Narayan et al., VLDB 2023)
 
