@@ -21,7 +21,7 @@ I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.or
 
 - Also being a backend engineer, I develop APIs to make my works accessible. I am a learner of microservices architecture.
 
-- I mostly do Python. When I write UI, I use Javascript (ReactJS).
+- I mostly do Python (and started learning Rust). When I write UI, I use Javascript (ReactJS).
 
 Enjoy your visit ! 
 
