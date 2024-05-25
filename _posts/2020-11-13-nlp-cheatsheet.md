@@ -1059,6 +1059,14 @@ Kingdom" as $$\hat{x}$$, then the answer for [MASK] is "pound". REALM makes the 
 
 - ###### [DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining](https://arxiv.org/pdf/2305.10429.pdf) (Xie et al., arxiv 2023)
 
+- ###### [Data Selection for Language Models via Importance Resampling](https://arxiv.org/pdf/2302.03169.pdf) (Xie et al., arxiv 2023)
+
+    The paper presents <b>DSIR</b>, an efficient and scalable for selecting additional relevant data from a large raw unlabeled dataset (e.g. the Pile) that match 
+
+    ![](/assets/img/cheatsheet/dsir.png){:style="width: 60%; display:block; margin-left:auto; margin-right:auto"}
+
+    (source: copied from the paper)  
+
 - ###### [Language Models represent Space and Time](2310.02207) (Gurnee et al., arxiv 2023)
 
     In line with [Emergent World Representations - Exploring a Sequence Model Trained on a Synthetic Task](https://huynhvp.github.io/blog/2023/representation-probe/), this paper discovers that LLMs learn latent representations that are relevant to the input fed to it. Specifically, when feeding the names of locations in the world (e.g. cities, countries) into LLM, the spatial information (i.e. longitude and lattitude) of the locations are encoded in internal neurons. In other words, the coordianates of locations can be linearly recovered from the activations of the mid-to-late layers of LLMs. 
