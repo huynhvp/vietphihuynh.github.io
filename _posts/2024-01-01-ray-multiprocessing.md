@@ -7,14 +7,14 @@ tags: dev
 categories: multiprocessing, ray
 ---
 
-One strategy to speed up or scale a machine learning workflow is parallel/distributed processing. In python, the [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module can serve as a solution for this purpose. However, it falls short (and can even harm overal performance) for parallel functions that requires heavy workloads or costly initialization due to data copying, data moving and overhead input serialization/deserialization.
+One strategy to speed up or scale a machine learning workflow is parallel/distributed processing. In python, the [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module can serve as a solution for this purpose. However, it falls short (and can even harm overal performance) for parallel functions that requires heavy workloads or costly initialization due to data copying, moving and overhead input serialization/deserialization.
 
 Meanwhile, [Ray](https://docs.ray.io/en/latest/index.html) is perfectly suited to such scenarios. Let's work on two toy examples to illustrate that.
 
 >
 Two core concepts (among others) of Ray that make it powerful in distrubed programming are: 
 + [Task](https://docs.ray.io/en/latest/ray-core/key-concepts.html#tasks): like an asynchronous function that can be executed in a seperate process or a remote machine.
-+ [Actor](https://docs.ray.io/en/latest/ray-core/key-concepts.html#actors): like an asynchronous stateful class that can run in a seperate process or remotely together with its own methods. Particularly, other actors and tasks from different processes can acesse and mutate actor's states.
++ [Actor](https://docs.ray.io/en/latest/ray-core/key-concepts.html#actors): like an asynchronous stateful class that can run in a seperate process or remotely together with its own methods. Particularly, other actors and tasks from different processes can acess and mutate actor's states.
 
 ---
 <b>Table of Contents</b>
@@ -200,4 +200,4 @@ Total Time for processing 10 batches of texts: 8.73 (s)
 Peak memory: 144.62 (MB)
 ```
 
-**<span style="color:green"><b>Worker processes</b></span>** in Multiprocessing.Pool are stateless, thus, for every `pool.map` call for every batch, the NER models need to be reloaded. Meanwhile, Ray's actors are stateful, NER models are loaded only once at actor's construction time (i.e. `__init__`function). Future batches are then processed by just calling `tag` function. This explains the outperforamce of Ray over Multiprocessing. Additionally, in term of memory usage, both frameworks observe similary memory peaks, as the task does not involve any large data objects.
+**<span style="color:green"><b>Worker processes</b></span>** in Multiprocessing.Pool are stateless, thus, for every `pool.map` call for every batch, the NER models need to be reloaded. Meanwhile, Ray's actors are stateful, NER models are loaded only once at actor's construction time (i.e. `__init__`function). Future batches are then processed by just calling `tag` function. This explains the outperformance of Ray over Multiprocessing. Additionally, in term of memory usage, both frameworks observe similary memory peaks, as the task does not involve any large data objects.
