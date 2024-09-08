@@ -17,13 +17,14 @@ social: true  # includes social icons at the bottom of the page
 
 I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.orange.com/fr/). 
 
-- My research interest revolves around <b>Machine Learning</b> and <b>Natural Language Processing (NLP)</b>. I am particularly interested in studying transformer-based language models, prompt engineering and their applications in:
-  - AI Agentic workflow design (e.g. React, OpenAI's function calling, CrewAI)
-  - Question-Answering (e.g. Retrieval Augmented Generation (RAG) with Llamaindex)
-  - Semantic Search (e.g. using text embedding models, vector search index such as Elastic Search)
+- My research interest revolves around <b>Machine Learning</b> and <b>Natural Language Processing (NLP)</b>:
+  - AI Agentic workflow design (e.g. Langchain, Langgraph, Llamaindex)
+  - Question-Answering (e.g. Retrieval Augmented Generation (RAG))
+  - Semantic Search (e.g. using text embedding models, text search, vector search index such as Elastic Search)
   - Structured / Unstructured data annotation (e.g. Named Entity Recognition, Entity Linking).
+  
 <p></p>
-- I like to develop and optimize APIs (e.g. with Flask, Gunicorn, Celery, MLflow) to make my works accessible. I am a learner of microservices and distributed computing architecture (e.g. Docker, Ray).
+- I like to develop and optimize APIs (e.g. Flask, Fastapi, Celery, MLflow, Poetry, vLLM) to make my works accessible. I am a learner of microservices and distributed computing architecture (e.g. Docker, Ray).
 
 - I mostly do Python (and started learning Rust). When I write UI, I use Javascript (ReactJS).
 
