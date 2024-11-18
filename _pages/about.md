@@ -26,7 +26,7 @@ I am currently a R&D AI Engineer at [Orange Labs, France](https://hellofuture.or
 <p></p>
 - I like to develop and optimize APIs (e.g. Flask, Fastapi, Celery, MLflow, vLLM) to make my works accessible. I am a learner of microservices and distributed computing architecture (e.g. Docker, Ray).
 
-- I mostly do Python (and started learning Rust), with poetry, ruff, gitlab/github streamlining workflows for CI/CD. When I write UI, I use Javascript (ReactJS).
+- I mostly do Python. I like to write clean and quality code with poetry, ruff. I use gitlab/github streamlining workflows for CI/CD. When I write UI, I use Javascript (ReactJS).
 
 - I also like to read and write academic papers, as well as technical blog posts.
 
